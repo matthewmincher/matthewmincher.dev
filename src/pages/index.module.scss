@@ -25,10 +25,55 @@ $muted-color: #e2e1df;
 	color: #535353;
 }
 
+.skillsSection {
+	padding: 20px;
+
+	display: flex;
+
+	h2 {
+		margin: 0;
+	}
+
+	.item {
+		border-radius: 10px;
+		flex: 1 1 auto;
+		text-align: center;
+
+		padding-top: 10px;
+		padding-bottom: 10px;
+
+
+		.identity {
+			img {
+				filter: saturate(50%);
+			}
+			img:hover{
+				filter:none;
+			}
+		}
+	}
+
+	.item + .item {
+		margin-left: 10px;
+	}
+
+	h3 {
+
+	}
+}
+
+.skillsSection.server {
+	background-color: rgba(189, 205, 219, 0.6);
+
+	.item {
+		background-color: #bdc9d9;
+	}
+}
+
 .linksContainer {
 	background-color: $dark-color;
 
-	margin-top: 40px;
+	margin-top: 80px;
 	margin-bottom: 40px;
 
 	padding: 30px 10px 30px 10px;
@@ -65,4 +110,25 @@ $muted-color: #e2e1df;
 			color: $active-color;
 		}
 	}
+
+	.positionContainer {
+		position: relative;
+	}
+
+	.map {
+		position: absolute;
+		top:-60px;
+		right:-60px;
+		bottom:-60px;
+		background-color: white;
+		border-radius: 10px;
+		overflow: hidden;
+		border: 1px solid $muted-color;
+
+		img {
+			width: 488px;
+			height: 310px;
+		}
+	}
+
 }
