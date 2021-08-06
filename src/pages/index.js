@@ -1,12 +1,9 @@
 import * as React from "react"
 import Layout from "../components/layout";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as Styles from "./index.module.scss"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import '@fortawesome/fontawesome-svg-core/styles.css';
 
-import PhpLogo from "../images/logo-php.svg"
-import MysqlLogo from "../images/logo-mysql.svg"
-import NodejsLogo from "../images/logo-nodejs.svg"
 
 import MapImage from "../images/map.png"
 import contactData from "../data/aroundtheweb"
@@ -23,25 +20,7 @@ const IndexPage = () => {
 			<div className={Styles.heroSubtitle}>Software Engineer at <a href="https://www.codefanatics.co.uk" target="_blank" rel="noreferrer">Code Fanatics</a>. Full Stack Developer.</div>
 
 			<div className="constrainedContent">
-				<div className={Styles.skillsSection + ' ' + Styles.server}>
-					<div className={Styles.item}>
-						<div className={Styles.identity}>
-							<img src={PhpLogo} height="65" alt="PHP" />
-						</div>
 
-					</div>
-					<div className={Styles.item}>
-						<div className={Styles.identity}>
-							<img src={MysqlLogo} height="65" alt="mySQL" />
-						</div>
-					</div>
-
-					<div className={Styles.item}>
-						<div className={Styles.identity}>
-							<img src={NodejsLogo} height="65" alt="nodeJS" />
-						</div>
-					</div>
-				</div>
 			</div>
 
 

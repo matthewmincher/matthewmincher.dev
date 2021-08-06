@@ -8,4 +8,15 @@ $muted-color: #e2e1df;
     border-top: 5px solid $muted-color;
 
     min-height: 60px;
+    padding: 10px 0;
+    box-sizing: border-box;
+
+    font-size: 13px;
+    color: $dark-color;
+}
+
+@media print {
+    .main {
+        display: none;
+    }
 }

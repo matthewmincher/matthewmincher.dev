@@ -4,7 +4,9 @@ import * as Styles from './footer.module.scss';
 const Footer = () => {
 	return (
 		<footer className={Styles.main}>
-			Footer
+			<div className="constrainedContent">
+				© Matthew Mincher {(new Date().getFullYear())}
+			</div>
 		</footer>
 	)
 }

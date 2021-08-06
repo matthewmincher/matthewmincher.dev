@@ -49,6 +49,9 @@ $muted-color: #e2e1df;
 
     height: 80px;
 
+    padding: 0 10px;
+    box-sizing: border-box;
+
     display: flex;
     flex-grow: 1;
     flex-shrink: 0;
@@ -57,18 +60,21 @@ $muted-color: #e2e1df;
 @media screen and (min-width: 1408px) {
     .container {
         max-width: 1344px;
+        padding: 0;
     }
 }
 
 @media screen and (min-width: 1216px) {
     .container {
         max-width: 1152px;
+        padding: 0;
     }
 }
 
 @media screen and (min-width: 1024px) {
     .container {
         max-width: 960px;
+        padding: 0;
     }
 }
 
@@ -101,3 +107,8 @@ $muted-color: #e2e1df;
     }
 }
 
+@media print {
+    .top {
+        display: none;
+    }
+}

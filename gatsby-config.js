@@ -33,5 +33,16 @@ module.exports = {
       },
       __key: "pages",
     },
+    {
+      resolve: 'gatsby-plugin-pdf',
+      options: {
+        allPages: false,
+        paths: ['/cv/'],
+        outputPath: '/public/exports',
+        styleTagOptions: {
+          content: '.constrainedContent { padding: 0 40px; } .afterPageBreak { padding-top: 40px; } .telephone { display: block; } .download { display: none; }'
+        }
+      },
+    },
   ],
 };
