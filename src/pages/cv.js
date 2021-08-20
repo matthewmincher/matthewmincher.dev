@@ -30,7 +30,7 @@ const CvPage = () => {
 				<div className={Styles.address}>Chester, UK</div>
 
 				<h2>Personal Statement</h2>
-				<p>I am a full stack software developer with over ten years experience. TODO</p>
+				<p>A conscientious full stack developer with over 10 years experience. Competent time management with the ability to efficiently handle multiple projects or priorities.</p>
 
 				<h2>Skills</h2>
 
@@ -47,15 +47,15 @@ const CvPage = () => {
 						<li className={Styles.category}>Backend</li>
 						<li className={Styles.item}>PHP</li>
 						<li className={Styles.item}>MySQL</li>
-						<li className={Styles.item}>Apache Solr</li>
 						<li className={Styles.item}>NodeJS</li>
 						<li className={Styles.item}>Redis</li>
+						<li className={Styles.item}>Apache Solr</li>
 					</ul>
 					<ul>
 						<li className={Styles.category}>Mobile</li>
 						<li className={Styles.item}>Cross Platform (Apache Cordova)</li>
 						<li className={Styles.item}>Native iOS (Swift / Objective C)</li>
-						<li className={Styles.item}>Native Android (Java / Kotlin)</li>
+						<li className={Styles.item}>Native Android (Java)</li>
 						<li className={Styles.item}>App Store guidelines and submission (Apple, Google, Amazon)</li>
 					</ul>
 					<ul>
@@ -82,7 +82,7 @@ const CvPage = () => {
 							</div>
 							<div className={Styles.work}>
 								<p>Creation of native apps for Android and iOS and an Electron app to protect files from unauthorised viewing. Each app interacts with the XPERMIT API and the device OS to make managing files and permissions easy.</p>
-								<p>I was responsible for the implementation of both mobile apps. Key areas of work included protecting documents from unauthorised viewing via screenshots or recordings, and to prevent access to decrypted files.</p>
+								<p>Responsible for the implementation of both mobile apps. Key areas of work included protecting documents from unauthorised viewing via screenshots or recordings, and preventing access to decrypted files.</p>
 							</div>
 							<div className={Styles.skills}>
 								<ul>
@@ -104,8 +104,8 @@ const CvPage = () => {
 						</div>
 						<div className={Styles.work}>
 							<p>A mobile game available on iOS and Android in which the player takes photos of cars in the real world to then be identified and valued in game. Vehicles can be sold, upgraded, and raced. Also included are social elements such as leaderboards, a timeline, and profiles.</p>
-							<p>I was responsible for the implementation of the mobile apps, as well as backend architecture and a large portion of the API.</p>
-							<p>I made contributions to game design, and I also handled technical user issues &amp; support.</p>
+							<p>Responsible for the implementation of the mobile apps, as well as backend architecture and a large portion of the API.</p>
+							<p>Made contributions to game design, and handled technical user issues &amp; support.</p>
 						</div>
 						<div className={Styles.skills}>
 							<ul>
@@ -130,7 +130,6 @@ const CvPage = () => {
 						<div className={Styles.work}>
 							<p>An unreleased mobile game using Cordova. Elements of this project were taken forward into future work.</p>
 							<p>Key work included the production of a specialised backend framework to simplify work on individual features. Other aspects included 3D scenes using Three.js and object-oriented combat modelling.</p>
-
 						</div>
 						<div className={Styles.skills}>
 							<ul>
@@ -157,7 +156,7 @@ const CvPage = () => {
 							<div className={Styles.work}>
 								<p>The web games Gangster Paradise 1 & 2 were reimagined and taken to the next level as a mobile app.</p>
 								<p>Active development has continued with new features, upgrades, and modernisation. This project has been the focus of most of my time at Code Fanatics.</p>
-								<p>With over a million installations and thousands of active players, I have experienced every level of the process - from designing and implementing a new feature to handling player feedback and issues on that feature.</p>
+								<p>With over a million installations and thousands of active players, gained experience at every level of the process - from designing and implementing a new feature to handling player feedback and issues on that feature.</p>
 							</div>
 							<div className={Styles.skills}>
 								<ul>
@@ -190,7 +189,7 @@ const CvPage = () => {
 								</div>
 								<div className={Styles.subproject}>
 									<div className={Styles.title}><strong>"OCs"</strong> (released summer 2020)</div>
-									<p>In an ambitious project, I added content to GP centered around players cooperating to complete missions.</p>
+									<p>An ambitious project, added content to GP in which players cooperate to complete missions.</p>
 									<p>Websockets and ReactPHP were used to allow players to collaborate in real time, and fallbacks were included for players on old devices.</p>
 								</div>
 							</div>

@@ -1,4 +1,6 @@
 import * as React from "react"
+import axios from "axios";
+import { navigate } from "gatsby"
 import isEmail from "validator/lib/isEmail";
 import Layout from "../components/layout";
 import * as Styles from './contact.module.scss';
@@ -15,7 +17,8 @@ class ContactPage extends React.Component {
 			},
 			errors: {
 
-			}
+			},
+			sending: false
 		}
 
 		this.handleInputChange = this.handleInputChange.bind(this);
@@ -44,11 +47,11 @@ class ContactPage extends React.Component {
 		const errors = {};
 
 		if(!isEmail(email)) {
-			errors.email = "Please enter a valid email address"
+			errors.email = "The email must be a valid email address."
 		}
 
 		if(message.length < 10) {
-			errors.message = "Please enter a message"
+			errors.message = "The message must be at least 10 characters."
 		}
 
 		this.setState({
@@ -58,6 +61,40 @@ class ContactPage extends React.Component {
 		if(Object.keys(errors).length > 0){
 			return
 		}
+
+		this.setState({
+			sending: true
+		});
+
+		axios({
+			method: "POST",
+			url: "http://localhost:8000/api/contact",
+			data: this.state.formData
+		}).then((response) => {
+			if(response.data && response.data.success){
+				navigate('/contact/sent')
+			}
+		}).catch((error) => {
+			if(error.response){
+				let params = error.response.data;
+
+				if(typeof params.errors !== "undefined"){
+					let errors = {};
+
+					for(let key in params.errors){
+						errors[key] = params.errors[key][0];
+					}
+
+					this.setState({
+						errors: errors
+					});
+				}
+			}
+		}).finally(() => {
+			this.setState({
+				sending: false
+			});
+		});
 	}
 
 	render() {
@@ -76,6 +113,7 @@ class ContactPage extends React.Component {
 									name="name"
 									value={this.state.name}
 									onChange={this.handleInputChange}
+									disabled={this.state.sending}
 								/>
 							</div>
 							<div className={Styles.col}>
@@ -92,6 +130,7 @@ class ContactPage extends React.Component {
 									inputMode="email"
 									value={this.state.email}
 									onChange={this.handleInputChange}
+									disabled={this.state.sending}
 								/>
 							</div>
 						</div>
@@ -108,8 +147,9 @@ class ContactPage extends React.Component {
 							rows="5"
 							value={this.state.message}
 							onChange={this.handleInputChange}
+							disabled={this.state.sending}
 						/>
-						<input className={Styles.submit} type="submit" value="Send" />
+						<input className={Styles.submit} type="submit" value="Send" disabled={this.state.sending} />
 					</form>
 				</div>
 			</Layout>

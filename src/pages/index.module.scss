@@ -60,6 +60,7 @@ $muted-color: #e2e1df;
 
 		svg {
 			color: $muted-color;
+			transition: color 0.1s ease-in;
 		}
 
 		svg:hover {

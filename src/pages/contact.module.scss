@@ -54,10 +54,14 @@ $muted-color: #e2e1df;
 		transition: 0.2s all ease-in-out;
 	}
 
-	.submit:hover {
+	.submit:hover, .submit:disabled {
 		color: $light-color;
 		background-color: $active-color;
 		border: 2px solid $active-color;
+	}
+
+	.submit:disabled {
+		cursor: wait;
 	}
 }
 
