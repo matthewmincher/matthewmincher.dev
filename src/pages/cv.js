@@ -235,10 +235,10 @@ const CvPage = () => {
 				<div className={Styles.courses}>BSc Computer Science - first-class honors</div>
 
 				<h3 className={Styles.educator}>St Joseph's College, 2005 - 2007</h3>
-				<div className={Styles.courses}>A-Levels TODO</div>
+				<div className={Styles.courses}>A-Levels AABB</div>
 
 				<h3 className={Styles.educator}>St Joseph's College, 2003 - 2005</h3>
-				<div className={Styles.courses}>GCSEs TODO</div>
+				<div className={Styles.courses}>GCSEs 5A* 5A</div>
 
 				<div className={Styles.bottomSpacer} />
 			</div>

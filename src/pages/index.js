@@ -7,14 +7,14 @@ import '@fortawesome/fontawesome-svg-core/styles.css';
 
 import MapImage from "../images/map.png"
 import contactData from "../data/aroundtheweb"
-
+import {StaticImage} from "gatsby-plugin-image";
 
 
 const IndexPage = () => {
 	return (
 		<Layout pageTitle="Home">
 			<div className={Styles.heroAvatar}>
-
+				<StaticImage src="../images/me.jpg" alt="Matthew Mincher" />
 			</div>
 			<h1 className={Styles.heroTitle}>Matthew Mincher</h1>
 			<div className={Styles.heroSubtitle}>Software Engineer at <a href="https://www.codefanatics.co.uk" target="_blank" rel="noreferrer">Code Fanatics</a>. Full Stack Developer.</div>
