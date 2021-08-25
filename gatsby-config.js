@@ -39,6 +39,7 @@ module.exports = {
         allPages: false,
         paths: ['/cv/'],
         outputPath: '/public/exports',
+        filePrefix: 'matthewmincher-',
         styleTagOptions: {
           content: '.constrainedContent { padding: 0 40px; } .afterPageBreak { padding-top: 40px; } .telephone { display: block; } .download { display: none; }'
         }
