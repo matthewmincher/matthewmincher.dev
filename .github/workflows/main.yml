@@ -9,7 +9,8 @@ jobs:
     - name: Build project
       run: |
         npm install -g gatsby-cli
-        npm run build        
+        yarn
+        gatsby build
     - name: Publish to server via scp
       uses: appleboy/scp-action@master
       with:
