@@ -3,12 +3,19 @@ $active-color: #33CA7F;
 $light-color: #F6F4F3;
 $muted-color: #e2e1df;
 
+.main {
+	margin-top: 60px;
+	margin-bottom: 0;
+	margin-left: 20px;
+	text-align: center;
+	color: $active-color;
+}
 .contactForm {
 	background-color: $light-color;
 
 	border-radius: 20px;
 
-	margin-top: 40px;
+	margin-top: 30px;
 	padding: 20px;
 
 
