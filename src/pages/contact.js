@@ -68,7 +68,7 @@ class ContactPage extends React.Component {
 
 		axios({
 			method: "POST",
-			url: "http://localhost:8000/api/contact",
+			url: "https://api.matthewmincher.dev/api/contact",
 			data: this.state.formData
 		}).then((response) => {
 			if(response.data && response.data.success){
