@@ -1,3 +1,4 @@
+
 .constrainedContent {
 	width: 100%;
 	margin: 0 auto;
@@ -24,6 +25,11 @@
 	.constrainedContent {
 		max-width: 960px;
 		padding: 0;
+	}
+
+	html {
+		margin-right: calc(-100vw + 100%);
+		overflow-x: hidden;
 	}
 }
 
