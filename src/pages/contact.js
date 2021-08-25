@@ -101,6 +101,8 @@ class ContactPage extends React.Component {
 		return (
 			<Layout pageTitle="Contact Me">
 				<div className="constrainedContent">
+					<h1 className={Styles.main}>Leave me a message and I'll get back to you</h1>
+
 					<form className={Styles.contactForm} method="post" onSubmit={this.handleSubmit}>
 						<div className={Styles.row}>
 							<div className={Styles.col}>
@@ -118,7 +120,7 @@ class ContactPage extends React.Component {
 							</div>
 							<div className={Styles.col}>
 								<div className={Styles.labelContainer}>
-									<label htmlFor="email">Email</label>
+									<label htmlFor="email">Email*</label>
 									{this.state.errors.email &&
 									<span className={Styles.inputErrorHint}>{this.state.errors.email}</span>
 									}
@@ -136,7 +138,7 @@ class ContactPage extends React.Component {
 						</div>
 
 						<div className={Styles.labelContainer}>
-							<label htmlFor="message">Message</label>
+							<label htmlFor="message">Message*</label>
 							{this.state.errors.message &&
 							<span className={Styles.inputErrorHint}>{this.state.errors.message}</span>
 							}
