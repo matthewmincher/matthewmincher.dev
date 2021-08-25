@@ -1,0 +1,25 @@
+name: Publish a gatsby project with SFTP
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build project
+      run: |
+        sudo npm install -g gatsby-cli
+        yarn
+        gatsby build
+    - name: Publish to server via scp
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        passphrase: ${{ secrets.PASSPHRASE }}
+        source: "public/*"
+        target: "/var/www/www.matthewmincher.dev"
+        overwrite: 1
+        strip_components: 1
+        rm: 1
