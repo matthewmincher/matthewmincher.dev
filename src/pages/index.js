@@ -12,7 +12,7 @@ const IndexPage = () => {
 	return (
 		<Layout pageTitle="Home">
 			<div className={Styles.heroAvatar}>
-				<StaticImage src="../images/me.jpg" width={120} height={120} quality={100} alt="Matthew Mincher" />
+				<StaticImage src="../images/me.jpg" width={120} height={120} quality={100} layout="fixed" alt="Matthew Mincher" />
 			</div>
 			<h1 className={Styles.heroTitle}>Matthew Mincher</h1>
 			<div className={Styles.heroSubtitle}>Software Engineer at <a href="https://www.codefanatics.co.uk" target="_blank" rel="noreferrer">Code Fanatics</a>. Full Stack Developer.</div>
@@ -28,7 +28,7 @@ const IndexPage = () => {
 						<h2>Around the web</h2>
 
 						<div className={Styles.map}>
-							<StaticImage src="../images/map.png" width={488} height={310} quality={100} alt="Based in Chester, UK" />
+							<StaticImage src="../images/map.png" width={488} height={310} quality={100} layout="fixed" alt="Based in Chester, UK" />
 						</div>
 
 						<div className={Styles.professional}>
