@@ -1,5 +1,8 @@
 name: Publish a gatsby project with SFTP
-on: [push]
+on: 
+  push:
+    branches:
+      - main
 
 jobs:
   build:
