@@ -87,7 +87,9 @@ $muted-color: #e2e1df;
 		}
 	}
 }
-
+.work {
+	display: block;
+}
 .workplace, .educator {
 	margin-bottom: 0;
 	color: #073B3A;
@@ -107,6 +109,10 @@ $muted-color: #e2e1df;
 		margin-right: 1em;
 		margin-bottom: 5px;
 	}
+}
+
+.courses {
+	display: block;
 }
 
 .subproject {

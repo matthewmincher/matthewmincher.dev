@@ -10,7 +10,7 @@ const CvPage = () => {
 		<Layout pageTitle="CV">
 			<div className={`constrainedContent ${Styles.container}`}>
 				<div className={Styles.download}>
-					<a href={withPrefix("/exports/cv.pdf")} target="_blank">
+					<a href={withPrefix("/exports/cv.pdf")} target="_blank" rel="noreferrer">
 						<img
 							src={PdfIcon}
 							width={30}

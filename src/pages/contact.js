@@ -42,7 +42,7 @@ class ContactPage extends React.Component {
 		event.preventDefault()
 
 		const { formData } = this.state;
-		const { name, email, message} = formData;
+		const { email, message} = formData;
 
 		const errors = {};
 

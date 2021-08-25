@@ -44,5 +44,17 @@ module.exports = {
         }
       },
     },
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: `matthewmincher.dev`,
+        short_name: `matthewmincher`,
+        start_url: `/`,
+        background_color: `#f6f4f3`,
+        theme_color: `#33ca7f`,
+        display: `standalone`,
+        icon: `src/images/icon.png`
+      },
+    },
   ],
 };
