@@ -16,6 +16,7 @@ $muted-color: #e2e1df;
 	border-radius: 20px;
 
 	margin-top: 30px;
+	margin-bottom: 30px;
 	padding: 20px;
 
 
@@ -94,7 +95,8 @@ $muted-color: #e2e1df;
 	margin-left: 20px;
 }
 
-@media screen and (max-width: 512px) {
+
+@media screen and (max-width: 614px) {
 	.row {
 		flex-wrap: wrap;
 	}
@@ -105,7 +107,11 @@ $muted-color: #e2e1df;
 	.col + .col {
 		margin-left: 0;
 	}
-}
 
+	.inputErrorHint {
+		float: none;
+		display: block;
+	}
+}
 
 
