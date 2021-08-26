@@ -12,7 +12,7 @@ $muted-color: #e2e1df;
 	margin: 40px auto 0;
 
 	overflow: hidden;
-
+	-webkit-mask-image: -webkit-radial-gradient(white, black);
 	border-radius: 40px;
 }
 .heroTitle {
