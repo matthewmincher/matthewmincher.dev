@@ -21,10 +21,6 @@ const Layout = ({ pageTitle, children }) => {
                 </div>
                 <Footer />
             </main>
-
-            <script>
-
-            </script>
         </>
     )
 }
