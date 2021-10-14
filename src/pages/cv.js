@@ -75,7 +75,7 @@ const CvPage = () => {
 				<div className={Styles.occupation}>Developer - 2011</div>
 				<div className={Styles.work}>
 					<div className={Styles.subproject}>
-						<div style={{breakAfter: "page"}}>
+
 							<h4>XPERMIT®</h4>
 							<div className={Styles.annotation}>
 								<span className={Styles.dates}>2019 - 2021</span> (DBT Software Ltd)
@@ -96,34 +96,35 @@ const CvPage = () => {
 									<li>Agile</li>
 								</ul>
 							</div>
+
+						<div style={{breakAfter: "page"}}>
+							<h4>Chop Shop</h4>
+							<div className={Styles.annotation}>
+								<span className={Styles.dates}>2016 - 2021</span>
+							</div>
+							<div className={Styles.work}>
+								<p>A mobile game available on iOS and Android in which the player takes photos of cars in the real world to then be identified and valued in game. Vehicles can be sold, upgraded, and raced. Also included are social elements such as leaderboards, a timeline, and profiles.</p>
+								<p>Responsible for the implementation of the mobile apps, as well as backend architecture and a large portion of the API.</p>
+								<p>Made contributions to game design, and handled technical user issues &amp; support.</p>
+							</div>
+							<div className={Styles.skills}>
+								<ul>
+									<li>iOS (Swift)</li>
+									<li>Android (Java)</li>
+									<li>PHP</li>
+									<li>MySQL</li>
+									<li>Linux</li>
+									<li>Docker</li>
+									<li>Javascript</li>
+									<li>API Integration</li>
+									<li>In App Billing</li>
+									<li>Push Notifications</li>
+									<li>Game Design</li>
+								</ul>
+							</div>
 						</div>
 
-						<h4 className="afterPageBreak">Chop Shop</h4>
-						<div className={Styles.annotation}>
-							<span className={Styles.dates}>2016 - 2021</span>
-						</div>
-						<div className={Styles.work}>
-							<p>A mobile game available on iOS and Android in which the player takes photos of cars in the real world to then be identified and valued in game. Vehicles can be sold, upgraded, and raced. Also included are social elements such as leaderboards, a timeline, and profiles.</p>
-							<p>Responsible for the implementation of the mobile apps, as well as backend architecture and a large portion of the API.</p>
-							<p>Made contributions to game design, and handled technical user issues &amp; support.</p>
-						</div>
-						<div className={Styles.skills}>
-							<ul>
-								<li>iOS (Swift)</li>
-								<li>Android (Java)</li>
-								<li>PHP</li>
-								<li>MySQL</li>
-								<li>Linux</li>
-								<li>Docker</li>
-								<li>Javascript</li>
-								<li>API Integration</li>
-								<li>In App Billing</li>
-								<li>Push Notifications</li>
-								<li>Game Design</li>
-							</ul>
-						</div>
-
-						<h4>Unreleased Project</h4>
+						<h4 className="afterPageBreak">Unreleased Project</h4>
 						<div className={Styles.annotation}>
 							<span className={Styles.dates}>2014 - 2016</span>
 						</div>
@@ -146,58 +147,53 @@ const CvPage = () => {
 							</ul>
 						</div>
 
-						<div style={{breakAfter: "page"}}>
-							<h4 style={{
-								color: "#DC3A34"
-							}}>Gangster Paradise App</h4>
-							<div className={Styles.annotation}>
-								<span className={Styles.dates}>2011 - 2021</span>
-							</div>
-							<div className={Styles.work}>
-								<p>The web games Gangster Paradise 1 & 2 were reimagined and taken to the next level as a mobile app.</p>
-								<p>Active development has continued with new features, upgrades, and modernisation. This project has been the focus of most of my time at Code Fanatics.</p>
-								<p>With over a million installations and thousands of active players, gained experience at every level of the process - from designing and implementing a new feature to handling player feedback and issues on that feature.</p>
-							</div>
-							<div className={Styles.skills}>
-								<ul>
-									<li>PHP</li>
-									<li>MySQL</li>
-									<li>HTML/CSS</li>
-									<li>Javascript / jQuery</li>
-									<li>Apache Cordova</li>
-									<li>iOS (Objective-C, then Swift)</li>
-									<li>Android (Java)</li>
-									<li>Linux</li>
-									<li>ReactPHP</li>
-									<li>RabbitMQ</li>
-									<li>Redis</li>
-									<li>Memcached</li>
-									<li>Solr</li>
-									<li>In App Billing</li>
-									<li>Push Notifications</li>
-									<li>Game Design</li>
-								</ul>
-							</div>
-							<div className={Styles.recent}>
-								<h5>Recent Major Projects for GP</h5>
+						<h4 style={{
+							color: "#DC3A34"
+						}}>Gangster Paradise App</h4>
+						<div className={Styles.annotation}>
+							<span className={Styles.dates}>2011 - 2021</span>
+						</div>
+						<div className={Styles.work}>
+							<p>The web games Gangster Paradise 1 & 2 were reimagined and taken to the next level as a mobile app.</p>
+							<p>Active development has continued with new features, upgrades, and modernisation. This project has been the focus of most of my time at Code Fanatics.</p>
+							<p>With over a million installations and thousands of active players, gained experience at every level of the process - from designing and implementing a new feature to handling player feedback and issues on that feature.</p>
+						</div>
+						<div className={Styles.skills}>
+							<ul>
+								<li>PHP</li>
+								<li>MySQL</li>
+								<li>HTML/CSS</li>
+								<li>Javascript / jQuery</li>
+								<li>Apache Cordova</li>
+								<li>iOS (Objective-C, then Swift)</li>
+								<li>Android (Java)</li>
+								<li>Linux</li>
+								<li>ReactPHP</li>
+								<li>RabbitMQ</li>
+								<li>Redis</li>
+								<li>Memcached</li>
+								<li>Solr</li>
+								<li>In App Billing</li>
+								<li>Push Notifications</li>
+								<li>Game Design</li>
+							</ul>
+						</div>
+						<div className={Styles.recent}>
+							<h5>Recent Major Projects for GP</h5>
 
-								<div className={Styles.subproject}>
-									<div className={Styles.title}><strong>iOS client rebuild</strong> (released Early 2021)</div>
-
-									<p>Rewrote iOS version of the game from Objective-C to Swift, and moved off Apache Cordova to WKWebview, supplemented by native components.</p>
-									<p>This improved compatibility with newer devices, provided a more modern experience and ensured we could continue to deploy to the App Store in future.</p>
-								</div>
-								<div className={Styles.subproject}>
-									<div className={Styles.title}><strong>"OCs"</strong> (released summer 2020)</div>
-									<p>An ambitious project, added content to GP in which players cooperate to complete missions.</p>
-									<p>Websockets and ReactPHP were used to allow players to collaborate in real time, and fallbacks were included for players on old devices.</p>
-								</div>
+							<div className={Styles.subproject}>
+								<div className={Styles.title}><strong>iOS client rebuild</strong> (released Early 2021)</div>
+								<p>Rewrote iOS version of the game from Objective-C to Swift, and moved from Apache Cordova to WKWebview, supplemented by our own native components.</p>
+							</div>
+							<div className={Styles.subproject}>
+								<div className={Styles.title}><strong>"OCs"</strong> (released summer 2020)</div>
+								<p>Websockets and ReactPHP were used to allow players to collaborate in real time.</p>
 							</div>
 						</div>
 					</div>
 				</div>
 
-				<h3 className={`afterPageBreak ${Styles.workplace}`}>Eden Interactive, Sept 2010 - June 2011</h3>
+				<h3 className={Styles.workplace}>Eden Interactive, Sept 2010 - June 2011</h3>
 				<div className={Styles.occupation}>PHP/MySQL Developer</div>
 				<div className={Styles.work}>
 					<p>Varied work for a large Christian eCommerce retailer. This included building features for the customer facing website as well as improving and maintaining internal infrastructure. IT support also undertaken.</p>
@@ -217,7 +213,7 @@ const CvPage = () => {
 				<h3 className={Styles.workplace}>Stuart Web Enterprises, Sept 2008 - May 2009</h3>
 				<div className={Styles.occupation}>Software Developer</div>
 				<div className={Styles.work}>
-					<p>Part time work during University working on the second version of web game Gangster Paradise. Key contributions included a mission system, casinos, and gameplay achievements.</p>
+					<p>Part time work on the second version of web game Gangster Paradise. Key contributions included a mission system, casinos, and gameplay achievements.</p>
 				</div>
 				<div className={Styles.skills}>
 					<ul>
