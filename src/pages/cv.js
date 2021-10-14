@@ -51,14 +51,14 @@ const CvPage = () => {
 						<li className={Styles.item}>Redis</li>
 						<li className={Styles.item}>Apache Solr</li>
 					</ul>
-					<ul>
+					<ul className={Styles.last}>
 						<li className={Styles.category}>Mobile</li>
 						<li className={Styles.item}>Cross Platform (Apache Cordova)</li>
 						<li className={Styles.item}>Native iOS (Swift / Objective C)</li>
 						<li className={Styles.item}>Native Android (Java)</li>
 						<li className={Styles.item}>App Store guidelines and submission (Apple, Google, Amazon)</li>
 					</ul>
-					<ul>
+					<ul className={Styles.last}>
 						<li className={Styles.category}>Frontend</li>
 						<li className={Styles.item}>HTML/CSS</li>
 						<li className={Styles.item}>Javascript</li>
@@ -75,78 +75,6 @@ const CvPage = () => {
 				<div className={Styles.occupation}>Developer - 2011</div>
 				<div className={Styles.work}>
 					<div className={Styles.subproject}>
-
-							<h4>XPERMIT®</h4>
-							<div className={Styles.annotation}>
-								<span className={Styles.dates}>2019 - 2021</span> (DBT Software Ltd)
-							</div>
-							<div className={Styles.work}>
-								<p>Creation of native apps for Android and iOS and an Electron app to protect files from unauthorised viewing. Each app interacts with the XPERMIT API and the device OS to make managing files and permissions easy.</p>
-								<p>Responsible for the implementation of both mobile apps. Key areas of work included protecting documents from unauthorised viewing via screenshots or recordings, and preventing access to decrypted files.</p>
-							</div>
-							<div className={Styles.skills}>
-								<ul>
-									<li>iOS (Swift)</li>
-									<li>Android (Java)</li>
-									<li>API Integration</li>
-									<li>Requirement gathering</li>
-									<li>Security / Robustness</li>
-									<li>Encryption</li>
-									<li>Authentication</li>
-									<li>Agile</li>
-								</ul>
-							</div>
-
-						<div style={{breakAfter: "page"}}>
-							<h4>Chop Shop</h4>
-							<div className={Styles.annotation}>
-								<span className={Styles.dates}>2016 - 2021</span>
-							</div>
-							<div className={Styles.work}>
-								<p>A mobile game available on iOS and Android in which the player takes photos of cars in the real world to then be identified and valued in game. Vehicles can be sold, upgraded, and raced. Also included are social elements such as leaderboards, a timeline, and profiles.</p>
-								<p>Responsible for the implementation of the mobile apps, as well as backend architecture and a large portion of the API.</p>
-								<p>Made contributions to game design, and handled technical user issues &amp; support.</p>
-							</div>
-							<div className={Styles.skills}>
-								<ul>
-									<li>iOS (Swift)</li>
-									<li>Android (Java)</li>
-									<li>PHP</li>
-									<li>MySQL</li>
-									<li>Linux</li>
-									<li>Docker</li>
-									<li>Javascript</li>
-									<li>API Integration</li>
-									<li>In App Billing</li>
-									<li>Push Notifications</li>
-									<li>Game Design</li>
-								</ul>
-							</div>
-						</div>
-
-						<h4 className="afterPageBreak">Unreleased Project</h4>
-						<div className={Styles.annotation}>
-							<span className={Styles.dates}>2014 - 2016</span>
-						</div>
-						<div className={Styles.work}>
-							<p>An unreleased mobile game using Cordova. Elements of this project were taken forward into future work.</p>
-							<p>Key work included the production of a specialised backend framework to simplify work on individual features. Other aspects included 3D scenes using Three.js and object-oriented combat modelling.</p>
-						</div>
-						<div className={Styles.skills}>
-							<ul>
-								<li>PHP</li>
-								<li>MySQL</li>
-								<li>HTML/CSS</li>
-								<li>Javascript</li>
-								<li>Three.js</li>
-								<li>Linux</li>
-								<li>Apache Cordova</li>
-								<li>ReactPHP</li>
-								<li>RabbitMQ</li>
-								<li>Game Design</li>
-							</ul>
-						</div>
-
 						<h4 style={{
 							color: "#DC3A34"
 						}}>Gangster Paradise App</h4>
@@ -190,6 +118,78 @@ const CvPage = () => {
 								<p>Websockets and ReactPHP were used to allow players to collaborate in real time.</p>
 							</div>
 						</div>
+
+						<div style={{breakAfter: "page"}}>
+							<h4>XPERMIT®</h4>
+							<div className={Styles.annotation}>
+								<span className={Styles.dates}>2019 - 2021</span> (DBT Software Ltd)
+							</div>
+							<div className={Styles.work}>
+								<p>Creation of native apps for Android and iOS and an Electron app to protect files from unauthorised viewing. Each app interacts with the XPERMIT API and the device OS to make managing files and permissions easy.</p>
+								<p>Responsible for the implementation of both mobile apps. Key areas of work included protecting documents from unauthorised viewing via screenshots or recordings, and preventing access to decrypted files.</p>
+							</div>
+							<div className={Styles.skills}>
+								<ul>
+									<li>iOS (Swift)</li>
+									<li>Android (Java)</li>
+									<li>API Integration</li>
+									<li>Requirement gathering</li>
+									<li>Security / Robustness</li>
+									<li>Encryption</li>
+									<li>Authentication</li>
+									<li>Agile</li>
+								</ul>
+							</div>
+						</div>
+
+						<h4 className="afterPageBreak">Chop Shop</h4>
+						<div className={Styles.annotation}>
+							<span className={Styles.dates}>2016 - 2021</span>
+						</div>
+						<div className={Styles.work}>
+							<p>A mobile game available on iOS and Android in which the player takes photos of cars which are identified and valued in game. Vehicles can be sold, upgraded, and raced. Includes leaderboards, a timeline, and profiles.</p>
+							<p>Responsible for the implementation of the mobile apps, as well as backend architecture and a large portion of the API.</p>
+							<p>Made contributions to game design, and handled technical user issues &amp; support.</p>
+						</div>
+						<div className={Styles.skills}>
+							<ul>
+								<li>iOS (Swift)</li>
+								<li>Android (Java)</li>
+								<li>PHP</li>
+								<li>MySQL</li>
+								<li>Linux</li>
+								<li>Docker</li>
+								<li>Javascript</li>
+								<li>API Integration</li>
+								<li>In App Billing</li>
+								<li>Push Notifications</li>
+								<li>Game Design</li>
+							</ul>
+						</div>
+
+						<h4>Unreleased Project</h4>
+						<div className={Styles.annotation}>
+							<span className={Styles.dates}>2014 - 2016</span>
+						</div>
+						<div className={Styles.work}>
+							<p>A mobile game using Cordova. Elements of this project were taken forward into future work. Novel contributions included creating 3D scenes using Three.js, and modelling combat in an object-oriented fashion.</p>
+						</div>
+						<div className={Styles.skills}>
+							<ul>
+								<li>PHP</li>
+								<li>MySQL</li>
+								<li>HTML/CSS</li>
+								<li>Javascript</li>
+								<li>Three.js</li>
+								<li>Linux</li>
+								<li>Apache Cordova</li>
+								<li>ReactPHP</li>
+								<li>RabbitMQ</li>
+								<li>Game Design</li>
+							</ul>
+						</div>
+
+
 					</div>
 				</div>
 
