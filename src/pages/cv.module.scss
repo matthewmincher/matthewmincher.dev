@@ -67,6 +67,8 @@ $muted-color: #e2e1df;
 	display: flex;
 	flex-wrap: wrap;
 
+
+
 	ul {
 		min-width: 50%;
 		flex: 1;
@@ -85,6 +87,9 @@ $muted-color: #e2e1df;
 		.item {
 			margin-left: 40px;
 		}
+	}
+	ul.last {
+		margin-bottom: 0;
 	}
 }
 .work {
@@ -131,6 +136,7 @@ $muted-color: #e2e1df;
 }
 
 .recent {
+	padding-bottom: 5px;
 	h5 {
 		font-size: 0.9em;
 		margin: 10px 0 5px 0;
