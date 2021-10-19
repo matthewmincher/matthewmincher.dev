@@ -97,7 +97,7 @@ const CvPage = () => {
 								<li>Android (Java)</li>
 								<li>Linux</li>
 								<li>ReactPHP</li>
-								<li>RabbitMQ</li>
+								<li>ZeroMQ</li>
 								<li>Redis</li>
 								<li>Memcached</li>
 								<li>Solr</li>
@@ -133,7 +133,6 @@ const CvPage = () => {
 									<li>iOS (Swift)</li>
 									<li>Android (Java)</li>
 									<li>API Integration</li>
-									<li>Requirement gathering</li>
 									<li>Security / Robustness</li>
 									<li>Encryption</li>
 									<li>Authentication</li>
@@ -157,9 +156,10 @@ const CvPage = () => {
 								<li>Android (Java)</li>
 								<li>PHP</li>
 								<li>MySQL</li>
+								<li>Javascript</li>
 								<li>Linux</li>
 								<li>Docker</li>
-								<li>Javascript</li>
+								<li>RabbitMQ</li>
 								<li>API Integration</li>
 								<li>In App Billing</li>
 								<li>Push Notifications</li>
