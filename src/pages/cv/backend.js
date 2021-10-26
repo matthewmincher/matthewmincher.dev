@@ -1,6 +1,6 @@
 import * as React from "react"
 import Layout from "../../components/layout";
-import * as Styles from "./backend.module.scss"
+import * as Styles from "../cv.module.scss"
 import PdfIcon from "../../images/icon_pdf.svg";
 import {withPrefix} from "gatsby";
 import Obfuscate from 'react-obfuscate';
@@ -8,8 +8,8 @@ import SubNavBar from "../../components/subnavbar";
 
 const cvLinks = [
 	{url: "/cv", title: "Full Stack"},
-	{url: "/cv/backend", title: "Backend"},
-	{url: "/cv/frontend", title: "Frontend"}
+	{url: "/cv/backend", title: "Backend Focus"},
+	{url: "/cv/frontend", title: "Frontend Focus"}
 ];
 
 const CvPage = () => {
@@ -29,6 +29,9 @@ const CvPage = () => {
 				</div>
 
 				<h1 className={Styles.name}>Matthew Mincher</h1>
+				<div className={Styles.website}>
+					www.matthewmincher.dev
+				</div>
 				<div className={Styles.email}>
 					<Obfuscate email="matthew@mincher.org" />
 				</div>
@@ -119,7 +122,7 @@ const CvPage = () => {
 								</div>
 								<div className={Styles.subproject}>
 									<div className={Styles.title}><strong>Voided Purchase Management</strong> (early 2020)</div>
-									<p>Handle one-time notifications from Apple, and proactively interact with the Google Play API to reduce potential refund abuse. Link notifications to purchases and game accounts to notify players of issues and allow moderator action.</p>
+									<p>Handle one-time notifications from Apple, and proactively interact with the Google Play API to reduce refund abuse. Link notifications to purchases and game accounts to inform players of issues and facilitate moderator action.</p>
 								</div>
 							</div>
 						</div>
@@ -129,13 +132,14 @@ const CvPage = () => {
 							<span className={Styles.dates}>2019 - 2021</span> (DBT Software Ltd)
 						</div>
 						<div className={Styles.work}>
-							<p>Consulted on the design of a REST API for XPERMIT. Responsible for integrating that API on the two mobile clients.</p>
+							<p>Consulted on the design of a REST API for XPERMIT. Responsible for integrating that API on the iOS and Android clients.</p>
 						</div>
 						<div className={Styles.skills}>
 							<ul>
+								<li>REST</li>
+								<li>Client Integration</li>
 								<li>iOS (Swift)</li>
 								<li>Android (Java)</li>
-								<li>API Integration</li>
 								<li>Security / Robustness</li>
 								<li>Encryption</li>
 								<li>Authentication</li>
@@ -148,18 +152,15 @@ const CvPage = () => {
 							<span className={Styles.dates}>2016 - 2021</span>
 						</div>
 						<div className={Styles.work}>
-							<p>A mobile game available on iOS and Android in which the player takes photos of cars which are identified and valued in game. Vehicles can be sold, upgraded, and raced. Includes leaderboards, a timeline, and profiles.</p>
-							<p>Responsible for the implementation of the mobile apps, as well as backend architecture and a large portion of the API.</p>
-							<p>Made contributions to game design, and handled technical user issues &amp; support.</p>
+							<p>A multiplayer online mobile game available on iOS and Android in which the player takes photos of cars which are identified and valued in game. Vehicles can be sold, upgraded, and raced. Includes social elements such as leaderboards, a timeline, and profiles.</p>
+							<p>Implemented using our bespoke MVC framework mentioned below.</p>
+							<p>Particular attention was paid to minimising the number of HTTP requests done by a client (to reduce battery and network impact on mobile devices) which lead us to queue certain state changes for the next time the client contacts the server rather than polling or pushing data proactively. This was done automatically without developer intervention.</p>
 						</div>
 						<div className={Styles.skills}>
 							<ul>
 								<li>PHP</li>
-								<li>REST API</li>
 								<li>MySQL</li>
-								<li>iOS (Swift)</li>
-								<li>Android (Java)</li>
-								<li>Javascript</li>
+								<li>REST</li>
 								<li>Linux</li>
 								<li>Docker</li>
 								<li>RabbitMQ</li>
@@ -175,7 +176,8 @@ const CvPage = () => {
 							<span className={Styles.dates}>2014 - 2016</span>
 						</div>
 						<div className={Styles.work}>
-							<p>A mobile game using Cordova. Extensive backend architecture included a bespoke MVC framework in PHP. Elements of this project were taken forward into future work. Novel contributions included creating 3D scenes using Three.js, and modelling combat in an object-oriented fashion.</p>
+							<p>Extensive backend architecture of a bespoke MVC framework in PHP to enable white-label game development. Performance profiling, request logging, and error tracing automatically handled. Integration with ReactPHP + RabbitMQ for asynchronous event driven services.</p>
+							<p>Reusable mod panel web app created covering generic game moderation activity, while allowing specific games to easily extend further. Twig utilised for the view layer to simplify development and encourage reuse.</p>
 						</div>
 						<div className={Styles.skills}>
 							<ul>
@@ -183,12 +185,10 @@ const CvPage = () => {
 								<li>MySQL</li>
 								<li>HTML/CSS</li>
 								<li>Javascript</li>
-								<li>Three.js</li>
+								<li>Twig</li>
 								<li>Linux</li>
-								<li>Apache Cordova</li>
 								<li>ReactPHP</li>
 								<li>RabbitMQ</li>
-								<li>Game Design</li>
 							</ul>
 						</div>
 
@@ -199,7 +199,7 @@ const CvPage = () => {
 				<h3 className={Styles.workplace}>Eden Interactive, Sept 2010 - June 2011</h3>
 				<div className={Styles.occupation}>PHP/MySQL Developer</div>
 				<div className={Styles.work}>
-					<p>Varied work for a large Christian eCommerce retailer. This included building features for the customer facing website as well as improving and maintaining internal infrastructure. IT support also undertaken.</p>
+					<p>Procedural style PHP with an emphasis on testable and reusable functions that could be composed. Contributions included work A/B testing new features, interacting with SOAP APIs and adding support for digital product downloads.</p>
 				</div>
 				<div className={Styles.skills}>
 					<ul>

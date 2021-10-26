@@ -31,7 +31,7 @@ module.exports = {
       resolve: 'gatsby-plugin-pdf',
       options: {
         allPages: false,
-        paths: ['/cv/'],
+        paths: ['/cv/', '/cv/backend/', '/cv/frontend/'],
         outputPath: '/public/exports',
         filePrefix: 'matthewmincher-',
         styleTagOptions: {
