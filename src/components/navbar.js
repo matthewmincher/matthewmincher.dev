@@ -8,7 +8,7 @@ const NavBar = () => {
 			<div className={Styles.container}>
 				<ul className={Styles.navbarStart}>
 					<li><Link to="/" activeClassName={Styles.active}>Home</Link></li>
-					<li><Link to="/cv" activeClassName={Styles.active}>CV</Link></li>
+					<li><Link to="/cv" partiallyActive={true} activeClassName={Styles.active}>CV</Link></li>
 				</ul>
 
 				<ul className={Styles.navbarEnd}>

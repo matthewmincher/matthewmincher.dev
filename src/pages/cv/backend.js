@@ -1,10 +1,10 @@
 import * as React from "react"
-import Layout from "../components/layout";
-import * as Styles from "./cv.module.scss"
-import PdfIcon from "../images/icon_pdf.svg";
+import Layout from "../../components/layout";
+import * as Styles from "./backend.module.scss"
+import PdfIcon from "../../images/icon_pdf.svg";
 import {withPrefix} from "gatsby";
 import Obfuscate from 'react-obfuscate';
-import SubNavBar from "../components/subnavbar";
+import SubNavBar from "../../components/subnavbar";
 
 const cvLinks = [
 	{url: "/cv", title: "Full Stack"},
@@ -14,11 +14,11 @@ const cvLinks = [
 
 const CvPage = () => {
 	return (
-		<Layout pageTitle="CV">
+		<Layout pageTitle="CV - Backend">
 			<SubNavBar items={cvLinks} />
 			<div className={`constrainedContent ${Styles.container}`}>
 				<div className={Styles.download}>
-					<a href={withPrefix("/exports/matthewmincher-cv.pdf")} target="_blank" rel="noreferrer">
+					<a href={withPrefix("/exports/matthewmincher-cv-backend.pdf")} target="_blank" rel="noreferrer">
 						<img
 							src={PdfIcon}
 							width={30}
@@ -38,7 +38,7 @@ const CvPage = () => {
 				<div className={Styles.address}>Chester, UK</div>
 
 				<h2>Personal Statement</h2>
-				<p>A conscientious full stack developer with over 10 years experience. Possesses strong time management skills with the ability to efficiently handle multiple tasks or priorities.</p>
+				<p>A conscientious developer with over 10 years experience. Possesses strong time management skills with the ability to efficiently handle multiple tasks or priorities.</p>
 				<p>Has a proven track record of ably implementing new technologies as required to complete projects.</p>
 
 				<h2>Skills</h2>
@@ -61,19 +61,9 @@ const CvPage = () => {
 						<li className={Styles.item}>Apache Solr</li>
 					</ul>
 					<ul className={Styles.last}>
-						<li className={Styles.category}>Mobile</li>
-						<li className={Styles.item}>Cross Platform (Apache Cordova)</li>
-						<li className={Styles.item}>Native iOS (Swift / Objective C)</li>
-						<li className={Styles.item}>Native Android (Java)</li>
-						<li className={Styles.item}>App Store guidelines and submission (Apple, Google, Amazon)</li>
-					</ul>
-					<ul className={Styles.last}>
 						<li className={Styles.category}>Frontend</li>
 						<li className={Styles.item}>HTML/CSS</li>
 						<li className={Styles.item}>Javascript</li>
-						<li className={Styles.item}>jQuery</li>
-						<li className={Styles.item}>Wordpress</li>
-						<li className={Styles.item}>Gatsby</li>
 					</ul>
 				</div>
 
@@ -99,40 +89,37 @@ const CvPage = () => {
 							</div>
 							<div className={Styles.work}>
 								<p>The web games Gangster Paradise 1 & 2 were reimagined and taken to the next level as a mobile app. GP is a complex multiplayer online game with a huge range of functionality - including social features such as a forum, leaderboards, and direct/group messaging.</p>
-								<p>Active development has continued with new features, upgrades, and modernisation.</p>
-								<p>With over a million installations and thousands of active players, gained experience at every level - from designing and implementing a new feature to handling player feedback and issues on that feature.</p>
+								<p>Implemented and maintained a complex API. Reduced the average wall clock execution time of the API from  over 150ms to 30ms using xhprof to profile code paths. Implemented automatic deadlock resolution in our framework and ORM to simplify day to day development.</p>
+								<p>Responsible for performance - monitored request and error patterns to fix badly-behaved controllers or SQL queries.</p>
+								<p>Integrated third party APIs including: Google Play Developer API, Firebase Cloud Messaging, Apple Push Notification service, Amazon Simple Email Service, multiple OAuth providers.</p>
 							</div>
 							<div className={Styles.skills}>
 								<ul>
 									<li>PHP</li>
 									<li>MySQL</li>
 									<li>REST</li>
-									<li>HTML/CSS</li>
-									<li>Javascript / jQuery</li>
-									<li>Apache Cordova</li>
-									<li>iOS (Objective-C, then Swift)</li>
-									<li>Android (Java)</li>
-									<li>Linux</li>
 									<li>ReactPHP</li>
 									<li>ZeroMQ</li>
 									<li>Redis</li>
 									<li>Memcached</li>
 									<li>Solr</li>
-									<li>In App Billing</li>
-									<li>Push Notifications</li>
-									<li>Game Design</li>
+									<li>API Integration</li>
 								</ul>
 							</div>
 							<div className={Styles.recent}>
-								<h5>Recent Major Projects for GP</h5>
+								<h5>Recent Projects for GP</h5>
 
 								<div className={Styles.subproject}>
-									<div className={Styles.title}><strong>iOS client rebuild</strong> (released Early 2021)</div>
-									<p>Rewrote iOS version of the game from Objective-C to Swift, and moved from Apache Cordova to WKWebview, supplemented by our own native components.</p>
+									<div className={Styles.title}><strong>"OCs"</strong> (released summer 2020, updated autumn 2021)</div>
+									<p>Websockets and ReactPHP were used to allow players to collaborate in real time. Departure from our usual API methodology which allowed us to improve reactivity without overburdening game clients.</p>
 								</div>
 								<div className={Styles.subproject}>
-									<div className={Styles.title}><strong>"OCs"</strong> (released summer 2020)</div>
-									<p>Websockets and ReactPHP were used to allow players to collaborate in real time.</p>
+									<div className={Styles.title}><strong>Account Deletion</strong> (autumn 2021)</div>
+									<p>Self service account deletion to comply with app store guidelines above and beyond GDPR. Additions to our web based account management portal, modifications to our moderator web app to help them process deletions, as well as game API changes to support erasure of personal data automatically.</p>
+								</div>
+								<div className={Styles.subproject}>
+									<div className={Styles.title}><strong>Voided Purchase Management</strong> (early 2020)</div>
+									<p>Handle one-time notifications from Apple, and proactively interact with the Google Play API to reduce potential refund abuse. Link notifications to purchases and game accounts to notify players of issues and allow moderator action.</p>
 								</div>
 							</div>
 						</div>
@@ -142,8 +129,7 @@ const CvPage = () => {
 							<span className={Styles.dates}>2019 - 2021</span> (DBT Software Ltd)
 						</div>
 						<div className={Styles.work}>
-							<p>Creation of native apps for Android and iOS to protect files from unauthorised viewing. Each app interacts with the XPERMIT API and the device OS to make managing files and permissions easy.</p>
-							<p>Responsible for the implementation of both mobile apps. Key areas of work included protecting documents from unauthorised viewing via screenshots or recordings, and preventing access to decrypted files.</p>
+							<p>Consulted on the design of a REST API for XPERMIT. Responsible for integrating that API on the two mobile clients.</p>
 						</div>
 						<div className={Styles.skills}>
 							<ul>
@@ -219,11 +205,8 @@ const CvPage = () => {
 					<ul>
 						<li>PHP</li>
 						<li>MySQL</li>
-						<li>jQuery</li>
-						<li>HTML/CSS</li>
 						<li>Linux</li>
 						<li>Solr</li>
-						<li>A/B Testing</li>
 					</ul>
 				</div>
 

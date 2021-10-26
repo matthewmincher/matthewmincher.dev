@@ -5,7 +5,6 @@ import "normalize.css"
 import "./global.scss"
 import * as Styles from './layout.module.scss';
 import {Helmet} from "react-helmet";
-import {withPrefix} from "gatsby-link";
 
 const Layout = ({ pageTitle, children }) => {
     return (
