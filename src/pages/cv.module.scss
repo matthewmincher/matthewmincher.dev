@@ -11,7 +11,7 @@ $muted-color: #e2e1df;
 .name {
 	margin-bottom: 0;
 }
-.email, .telephone, .address {
+.email, .telephone, .address, .website {
 	margin-top: 5px;
 	a {
 		border-bottom-color: transparent;
@@ -132,6 +132,26 @@ $muted-color: #e2e1df;
 		.dates {
 			font-style: italic;
 		}
+
+		.link {
+
+		}
+
+		.link::after {
+			content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAQElEQVR42qXKwQkAIAxDUUdxtO6/RBQkQZvSi8I/pL4BoGw/XPkh4XigPmsUgh0626AjRsgxHTkUThsG2T/sIlzdTsp52kSS1wAAAABJRU5ErkJggg==);
+			margin: 0 3px 0 5px;
+			vertical-align: middle;
+		}
+
+		@media print {
+			.link::after {
+				display: none;
+			}
+		}
+	}
+
+	.annotation + .annotation {
+		margin-top: 5px;
 	}
 }
 

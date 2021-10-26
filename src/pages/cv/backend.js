@@ -1,10 +1,10 @@
 import * as React from "react"
-import Layout from "../components/layout";
-import * as Styles from "./cv.module.scss"
-import PdfIcon from "../images/icon_pdf.svg";
+import Layout from "../../components/layout";
+import * as Styles from "../cv.module.scss"
+import PdfIcon from "../../images/icon_pdf.svg";
 import {withPrefix} from "gatsby";
 import Obfuscate from 'react-obfuscate';
-import SubNavBar from "../components/subnavbar";
+import SubNavBar from "../../components/subnavbar";
 
 const cvLinks = [
 	{url: "/cv", title: "Full Stack"},
@@ -14,11 +14,11 @@ const cvLinks = [
 
 const CvPage = () => {
 	return (
-		<Layout pageTitle="CV">
+		<Layout pageTitle="CV - Backend">
 			<SubNavBar items={cvLinks} />
 			<div className={`constrainedContent ${Styles.container}`}>
 				<div className={Styles.download}>
-					<a href={withPrefix("/exports/matthewmincher-cv.pdf")} target="_blank" rel="noreferrer">
+					<a href={withPrefix("/exports/matthewmincher-cv-backend.pdf")} target="_blank" rel="noreferrer">
 						<img
 							src={PdfIcon}
 							width={30}
@@ -64,19 +64,9 @@ const CvPage = () => {
 						<li className={Styles.item}>Apache Solr</li>
 					</ul>
 					<ul className={Styles.last}>
-						<li className={Styles.category}>Mobile</li>
-						<li className={Styles.item}>Cross Platform (Apache Cordova)</li>
-						<li className={Styles.item}>Native iOS (Swift / Objective C)</li>
-						<li className={Styles.item}>Native Android (Java)</li>
-						<li className={Styles.item}>App Store guidelines and submission (Apple, Google, Amazon)</li>
-					</ul>
-					<ul className={Styles.last}>
 						<li className={Styles.category}>Frontend</li>
 						<li className={Styles.item}>HTML/CSS</li>
 						<li className={Styles.item}>Javascript</li>
-						<li className={Styles.item}>jQuery</li>
-						<li className={Styles.item}>Wordpress</li>
-						<li className={Styles.item}>Gatsby</li>
 					</ul>
 				</div>
 
@@ -102,40 +92,37 @@ const CvPage = () => {
 							</div>
 							<div className={Styles.work}>
 								<p>The web games Gangster Paradise 1 & 2 were reimagined and taken to the next level as a mobile app. GP is a complex multiplayer online game with a huge range of functionality - including social features such as a forum, leaderboards, and direct/group messaging.</p>
-								<p>Active development has continued with new features, upgrades, and modernisation.</p>
-								<p>With over a million installations and thousands of active players, gained experience at every level - from designing and implementing a new feature to handling player feedback and issues on that feature.</p>
+								<p>Implemented and maintained a complex API. Reduced the average wall clock execution time of the API from  over 150ms to 30ms using xhprof to profile code paths. Implemented automatic deadlock resolution in our framework and ORM to simplify day to day development.</p>
+								<p>Responsible for performance - monitored request and error patterns to fix badly-behaved controllers or SQL queries.</p>
+								<p>Integrated third party APIs including: Google Play Developer API, Firebase Cloud Messaging, Apple Push Notification service, Amazon Simple Email Service, multiple OAuth providers.</p>
 							</div>
 							<div className={Styles.skills}>
 								<ul>
 									<li>PHP</li>
 									<li>MySQL</li>
 									<li>REST</li>
-									<li>HTML/CSS</li>
-									<li>Javascript / jQuery</li>
-									<li>Apache Cordova</li>
-									<li>iOS (Objective-C, then Swift)</li>
-									<li>Android (Java)</li>
-									<li>Linux</li>
 									<li>ReactPHP</li>
 									<li>ZeroMQ</li>
 									<li>Redis</li>
 									<li>Memcached</li>
 									<li>Solr</li>
-									<li>In App Billing</li>
-									<li>Push Notifications</li>
-									<li>Game Design</li>
+									<li>API Integration</li>
 								</ul>
 							</div>
 							<div className={Styles.recent}>
-								<h5>Recent Major Projects for GP</h5>
+								<h5>Recent Projects for GP</h5>
 
 								<div className={Styles.subproject}>
-									<div className={Styles.title}><strong>iOS client rebuild</strong> (released Early 2021)</div>
-									<p>Rewrote iOS version of the game from Objective-C to Swift, and moved from Apache Cordova to WKWebview, supplemented by our own native components.</p>
+									<div className={Styles.title}><strong>"OCs"</strong> (released summer 2020, updated autumn 2021)</div>
+									<p>Websockets and ReactPHP were used to allow players to collaborate in real time. Departure from our usual API methodology which allowed us to improve reactivity without overburdening game clients.</p>
 								</div>
 								<div className={Styles.subproject}>
-									<div className={Styles.title}><strong>"OCs"</strong> (released summer 2020)</div>
-									<p>Websockets and ReactPHP were used to allow players to collaborate in real time.</p>
+									<div className={Styles.title}><strong>Account Deletion</strong> (autumn 2021)</div>
+									<p>Self service account deletion to comply with app store guidelines above and beyond GDPR. Additions to our web based account management portal, modifications to our moderator web app to help them process deletions, as well as game API changes to support erasure of personal data automatically.</p>
+								</div>
+								<div className={Styles.subproject}>
+									<div className={Styles.title}><strong>Voided Purchase Management</strong> (early 2020)</div>
+									<p>Handle one-time notifications from Apple, and proactively interact with the Google Play API to reduce refund abuse. Link notifications to purchases and game accounts to inform players of issues and facilitate moderator action.</p>
 								</div>
 							</div>
 						</div>
@@ -145,14 +132,14 @@ const CvPage = () => {
 							<span className={Styles.dates}>2019 - 2021</span> (DBT Software Ltd)
 						</div>
 						<div className={Styles.work}>
-							<p>Creation of native apps for Android and iOS to protect files from unauthorised viewing. Each app interacts with the XPERMIT API and the device OS to make managing files and permissions easy.</p>
-							<p>Responsible for the implementation of both mobile apps. Key areas of work included protecting documents from unauthorised viewing via screenshots or recordings, and preventing access to decrypted files.</p>
+							<p>Consulted on the design of a REST API for XPERMIT. Responsible for integrating that API on the iOS and Android clients.</p>
 						</div>
 						<div className={Styles.skills}>
 							<ul>
+								<li>REST</li>
+								<li>Client Integration</li>
 								<li>iOS (Swift)</li>
 								<li>Android (Java)</li>
-								<li>API Integration</li>
 								<li>Security / Robustness</li>
 								<li>Encryption</li>
 								<li>Authentication</li>
@@ -165,18 +152,15 @@ const CvPage = () => {
 							<span className={Styles.dates}>2016 - 2021</span>
 						</div>
 						<div className={Styles.work}>
-							<p>A mobile game available on iOS and Android in which the player takes photos of cars which are identified and valued in game. Vehicles can be sold, upgraded, and raced. Includes leaderboards, a timeline, and profiles.</p>
-							<p>Responsible for the implementation of the mobile apps, as well as backend architecture and a large portion of the API.</p>
-							<p>Made contributions to game design, and handled technical user issues &amp; support.</p>
+							<p>A multiplayer online mobile game available on iOS and Android in which the player takes photos of cars which are identified and valued in game. Vehicles can be sold, upgraded, and raced. Includes social elements such as leaderboards, a timeline, and profiles.</p>
+							<p>Implemented using our bespoke MVC framework mentioned below.</p>
+							<p>Particular attention was paid to minimising the number of HTTP requests done by a client (to reduce battery and network impact on mobile devices) which lead us to queue certain state changes for the next time the client contacts the server rather than polling or pushing data proactively. This was done automatically without developer intervention.</p>
 						</div>
 						<div className={Styles.skills}>
 							<ul>
 								<li>PHP</li>
-								<li>REST API</li>
 								<li>MySQL</li>
-								<li>iOS (Swift)</li>
-								<li>Android (Java)</li>
-								<li>Javascript</li>
+								<li>REST</li>
 								<li>Linux</li>
 								<li>Docker</li>
 								<li>RabbitMQ</li>
@@ -192,7 +176,8 @@ const CvPage = () => {
 							<span className={Styles.dates}>2014 - 2016</span>
 						</div>
 						<div className={Styles.work}>
-							<p>A mobile game using Cordova. Extensive backend architecture including a bespoke MVC framework in PHP. Elements of this project were taken forward into future work. Novel contributions included creating 3D scenes using Three.js, and modelling combat in an object-oriented fashion.</p>
+							<p>Extensive backend architecture of a bespoke MVC framework in PHP to enable white-label game development. Performance profiling, request logging, and error tracing automatically handled. Integration with ReactPHP + RabbitMQ for asynchronous event driven services.</p>
+							<p>Reusable mod panel web app created covering generic game moderation activity, while allowing specific games to easily extend further. Twig utilised for the view layer to simplify development and encourage reuse.</p>
 						</div>
 						<div className={Styles.skills}>
 							<ul>
@@ -200,12 +185,10 @@ const CvPage = () => {
 								<li>MySQL</li>
 								<li>HTML/CSS</li>
 								<li>Javascript</li>
-								<li>Three.js</li>
+								<li>Twig</li>
 								<li>Linux</li>
-								<li>Apache Cordova</li>
 								<li>ReactPHP</li>
 								<li>RabbitMQ</li>
-								<li>Game Design</li>
 							</ul>
 						</div>
 
@@ -216,17 +199,14 @@ const CvPage = () => {
 				<h3 className={Styles.workplace}>Eden Interactive, Sept 2010 - June 2011</h3>
 				<div className={Styles.occupation}>PHP/MySQL Developer</div>
 				<div className={Styles.work}>
-					<p>Varied work for a large Christian eCommerce retailer. This included building features for the customer facing website as well as improving and maintaining internal infrastructure. IT support also undertaken.</p>
+					<p>Procedural style PHP with an emphasis on testable and reusable functions that could be composed. Contributions included work A/B testing new features, interacting with SOAP APIs and adding support for digital product downloads.</p>
 				</div>
 				<div className={Styles.skills}>
 					<ul>
 						<li>PHP</li>
 						<li>MySQL</li>
-						<li>jQuery</li>
-						<li>HTML/CSS</li>
 						<li>Linux</li>
 						<li>Solr</li>
-						<li>A/B Testing</li>
 					</ul>
 				</div>
 

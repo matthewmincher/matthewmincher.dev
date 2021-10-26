@@ -1,10 +1,10 @@
 import * as React from "react"
-import Layout from "../components/layout";
-import * as Styles from "./cv.module.scss"
-import PdfIcon from "../images/icon_pdf.svg";
+import Layout from "../../components/layout";
+import * as Styles from "../cv.module.scss"
+import PdfIcon from "../../images/icon_pdf.svg";
 import {withPrefix} from "gatsby";
 import Obfuscate from 'react-obfuscate';
-import SubNavBar from "../components/subnavbar";
+import SubNavBar from "../../components/subnavbar";
 
 const cvLinks = [
 	{url: "/cv", title: "Full Stack"},
@@ -14,11 +14,11 @@ const cvLinks = [
 
 const CvPage = () => {
 	return (
-		<Layout pageTitle="CV">
+		<Layout pageTitle="CV - Frontend">
 			<SubNavBar items={cvLinks} />
 			<div className={`constrainedContent ${Styles.container}`}>
 				<div className={Styles.download}>
-					<a href={withPrefix("/exports/matthewmincher-cv.pdf")} target="_blank" rel="noreferrer">
+					<a href={withPrefix("/exports/matthewmincher-cv-frontend.pdf")} target="_blank" rel="noreferrer">
 						<img
 							src={PdfIcon}
 							width={30}
@@ -101,28 +101,18 @@ const CvPage = () => {
 								<span className={Styles.dates}>2011 - 2021</span>
 							</div>
 							<div className={Styles.work}>
-								<p>The web games Gangster Paradise 1 & 2 were reimagined and taken to the next level as a mobile app. GP is a complex multiplayer online game with a huge range of functionality - including social features such as a forum, leaderboards, and direct/group messaging.</p>
-								<p>Active development has continued with new features, upgrades, and modernisation.</p>
-								<p>With over a million installations and thousands of active players, gained experience at every level - from designing and implementing a new feature to handling player feedback and issues on that feature.</p>
+								<p>The web games Gangster Paradise 1 & 2 were reimagined and taken to the next level as a mobile app. GP is a complex multiplayer online game with a huge range of functionality - including social features such as a forum, leaderboards, and direct/group messaging. Originally built with jQuery mobile, since heavily modified to meet requirements.</p>
+								<p>During early development, browser issues were common and problematic. Found and tested workarounds for WebView touch delays on Android + iOS. Improved performance due to a growing DOM by loading and temporarily caching fragments as necessary, and applied the same to the CSS and JS bindings those fragments required. Enabled us to continue to run on the extremely RAM constrained Blackberry platform as the game grew.</p>
+								<p>Responsible for the native clients (iOS, Android, and Blackberry). Originally Apache Cordova, with additional custom plugins. Updated app over time to match changes in platform guidelines and requirements, and to take advantage of new web standards and native capabilities.</p>
+								<p>Championed and implemented support for the brand new Blackberry 10 platform, which resulted in good ROI with GP reaching the top apps list of their storefront.</p>
 							</div>
 							<div className={Styles.skills}>
 								<ul>
-									<li>PHP</li>
-									<li>MySQL</li>
-									<li>REST</li>
 									<li>HTML/CSS</li>
 									<li>Javascript / jQuery</li>
 									<li>Apache Cordova</li>
 									<li>iOS (Objective-C, then Swift)</li>
 									<li>Android (Java)</li>
-									<li>Linux</li>
-									<li>ReactPHP</li>
-									<li>ZeroMQ</li>
-									<li>Redis</li>
-									<li>Memcached</li>
-									<li>Solr</li>
-									<li>In App Billing</li>
-									<li>Push Notifications</li>
 									<li>Game Design</li>
 								</ul>
 							</div>
@@ -135,7 +125,7 @@ const CvPage = () => {
 								</div>
 								<div className={Styles.subproject}>
 									<div className={Styles.title}><strong>"OCs"</strong> (released summer 2020)</div>
-									<p>Websockets and ReactPHP were used to allow players to collaborate in real time.</p>
+									<p>Websockets and were used to allow players to collaborate in real time, a departure from our usual REST methodology.</p>
 								</div>
 							</div>
 						</div>
@@ -167,19 +157,15 @@ const CvPage = () => {
 						<div className={Styles.work}>
 							<p>A mobile game available on iOS and Android in which the player takes photos of cars which are identified and valued in game. Vehicles can be sold, upgraded, and raced. Includes leaderboards, a timeline, and profiles.</p>
 							<p>Responsible for the implementation of the mobile apps, as well as backend architecture and a large portion of the API.</p>
-							<p>Made contributions to game design, and handled technical user issues &amp; support.</p>
+							<p>Particular attention was paid to minimising the number of HTTP requests done by a client (to reduce battery and network impact on mobile devices). Client components observe a global state store, allowing them to update even if the HTTP request was unrelated. Both client and server can queue state changes to be exchanged next time a request is made.</p>
+							<p>Implemented Google Play Games support on Android, and Apple GameCenter on iOS, including authentication and achievements.</p>
 						</div>
 						<div className={Styles.skills}>
 							<ul>
-								<li>PHP</li>
-								<li>REST API</li>
-								<li>MySQL</li>
 								<li>iOS (Swift)</li>
 								<li>Android (Java)</li>
+								<li>REST</li>
 								<li>Javascript</li>
-								<li>Linux</li>
-								<li>Docker</li>
-								<li>RabbitMQ</li>
 								<li>API Integration</li>
 								<li>In App Billing</li>
 								<li>Push Notifications</li>
@@ -192,19 +178,14 @@ const CvPage = () => {
 							<span className={Styles.dates}>2014 - 2016</span>
 						</div>
 						<div className={Styles.work}>
-							<p>A mobile game using Cordova. Extensive backend architecture including a bespoke MVC framework in PHP. Elements of this project were taken forward into future work. Novel contributions included creating 3D scenes using Three.js, and modelling combat in an object-oriented fashion.</p>
+							<p>A mobile game using Cordova. Elements of this project were taken forward into future work. Novel contributions included creating 3D scenes using Three.js.</p>
 						</div>
 						<div className={Styles.skills}>
 							<ul>
-								<li>PHP</li>
-								<li>MySQL</li>
 								<li>HTML/CSS</li>
 								<li>Javascript</li>
 								<li>Three.js</li>
-								<li>Linux</li>
 								<li>Apache Cordova</li>
-								<li>ReactPHP</li>
-								<li>RabbitMQ</li>
 								<li>Game Design</li>
 							</ul>
 						</div>
@@ -224,8 +205,6 @@ const CvPage = () => {
 						<li>MySQL</li>
 						<li>jQuery</li>
 						<li>HTML/CSS</li>
-						<li>Linux</li>
-						<li>Solr</li>
 						<li>A/B Testing</li>
 					</ul>
 				</div>
