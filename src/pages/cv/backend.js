@@ -6,16 +6,13 @@ import {withPrefix} from "gatsby";
 import Obfuscate from 'react-obfuscate';
 import SubNavBar from "../../components/subnavbar";
 
-const cvLinks = [
-	{url: "/cv/", title: "Full Stack"},
-	{url: "/cv/backend/", title: "Backend Focus"},
-	{url: "/cv/frontend/", title: "Frontend Focus"}
-];
+
+import {focusLinks, personalStatement} from "../../data/sharedcv";
 
 const CvPage = () => {
 	return (
 		<Layout pageTitle="CV - Backend">
-			<SubNavBar items={cvLinks} />
+			<SubNavBar items={focusLinks} />
 			<div className={`constrainedContent ${Styles.container}`}>
 				<div className={Styles.download}>
 					<a href={withPrefix("/exports/matthewmincher-cv-backend.pdf")} target="_blank" rel="noreferrer">
@@ -41,8 +38,7 @@ const CvPage = () => {
 				<div className={Styles.address}>Chester, UK</div>
 
 				<h2>Personal Statement</h2>
-				<p>A conscientious developer with over 10 years experience. Possesses strong time management skills with the ability to efficiently handle multiple tasks or priorities.</p>
-				<p>Has a proven track record of ably implementing new technologies as required to complete projects.</p>
+				{personalStatement}
 
 				<h2>Skills</h2>
 
