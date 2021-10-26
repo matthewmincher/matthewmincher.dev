@@ -7,9 +7,9 @@ import Obfuscate from 'react-obfuscate';
 import SubNavBar from "../../components/subnavbar";
 
 const cvLinks = [
-	{url: "/cv", title: "Full Stack"},
-	{url: "/cv/backend", title: "Backend Focus"},
-	{url: "/cv/frontend", title: "Frontend Focus"}
+	{url: "/cv/", title: "Full Stack"},
+	{url: "/cv/backend/", title: "Backend Focus"},
+	{url: "/cv/frontend/", title: "Frontend Focus"}
 ];
 
 const CvPage = () => {
