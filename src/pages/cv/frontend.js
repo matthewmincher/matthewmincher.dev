@@ -107,7 +107,7 @@ const CvPage = () => {
 									<p>Rewrote iOS version of the game from Objective-C to Swift, and moved from Apache Cordova to WKWebview, supplemented by our own native components.</p>
 								</div>
 								<div className={Styles.subproject}>
-									<div className={Styles.title}><strong>"OCs"</strong> (released summer 2020)</div>
+									<div className={Styles.title}><strong>"OCs"</strong> (released summer 2020, updated autumn 2021)</div>
 									<p>Websockets and were used to allow players to collaborate in real time, a departure from our usual REST methodology.</p>
 								</div>
 							</div>
@@ -138,7 +138,7 @@ const CvPage = () => {
 							<span className={Styles.dates}>2016 - 2021</span>
 						</div>
 						<div className={Styles.work}>
-							<p>A mobile game available on iOS and Android in which the player takes photos of cars which are identified and valued in game. Vehicles can be sold, upgraded, and raced. Includes leaderboards, a timeline, and profiles.</p>
+							<p>A native mobile game available on iOS and Android in which the player takes photos of cars which are identified and valued in game. Vehicles can be sold, upgraded, and raced. Includes leaderboards, a timeline, and profiles.</p>
 							<p>Responsible for the implementation of the mobile apps, as well as backend architecture and a large portion of the API.</p>
 							<p>Particular attention was paid to minimising the number of HTTP requests done by a client (to reduce battery and network impact on mobile devices). Client components observe a global state store, allowing them to update even if the HTTP request was unrelated. Both client and server can queue state changes to be exchanged next time a request is made.</p>
 							<p>Implemented Google Play Games support on Android, and Apple GameCenter on iOS, including authentication and achievements.</p>
@@ -148,7 +148,6 @@ const CvPage = () => {
 								<li>iOS (Swift)</li>
 								<li>Android (Java)</li>
 								<li>REST</li>
-								<li>Javascript</li>
 								<li>API Integration</li>
 								<li>In App Billing</li>
 								<li>Push Notifications</li>
