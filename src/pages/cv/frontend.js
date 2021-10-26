@@ -5,17 +5,12 @@ import PdfIcon from "../../images/icon_pdf.svg";
 import {withPrefix} from "gatsby";
 import Obfuscate from 'react-obfuscate';
 import SubNavBar from "../../components/subnavbar";
-
-const cvLinks = [
-	{url: "/cv/", title: "Full Stack"},
-	{url: "/cv/backend/", title: "Backend Focus"},
-	{url: "/cv/frontend/", title: "Frontend Focus"}
-];
+import {focusLinks, personalStatement} from "../../data/sharedcv";
 
 const CvPage = () => {
 	return (
 		<Layout pageTitle="CV - Frontend">
-			<SubNavBar items={cvLinks} />
+			<SubNavBar items={focusLinks} />
 			<div className={`constrainedContent ${Styles.container}`}>
 				<div className={Styles.download}>
 					<a href={withPrefix("/exports/matthewmincher-cv-frontend.pdf")} target="_blank" rel="noreferrer">
@@ -41,42 +36,30 @@ const CvPage = () => {
 				<div className={Styles.address}>Chester, UK</div>
 
 				<h2>Personal Statement</h2>
-				<p>A conscientious developer with over 10 years experience. Possesses strong time management skills with the ability to efficiently handle multiple tasks or priorities.</p>
-				<p>Has a proven track record of ably implementing new technologies as required to complete projects.</p>
+				{personalStatement}
 
 				<h2>Skills</h2>
 
 				<div className={Styles.skillsContainer}>
 					<ul>
-						<li className={Styles.category}>Platform</li>
-						<li className={Styles.item}>Linux (Ubuntu) server management</li>
-						<li className={Styles.item}>MySQL (Percona Server) management & optimisation</li>
-						<li className={Styles.item}>Docker</li>
-						<li className={Styles.item}>AWS (S3/SES/SQS)</li>
-						<li className={Styles.item}>Bash scripting</li>
-					</ul>
-					<ul>
-						<li className={Styles.category}>Backend</li>
-						<li className={Styles.item}>PHP (OO + MVC)</li>
-						<li className={Styles.item}>MySQL</li>
-						<li className={Styles.item}>NodeJS</li>
-						<li className={Styles.item}>Redis</li>
-						<li className={Styles.item}>Apache Solr</li>
-					</ul>
-					<ul className={Styles.last}>
 						<li className={Styles.category}>Mobile</li>
 						<li className={Styles.item}>Cross Platform (Apache Cordova)</li>
 						<li className={Styles.item}>Native iOS (Swift / Objective C)</li>
 						<li className={Styles.item}>Native Android (Java)</li>
 						<li className={Styles.item}>App Store guidelines and submission (Apple, Google, Amazon)</li>
 					</ul>
-					<ul className={Styles.last}>
+					<ul>
 						<li className={Styles.category}>Frontend</li>
 						<li className={Styles.item}>HTML/CSS</li>
 						<li className={Styles.item}>Javascript</li>
 						<li className={Styles.item}>jQuery</li>
 						<li className={Styles.item}>Wordpress</li>
 						<li className={Styles.item}>Gatsby</li>
+					</ul>
+					<ul className={Styles.last}>
+						<li className={Styles.category}>Backend</li>
+						<li className={Styles.item}>PHP (OO + MVC)</li>
+						<li className={Styles.item}>MySQL</li>
 					</ul>
 				</div>
 
