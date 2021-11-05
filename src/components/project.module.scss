@@ -1,0 +1,75 @@
+.project {
+	width: 100%;
+	aspect-ratio: 2/1;
+
+	border-radius: 10px;
+	border:5px solid #e2e1df;
+
+	position: relative;
+
+	overflow: hidden;
+
+	padding: 4px;
+	box-sizing: border-box;
+	margin-bottom: 20px;
+}
+
+.backdropImage {
+	border-radius: 5px;
+	overflow: hidden;
+	box-sizing: border-box;
+
+	width: 100%;
+	height: 100%;
+}
+
+
+.backdropImage::after {
+	transition: all 0.5s ease !important;
+}
+.project:hover {
+	.backdropImage::after {
+		transform: scale(1.2);
+	}
+}
+
+.title {
+	position: absolute;
+	top:15px;
+	left:15px;
+	font-size: 24px;
+	font-weight: bold;
+	color: #F6F4F3;
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6), -1px -1px 1px rgba(0, 0, 0, 0.6);
+}
+
+.stackContainer {
+	position: absolute;
+	bottom:15px;
+	left:0;
+	right:0;
+	padding: 5px 15px 5px 15px;
+
+	background-color: rgba(0, 0, 0, 0.1);
+	text-align: right;
+
+	.item {
+		display: inline-block;
+		color: white;
+		background-color: #F6F4F3;
+		border:1px solid #e2e1df;
+		text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4), -1px -1px 1px rgba(0, 0, 0, 0.4);
+
+		padding: 5px;
+		margin-left: 10px;
+		border-radius: 10px;
+	}
+
+	img {
+		height: 28px;
+
+
+		display: inline-block;
+		vertical-align: middle;
+	}
+}

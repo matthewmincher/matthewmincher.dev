@@ -6,9 +6,12 @@ $muted-color: #e2e1df;
 .main {
 	margin-top: 60px;
 	margin-bottom: 0;
-	margin-left: 20px;
 	text-align: center;
 	color: $active-color;
+
+	span {
+		display: inline-block;
+	}
 }
 .contactForm {
 	background-color: $light-color;
@@ -21,8 +24,9 @@ $muted-color: #e2e1df;
 
 
 	label {
-		font-size: 18px;
+		font-size: 16px;
 		color: $dark-color;
+		font-weight: bold;
 	}
 
 	input, textarea {
@@ -50,6 +54,7 @@ $muted-color: #e2e1df;
 		border-radius: 20px;
 
 		width: 30%;
+		min-width: 100px;
 		font-size: 21px;
 		font-weight: bold;
 
@@ -97,6 +102,10 @@ $muted-color: #e2e1df;
 
 
 @media screen and (max-width: 614px) {
+	.main {
+		margin-top: 30px;
+		font-size: 1.5em;
+	}
 	.row {
 		flex-wrap: wrap;
 	}

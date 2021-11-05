@@ -16,7 +16,7 @@ $muted-color: #e2e1df;
 
     li {
         display: flex;
-        flex: 0 1 auto;
+        flex: 0 0 auto;
         flex-direction: row;
     }
 
@@ -75,6 +75,18 @@ $muted-color: #e2e1df;
     .container {
         max-width: 960px;
         padding: 0;
+    }
+}
+
+@media screen and(max-width: 350px) {
+    .top {
+        .navbar-end {
+            a {
+                padding: 5px 20px;
+                border-radius: 20px;
+                font-size: 80%;
+            }
+        }
     }
 }
 

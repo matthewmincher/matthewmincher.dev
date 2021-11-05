@@ -3,14 +3,14 @@ import { faStackOverflow, faGithub, faTwitter, faInstagram, faLastfm, faGoodread
 const data = {
 	professional: [
 		{
-			link: 'https://stackoverflow.com/users/590487/matt',
-			label: 'Stack Overflow',
-			icon: faStackOverflow
-		},
-		{
 			link: 'https://github.com/matthewmincher',
 			label: 'Github',
 			icon: faGithub
+		},
+		{
+			link: 'https://stackoverflow.com/users/590487/matt',
+			label: 'Stack Overflow',
+			icon: faStackOverflow
 		}
 	],
 	personal: [

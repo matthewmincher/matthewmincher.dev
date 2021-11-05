@@ -101,7 +101,7 @@ class ContactPage extends React.Component {
 		return (
 			<Layout pageTitle="Contact Me">
 				<div className="constrainedContent">
-					<h1 className={Styles.main}>Leave me a message and I'll get back to you</h1>
+					<h1 className={Styles.main}><span>Leave me a message and</span> <span>I'll get back to you</span></h1>
 
 					<form className={Styles.contactForm} method="post" onSubmit={this.handleSubmit}>
 						<div className={Styles.row}>

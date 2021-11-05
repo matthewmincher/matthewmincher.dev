@@ -25,6 +25,10 @@ $muted-color: #e2e1df;
 .heroSubtitle {
 	text-align: center;
 	color: #535353;
+
+	span {
+		display: inline-block;
+	}
 }
 
 
