@@ -71,7 +71,7 @@ class ContactPage extends React.Component {
 			url: "https://aw8qcbgsbl.execute-api.eu-west-2.amazonaws.com/api/contact",
 			data: this.state.formData
 		}).then((response) => {
-			if(response.data && response.data.success){
+			if(response.ok){
 				navigate('/contact/sent')
 			}
 		}).catch((error) => {
