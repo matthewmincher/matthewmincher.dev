@@ -15,7 +15,7 @@ const IndexPage = () => {
 				<StaticImage src="../images/me.jpg" width={120} height={120} quality={100} layout="fixed" alt="Matthew Mincher" />
 			</div>
 			<h1 className={Styles.heroTitle}>Matthew Mincher</h1>
-			<div className={Styles.heroSubtitle}>Software Engineer at <a href="https://www.codefanatics.co.uk" target="_blank" rel="noreferrer">Code Fanatics</a>. Full Stack Developer.</div>
+			<div className={Styles.heroSubtitle}>Full Stack Developer.</div>
 
 			<div className="constrainedContent">
 
