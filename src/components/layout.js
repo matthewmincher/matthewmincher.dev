@@ -9,7 +9,11 @@ import {Helmet} from "react-helmet";
 const Layout = ({ pageTitle, children }) => {
     return (
         <>
-            <Helmet>
+            <Helmet
+                htmlAttributes={{
+                    lang: 'en'
+                }}
+            >
                 <title>{pageTitle} | matthewmincher.dev</title>
             </Helmet>
             <main className={Styles.container}>

@@ -1,8 +1,6 @@
 import * as React from "react";
 import { Link } from 'gatsby';
 import * as Styles from './subnavbar.module.scss';
-import contactData from "../data/aroundtheweb";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const SubNavBar = ({ items }) => {
 	return (
