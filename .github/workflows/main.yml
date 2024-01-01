@@ -31,7 +31,7 @@ jobs:
         with:
           role-to-assume: ${{ vars.AWS_ROLE_TO_ASSUME }}
           aws-region: eu-west-2
-#      - name: Deploy
-#        uses: jonelantha/gatsby-s3-action@v3
-#        with:
-#          dest-s3-bucket: ${{ vars.S3_BUCKET_NAME }}
+      - name: Deploy
+        uses: jonelantha/gatsby-s3-action@v3
+        with:
+          dest-s3-bucket: ${{ vars.S3_BUCKET_NAME }}
