@@ -6,9 +6,7 @@ module.exports = {
   plugins: [
     "gatsby-plugin-sass",
     "gatsby-plugin-image",
-    "gatsby-plugin-react-helmet",
     "gatsby-plugin-sitemap",
-    "gatsby-plugin-mdx",
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
     {
@@ -27,7 +25,7 @@ module.exports = {
       },
       __key: "pages",
     },
-    {
+    /*{
       resolve: 'gatsby-plugin-pdf',
       options: {
         allPages: false,
@@ -38,7 +36,7 @@ module.exports = {
           content: '.constrainedContent { padding: 0 40px; } .afterPageBreak { padding-top: 40px; } .telephone { display: block; } .download { display: none; }'
         }
       },
-    },
+    },*/
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
