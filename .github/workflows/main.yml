@@ -16,21 +16,21 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
       - name: Use Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v2
         with:
-          node-version: 18
+          node-version: 14
       - name: Build
         run: |
           npm ci
           npm run build
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v1
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           aws-region: eu-west-2
       - name: Deploy
-        uses: jonelantha/gatsby-s3-action@v3
+        uses: jonelantha/gatsby-s3-action@v1
         with:
           dest-s3-bucket: www.matthewmincher.dev
