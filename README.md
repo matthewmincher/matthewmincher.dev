@@ -4,5 +4,5 @@
   </a>
 </p>
 <h1 align="center">
-  matthewmincher.dev
+  Gatsby minimal starter
 </h1>
