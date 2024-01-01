@@ -9,7 +9,6 @@ const NavBar = () => {
 				<ul className={Styles.navbarStart}>
 					<li><Link to="/" activeClassName={Styles.active}>Home</Link></li>
 					<li><Link to="/cv/" partiallyActive={true} activeClassName={Styles.active}>CV</Link></li>
-					<li><a href="https://blog.matthewmincher.dev">Blog</a></li>
 				</ul>
 
 				<ul className={Styles.navbarEnd}>
