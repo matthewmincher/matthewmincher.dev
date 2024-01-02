@@ -25,18 +25,16 @@ module.exports = {
       },
       __key: "pages",
     },
-    /*{
-      resolve: 'gatsby-plugin-pdf',
+    {
+      resolve: "gatsby-plugin-pdf-export",
       options: {
-        allPages: false,
-        paths: ['/cv/', '/cv/backend/', '/cv/frontend/'],
-        outputPath: '/public/exports',
-        filePrefix: 'matthewmincher-',
-        styleTagOptions: {
+        outputPrefix: 'matthewmincher-',
+        targetPaths: ['/cv/', '/cv/backend/', '/cv/frontend/'],
+        styleOptions: {
           content: '.constrainedContent { padding: 0 40px; } .afterPageBreak { padding-top: 40px; } .telephone { display: block; } .download { display: none; }'
         }
-      },
-    },*/
+      }
+    },
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
