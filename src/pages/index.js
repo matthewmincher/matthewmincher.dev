@@ -41,6 +41,8 @@ const IndexPage = () => {
 								<a key={link.label} title={link.label} aria-label={link.label} href={link.link} target="_blank" rel="noreferrer"><FontAwesomeIcon icon={link.icon} size="2x" /></a>
 							))}
 						</div>
+							
+                				<link rel="me" href="https://mastodon.social/@matthewmincher" />
 					</div>
 				</div>
 			</div>
