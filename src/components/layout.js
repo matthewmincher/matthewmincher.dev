@@ -15,6 +15,7 @@ const Layout = ({ pageTitle, children }) => {
                 }}
             >
                 <title>{pageTitle} | matthewmincher.dev</title>
+                <link rel="me" href="https://mastodon.social/@matthewmincher" />
             </Helmet>
             <main className={Styles.container}>
                 <title>{pageTitle}</title>
