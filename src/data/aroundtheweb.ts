@@ -1,6 +1,7 @@
 import { faStackOverflow, faGithub, faTwitter, faInstagram, faLastfm, faGoodreadsG, faSteam } from '@fortawesome/free-brands-svg-icons'
+import type { ContactData } from '../types';
 
-const data = {
+const data: ContactData = {
 	professional: [
 		{
 			link: 'https://stackoverflow.com/users/590487/matt',
@@ -42,4 +43,4 @@ const data = {
 	]
 }
 
-export default data
+export default data;

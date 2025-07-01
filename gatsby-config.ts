@@ -1,9 +1,12 @@
-module.exports = {
+import type { GatsbyConfig } from "gatsby";
+
+const config: GatsbyConfig = {
   siteMetadata: {
     siteUrl: "https://www.matthewmincher.dev",
     title: "Matthew Mincher",
   },
   plugins: [
+    "gatsby-plugin-typescript",
     "gatsby-plugin-sass",
     "gatsby-plugin-image",
     "gatsby-plugin-sitemap",
@@ -46,6 +49,8 @@ module.exports = {
         display: `standalone`,
         icon: `src/images/icon.png`
       },
-    },
-  ],
+    }
+  ]
 };
+
+export default config;

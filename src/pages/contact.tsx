@@ -4,9 +4,26 @@ import { navigate } from "gatsby"
 import isEmail from "validator/lib/isEmail";
 import Layout from "../components/layout";
 import * as Styles from './contact.module.scss';
+import type { PageProps } from "../types";
 
-class ContactPage extends React.Component {
-	constructor(props) {
+interface FormData {
+	name: string;
+	email: string;
+	message: string;
+}
+
+interface FormErrors {
+	[key: string]: string;
+}
+
+interface ContactPageState {
+	formData: FormData;
+	errors: FormErrors;
+	sending: boolean;
+}
+
+class ContactPage extends React.Component<PageProps, ContactPageState> {
+	constructor(props: PageProps) {
 		super(props);
 
 		this.state = {
@@ -25,7 +42,7 @@ class ContactPage extends React.Component {
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
-	handleInputChange(event) {
+	handleInputChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
 		const { formData } = this.state;
 		const target = event.target;
 		const value = target.value;
@@ -38,13 +55,13 @@ class ContactPage extends React.Component {
 			}
 		})
 	}
-	handleSubmit(event){
+	handleSubmit(event: React.FormEvent<HTMLFormElement>){
 		event.preventDefault()
 
 		const { formData } = this.state;
 		const { email, message} = formData;
 
-		const errors = {};
+		const errors: FormErrors = {};
 
 		if(!isEmail(email)) {
 			errors.email = "The email must be a valid email address."
@@ -79,7 +96,7 @@ class ContactPage extends React.Component {
 				let params = error.response.data;
 
 				if(typeof params.errors !== "undefined"){
-					let errors = {};
+					let errors: FormErrors = {};
 
 					for(let key in params.errors){
 						errors[key] = params.errors[key][0];
@@ -113,7 +130,7 @@ class ContactPage extends React.Component {
 									id="name"
 									type="text"
 									name="name"
-									value={this.state.name}
+									value={this.state.formData.name}
 									onChange={this.handleInputChange}
 									disabled={this.state.sending}
 								/>
@@ -130,7 +147,7 @@ class ContactPage extends React.Component {
 									type="email"
 									name="email"
 									inputMode="email"
-									value={this.state.email}
+									value={this.state.formData.email}
 									onChange={this.handleInputChange}
 									disabled={this.state.sending}
 								/>
@@ -146,8 +163,8 @@ class ContactPage extends React.Component {
 						<textarea
 							id="message"
 							name="message"
-							rows="5"
-							value={this.state.message}
+							rows={5}
+							value={this.state.formData.message}
 							onChange={this.handleInputChange}
 							disabled={this.state.sending}
 						/>

@@ -6,8 +6,9 @@ import {withPrefix} from "gatsby";
 import Obfuscate from 'react-obfuscate';
 import SubNavBar from "../../components/subnavbar";
 import {focusLinks, personalStatement} from "../../data/sharedcv";
+import type { PageProps } from "../../types";
 
-const CvPage = () => {
+const CvPage: React.FC<PageProps> = () => {
 	return (
 		<Layout pageTitle="CV - Frontend">
 			<SubNavBar items={focusLinks} />

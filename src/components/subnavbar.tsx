@@ -2,7 +2,16 @@ import * as React from "react";
 import { Link } from 'gatsby';
 import * as Styles from './subnavbar.module.scss';
 
-const SubNavBar = ({ items }) => {
+interface SubNavBarItem {
+	url: string;
+	title: string;
+}
+
+interface SubNavBarProps {
+	items: SubNavBarItem[];
+}
+
+const SubNavBar: React.FC<SubNavBarProps> = ({ items }) => {
 	return (
 		<nav className={Styles.top}>
 			<div className={Styles.container}>

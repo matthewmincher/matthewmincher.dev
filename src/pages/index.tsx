@@ -6,9 +6,10 @@ import '@fortawesome/fontawesome-svg-core/styles.css';
 
 import contactData from "../data/aroundtheweb"
 import {StaticImage} from "gatsby-plugin-image";
+import type { PageProps } from "../types";
 
 
-const IndexPage = () => {
+const IndexPage: React.FC<PageProps> = () => {
 	return (
 		<Layout pageTitle="Home">
 			<div className={Styles.heroAvatar}>

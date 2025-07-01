@@ -2,7 +2,7 @@ import * as React from "react";
 import { Link } from 'gatsby';
 import * as Styles from './navbar.module.scss';
 
-const NavBar = () => {
+const NavBar: React.FC = () => {
 	return (
 		<nav className={Styles.top}>
 			<div className={Styles.container}>
