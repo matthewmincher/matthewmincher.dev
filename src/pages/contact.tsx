@@ -3,8 +3,7 @@ import axios from "axios";
 import { navigate } from "gatsby"
 import isEmail from "validator/lib/isEmail";
 import Layout from "../components/layout";
-import * as Styles from './contact.module.scss';
-import type { PageProps } from "../types";
+import type { PageProps } from "@/types";
 
 interface FormData {
 	name: string;
@@ -117,16 +116,17 @@ class ContactPage extends React.Component<PageProps, ContactPageState> {
 	render() {
 		return (
 			<Layout pageTitle="Contact Me">
-				<div className="constrainedContent">
-					<h1 className={Styles.main}>Leave me a message and I'll get back to you</h1>
+				<div className="w-full mx-auto max-w-screen-xl px-2.5">
+					<h1 className="mt-16 text-center text-emerald-500 text-3xl md:text-4xl">Leave me a message and I'll get back to you</h1>
 
-					<form className={Styles.contactForm} method="post" onSubmit={this.handleSubmit}>
-						<div className={Styles.row}>
-							<div className={Styles.col}>
-								<div className={Styles.labelContainer}>
-									<label htmlFor="name">Name</label>
+					<form className="bg-stone-100 rounded-xl mt-10 mb-10 p-6" method="post" onSubmit={this.handleSubmit}>
+						<div className="flex gap-x-5 align-bottom">
+							<div className="flex-1 flex flex-col">
+								<div className="mb-3 flex-grow">
+									<label className="text-xl text-emerald-900" htmlFor="name">Name</label>
 								</div>
 								<input
+									className="w-full h-10 text-xl box-border border border-stone-200 p-2 outline-emerald-500 mb-5"
 									id="name"
 									type="text"
 									name="name"
@@ -135,14 +135,15 @@ class ContactPage extends React.Component<PageProps, ContactPageState> {
 									disabled={this.state.sending}
 								/>
 							</div>
-							<div className={Styles.col}>
-								<div className={Styles.labelContainer}>
-									<label htmlFor="email">Email*</label>
+							<div className="flex-1 flex flex-col">
+								<div className="mb-3 flex-grow">
+									<label htmlFor="email" className="text-xl text-emerald-900">Email*</label>
 									{this.state.errors.email &&
-									<span className={Styles.inputErrorHint}>{this.state.errors.email}</span>
+									<span className="float-end text-xs leading-5 text-red-600 transition-all duration-200 ease-in-out">{this.state.errors.email}</span>
 									}
 								</div>
 								<input
+									className="w-full h-10 text-xl box-border border-2 border border-stone-200 p-2 outline-emerald-500 mb-5"
 									id="email"
 									type="email"
 									name="email"
@@ -154,13 +155,14 @@ class ContactPage extends React.Component<PageProps, ContactPageState> {
 							</div>
 						</div>
 
-						<div className={Styles.labelContainer}>
-							<label htmlFor="message">Message*</label>
+						<div className="mb-3">
+							<label htmlFor="message" className="text-xl text-emerald-900">Message*</label>
 							{this.state.errors.message &&
-							<span className={Styles.inputErrorHint}>{this.state.errors.message}</span>
+							<span className="float-end text-xs leading-5 text-red-600 transition-all duration-200 ease-in-out">{this.state.errors.message}</span>
 							}
 						</div>
 						<textarea
+							className="w-full text-xl box-border border-2 border border-stone-200 p-2 outline-emerald-500 mb-5"
 							id="message"
 							name="message"
 							rows={5}
@@ -168,7 +170,7 @@ class ContactPage extends React.Component<PageProps, ContactPageState> {
 							onChange={this.handleInputChange}
 							disabled={this.state.sending}
 						/>
-						<input className={Styles.submit} type="submit" value="Send" disabled={this.state.sending} />
+						<input className="w-[30%] min-w-20 border-2 border-emerald-900 rounded-xl text-xl block mx-auto mb-2 h-12 hover:text-stone-100 hover:bg-emerald-500 hover:border-emerald-500 disabled:text-stone-100 disabled:bg-emerald-500 disabled:border-emerald-500 transition-all duration-200 ease-in-out cursor-pointer disabled:cursor-wait" type="submit" value="Send" disabled={this.state.sending} />
 					</form>
 				</div>
 			</Layout>

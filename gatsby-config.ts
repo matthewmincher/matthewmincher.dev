@@ -8,6 +8,7 @@ const config: GatsbyConfig = {
   plugins: [
     "gatsby-plugin-typescript",
     "gatsby-plugin-sass",
+    "gatsby-plugin-postcss",
     "gatsby-plugin-image",
     "gatsby-plugin-sitemap",
     "gatsby-plugin-sharp",

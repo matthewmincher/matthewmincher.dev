@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface SocialLink {
   link: string;
   label: string;

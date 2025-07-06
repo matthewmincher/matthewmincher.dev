@@ -3,9 +3,8 @@ import NavBar from "../components/navbar"
 import Footer from "./footer";
 import "normalize.css"
 import "./global.scss"
-import * as Styles from './layout.module.scss';
 import {Helmet} from "react-helmet";
-import type { LayoutProps } from "../types";
+import type { LayoutProps } from "@/types";
 
 const Layout: React.FC<LayoutProps> = ({ pageTitle, children }) => {
     return (
@@ -17,10 +16,10 @@ const Layout: React.FC<LayoutProps> = ({ pageTitle, children }) => {
             >
                 <title>{pageTitle} | matthewmincher.dev</title>
             </Helmet>
-            <main className={Styles.container}>
+            <main className="border-t-4 border-emerald-900 box-border min-h-screen flex flex-col">
                 <title>{pageTitle}</title>
                 <NavBar />
-                <div className={Styles.content}>
+                <div className="flex-grow overflow-hidden">
                     {children}
                 </div>
                 <Footer />
