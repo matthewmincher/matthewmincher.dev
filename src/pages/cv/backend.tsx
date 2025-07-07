@@ -10,7 +10,7 @@ import {focusLinks, personalStatement} from "../../data/sharedcv";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faUpRightFromSquare} from "@fortawesome/free-solid-svg-icons";
 
-const skillsItem = (s: string) => <li className="border-b-2 border-dotted border-gray-300 mr-4 mb-1 inline-block">{s}</li>
+const skillsItem = (s: string) => <li key={s} className="border-b-2 border-dotted border-gray-300 mr-4 mb-1 inline-block">{s}</li>
 
 const CvPage: React.FC<PageProps> = () => {
 	return (
@@ -87,7 +87,7 @@ const CvPage: React.FC<PageProps> = () => {
 				</div>
 				<div>
 					<div className="ml-10 pt-2.5">
-						<div style={{breakAfter: "page"}} className="pb-4">
+						<div className="pb-4">
 							<h4 style={{
 								color: "#DC3A34"
 							}}>Gangster Paradise App</h4>
