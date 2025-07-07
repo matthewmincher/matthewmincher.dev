@@ -143,7 +143,7 @@ class ContactPage extends React.Component<PageProps, ContactPageState> {
 									}
 								</div>
 								<input
-									className="w-full h-10 text-xl box-border border-2 border border-stone-200 p-2 outline-emerald-500 mb-5"
+									className="w-full h-10 text-xl box-border border border border-stone-200 p-2 outline-emerald-500 mb-5"
 									id="email"
 									type="email"
 									name="email"
@@ -162,7 +162,7 @@ class ContactPage extends React.Component<PageProps, ContactPageState> {
 							}
 						</div>
 						<textarea
-							className="w-full text-xl box-border border-2 border border-stone-200 p-2 outline-emerald-500 mb-5"
+							className="w-full text-xl box-border border border-stone-200 p-2 outline-emerald-500 mb-5"
 							id="message"
 							name="message"
 							rows={5}
