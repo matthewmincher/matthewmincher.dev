@@ -79,7 +79,10 @@ const CvPage: React.FC<PageProps> = () => {
 
 				<h2 className="text-xl mt-4 font-bold mb-1">Experience</h2>
 
-				<h3 className="text-emerald-900 font-bold">Code Fanatics, 2011 - 2021</h3>
+				<h3 className="text-emerald-900 font-bold">Forge Holiday Group, 2022 - Present</h3>
+				<div className="italic">Lead Developer</div>
+
+				<h3 className="text-emerald-900 font-bold mt-4">Code Fanatics, 2011 - 2021</h3>
 				<div className="italic">Technical Director - 2014</div>
 				<div className="italic">Developer - 2011</div>
 				<div className="mt-1">
