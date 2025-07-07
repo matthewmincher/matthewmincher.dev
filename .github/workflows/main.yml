@@ -24,7 +24,7 @@ jobs:
           node-version: 21
       - name: Build
         run: |
-          npm config set loglevel verbose
+          npm config set loglevel silly
           npm ci
           npm run build
       - name: Configure AWS Credentials
