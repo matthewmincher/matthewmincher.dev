@@ -24,7 +24,7 @@ jobs:
           node-version: 18
       - name: Build
         run: |
-          npm ci --no-progress
+          PUPPETEER_DOWNLOAD_BASE_URL="https://storage.googleapis.com/chrome-for-testing-public" npm ci
           npm run build
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
