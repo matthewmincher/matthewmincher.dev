@@ -1,10 +1,59 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
+import contactData from "../data/aroundtheweb";
+import meImage from "../images/me.jpeg";
+import mapImage from "../images/map.png";
 ---
 
 <Layout pageTitle="Home">
-  <div class="w-full max-w-screen-xl mx-auto px-2.5 py-20">
-    <h1 class="text-emerald-500 text-center text-5xl my-1 font-bold">Matthew Mincher</h1>
-    <div class="text-center text-gray-600">Full Stack Developer.</div>
+  <div class="w-[120px] h-[120px] bg-gray-400 mt-10 mx-auto overflow-hidden rounded-3xl">
+    <Image src={meImage} width={120} height={120} quality={100} alt="Matthew Mincher" />
+  </div>
+  <h1 class="text-emerald-500 text-center text-5xl my-1 font-bold">Matthew Mincher</h1>
+  <div class="text-center text-gray-600">Full Stack Developer.</div>
+
+  <div class="bg-emerald-950 mt-20 mb-10 py-8 px-2.5">
+    <div class="w-full mx-auto max-w-screen-xl">
+      <div class="relative pt-[300px] md:pt-0">
+        <h2 class="text-emerald-500 opacity-80 text-4xl mb-8 font-bold">Around the web</h2>
+
+        <div class="absolute -top-14 right-1/2 translate-x-1/2 md:-right-14 md:translate-x-0 md:-bottom-14 bg-white rounded-xl overflow-hidden border-1 border-stone-100">
+          <Image src={mapImage} width={488} height={310} quality={100} alt="Based in Chester, UK" />
+        </div>
+
+        <div class="mb-8 flex gap-x-10">
+          {contactData.professional.map((link) => (
+            <a
+              class="text-stone-100 hover:text-emerald-500"
+              title={link.label}
+              aria-label={link.label}
+              href={link.link}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Icon name={link.icon} class="w-16 h-16" />
+            </a>
+          ))}
+        </div>
+        <div class="flex gap-x-10">
+          {contactData.personal.map((link) => (
+            <a
+              class="text-stone-100 hover:text-emerald-500"
+              title={link.label}
+              aria-label={link.label}
+              href={link.link}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Icon name={link.icon} class="w-8 h-8" />
+            </a>
+          ))}
+        </div>
+
+        <link rel="me" href="https://mastodon.social/@matthewmincher" />
+      </div>
+    </div>
   </div>
 </Layout>
