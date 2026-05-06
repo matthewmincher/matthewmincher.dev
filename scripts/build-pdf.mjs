@@ -23,26 +23,13 @@ const printStyles = `
   .download { display: none; }
 `;
 
-async function launchBrowser() {
-  try {
-    return await puppeteer.launch({
-      headless: true,
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    });
-  } catch {
-    console.log("Bundled Chromium failed, falling back to system Chrome...");
-    return await puppeteer.launch({
-      headless: true,
-      channel: "chrome",
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    });
-  }
-}
-
 async function buildPdfs() {
   mkdirSync(exportsDir, { recursive: true });
 
-  const browser = await launchBrowser();
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
 
   for (const page of pages) {
     const filePath = resolve(distDir, page.path.replace(/^\//, ""));

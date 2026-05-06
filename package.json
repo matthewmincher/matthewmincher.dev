@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && node scripts/build-pdf.mjs",
+    "build": "astro build && npx puppeteer browsers install chrome && node scripts/build-pdf.mjs",
     "build:pdf": "node scripts/build-pdf.mjs",
     "preview": "astro preview"
   },
