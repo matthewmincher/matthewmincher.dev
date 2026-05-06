@@ -27,8 +27,7 @@ async function buildPdfs() {
   mkdirSync(exportsDir, { recursive: true });
 
   const browser = await puppeteer.launch({
-    headless: true,
-    browser: "chrome-headless-shell",
+    headless: "shell",
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
 
