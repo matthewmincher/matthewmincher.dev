@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && npx puppeteer browsers install chrome-headless-shell && node scripts/build-pdf.mjs",
+    "build": "astro build",
     "build:pdf": "node scripts/build-pdf.mjs",
     "preview": "astro preview"
   },
