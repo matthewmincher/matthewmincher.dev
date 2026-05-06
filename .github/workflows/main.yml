@@ -1,34 +1,65 @@
-name: Build & Deploy
+name: Generate & Upload CV PDFs
 
 on:
   push:
     branches:
       - main
-  pull_request:
+    paths:
+      - 'src/pages/cv.astro'
+      - 'src/pages/cv/**'
+      - 'src/data/sharedcv.*'
+      - 'src/layouts/Layout.astro'
+      - 'src/components/SubNavbar.astro'
+      - 'src/components/Obfuscate.astro'
+      - 'src/styles/**'
+      - 'scripts/build-pdf.mjs'
+  workflow_dispatch:
 
 permissions:
   contents: read
-  deployments: write
 
 jobs:
-  build:
+  generate-pdfs:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
+
       - name: Install dependencies
         run: npm ci
-      - name: Build
+
+      - name: Build site
         run: npm run build
-      - name: Deploy to Cloudflare
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+      - name: Install Chrome for Puppeteer
+        run: npx puppeteer browsers install chrome-headless-shell
+
+      - name: Generate PDFs
+        run: npm run build:pdf
+
+      - name: Upload CV PDF to R2
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy
+          command: r2 object put matthewmincher-assets/matthewmincher-cv.pdf --file dist/exports/matthewmincher-cv.pdf --content-type application/pdf
+
+      - name: Upload Backend CV PDF to R2
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: r2 object put matthewmincher-assets/matthewmincher-cv-backend.pdf --file dist/exports/matthewmincher-cv-backend.pdf --content-type application/pdf
+
+      - name: Upload Frontend CV PDF to R2
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: r2 object put matthewmincher-assets/matthewmincher-cv-frontend.pdf --file dist/exports/matthewmincher-cv-frontend.pdf --content-type application/pdf
