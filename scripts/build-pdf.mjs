@@ -27,6 +27,7 @@ const mimeTypes = {
 };
 
 const printStyles = `
+  html { font-size: 80%; }
   .afterPageBreak { padding-top: 40px; }
 `;
 
@@ -91,7 +92,7 @@ async function buildPdfs() {
       path: outputPath,
       format: "A4",
       printBackground: true,
-      margin: { top: "20px", bottom: "20px", left: "20px", right: "20px" },
+      margin: { top: 0, bottom: 0, left: 0, right: 0 },
     });
     await tab.close();
 
