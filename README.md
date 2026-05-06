@@ -1,8 +1,22 @@
-<p align="center">
-  <a href="https://www.gatsbyjs.com/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter">
-    <img alt="Gatsby" src="https://www.gatsbyjs.com/Gatsby-Monogram.svg" width="60" />
-  </a>
-</p>
-<h1 align="center">
-  matthewmincher.dev
-</h1>
+# matthewmincher.dev
+
+Personal website built with [Astro](https://astro.build), React, and Tailwind CSS 4.
+
+## Development
+
+```bash
+npm install
+npm run dev
+```
+
+## Build
+
+```bash
+npm run build
+```
+
+Builds the static site and generates CV PDFs via Puppeteer.
+
+## Deployment
+
+Deployed to Cloudflare Pages via GitHub Actions on push to `main`.
