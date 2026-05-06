@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/build-pdf.mjs",
+    "build:pdf": "node scripts/build-pdf.mjs",
     "preview": "astro preview"
   },
   "dependencies": {
@@ -25,6 +26,7 @@
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
     "@types/validator": "^13.15.0",
+    "puppeteer": "^24.43.0",
     "typescript": "^5.8.0"
   }
 }
