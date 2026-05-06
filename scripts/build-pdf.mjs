@@ -26,10 +26,16 @@ const printStyles = `
 async function buildPdfs() {
   mkdirSync(exportsDir, { recursive: true });
 
-  const browser = await puppeteer.launch({
-    headless: "shell",
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
-  });
+  let browser;
+  try {
+    browser = await puppeteer.launch({
+      headless: "shell",
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    });
+  } catch (err) {
+    console.warn(`Skipping PDF generation: ${err.message}`);
+    return;
+  }
 
   for (const page of pages) {
     const filePath = resolve(distDir, page.path.replace(/^\//, ""));
