@@ -1,19 +1,17 @@
-name: Deploy to Production
+name: CI
 
 on:
-  workflow_dispatch:
   push:
     branches:
       - main
+  pull_request:
 
 permissions:
   contents: read
-  deployments: write
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    environment: production
 
     steps:
       - name: Checkout
@@ -22,13 +20,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Install dependencies
+        run: npm ci
       - name: Build
-        run: |
-          npm ci
-          npm run build
-      - name: Deploy to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=${{ vars.CLOUDFLARE_PROJECT_NAME }}
+        run: npm run build
