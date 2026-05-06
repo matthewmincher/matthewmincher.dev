@@ -66,7 +66,7 @@ jobs:
 
       - name: Purge CDN cache for PDFs
         run: |
-          curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.CLOUDFLARE_ZONE_ID }}/purge_cache" \
+          curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.CLOUDFLARE_ZONE }}/purge_cache" \
             -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_TOKEN }}" \
             -H "Content-Type: application/json" \
             --data '{"files":["https://assets.matthewmincher.dev/matthewmincher-cv.pdf","https://assets.matthewmincher.dev/matthewmincher-cv-backend.pdf","https://assets.matthewmincher.dev/matthewmincher-cv-frontend.pdf"]}'
