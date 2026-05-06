@@ -58,15 +58,22 @@ function startServer() {
   });
 }
 
+async function launchBrowser() {
+  const args = ["--no-sandbox", "--disable-setuid-sandbox"];
+  try {
+    return await puppeteer.launch({ headless: "shell", args });
+  } catch {
+    console.log("Bundled Chrome failed, falling back to system Chrome...");
+    return await puppeteer.launch({ headless: true, channel: "chrome", args });
+  }
+}
+
 async function buildPdfs() {
   mkdirSync(exportsDir, { recursive: true });
 
   let browser;
   try {
-    browser = await puppeteer.launch({
-      headless: "shell",
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    });
+    browser = await launchBrowser();
   } catch (err) {
     console.warn(`Skipping PDF generation: ${err.message}`);
     return;
