@@ -1,6 +1,7 @@
 import puppeteer from "puppeteer";
-import { mkdirSync } from "fs";
-import { resolve, dirname } from "path";
+import { createServer } from "http";
+import { mkdirSync, readFileSync, existsSync } from "fs";
+import { resolve, dirname, extname } from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -8,13 +9,22 @@ const distDir = resolve(__dirname, "../dist");
 const exportsDir = resolve(distDir, "exports");
 
 const pages = [
-  { path: "/cv/index.html", output: "matthewmincher-cv.pdf" },
-  { path: "/cv/backend/index.html", output: "matthewmincher-cv-backend.pdf" },
-  {
-    path: "/cv/frontend/index.html",
-    output: "matthewmincher-cv-frontend.pdf",
-  },
+  { path: "/cv/", output: "matthewmincher-cv.pdf" },
+  { path: "/cv/backend/", output: "matthewmincher-cv-backend.pdf" },
+  { path: "/cv/frontend/", output: "matthewmincher-cv-frontend.pdf" },
 ];
+
+const mimeTypes = {
+  ".html": "text/html",
+  ".css": "text/css",
+  ".js": "application/javascript",
+  ".svg": "image/svg+xml",
+  ".png": "image/png",
+  ".jpg": "image/jpeg",
+  ".webp": "image/webp",
+  ".woff2": "font/woff2",
+  ".woff": "font/woff",
+};
 
 const printStyles = `
   .constrainedContent { padding: 0 40px; }
@@ -22,6 +32,31 @@ const printStyles = `
   .telephone { display: block; }
   .download { display: none; }
 `;
+
+function startServer() {
+  return new Promise((resolve) => {
+    const server = createServer((req, res) => {
+      let filePath = req.url.split("?")[0];
+      if (filePath.endsWith("/")) filePath += "index.html";
+
+      const fullPath = `${distDir}${filePath}`;
+      if (!existsSync(fullPath)) {
+        res.writeHead(404);
+        res.end();
+        return;
+      }
+
+      const ext = extname(fullPath);
+      const contentType = mimeTypes[ext] || "application/octet-stream";
+      res.writeHead(200, { "Content-Type": contentType });
+      res.end(readFileSync(fullPath));
+    });
+
+    server.listen(0, "127.0.0.1", () => {
+      resolve(server);
+    });
+  });
+}
 
 async function buildPdfs() {
   mkdirSync(exportsDir, { recursive: true });
@@ -37,13 +72,15 @@ async function buildPdfs() {
     return;
   }
 
+  const server = await startServer();
+  const port = server.address().port;
+
   for (const page of pages) {
-    const filePath = resolve(distDir, page.path.replace(/^\//, ""));
-    const fileUrl = `file://${filePath}`;
+    const url = `http://127.0.0.1:${port}${page.path}`;
     const outputPath = resolve(exportsDir, page.output);
 
     const tab = await browser.newPage();
-    await tab.goto(fileUrl, { waitUntil: "networkidle0" });
+    await tab.goto(url, { waitUntil: "networkidle0" });
     await tab.addStyleTag({ content: printStyles });
     await tab.pdf({
       path: outputPath,
@@ -57,6 +94,7 @@ async function buildPdfs() {
   }
 
   await browser.close();
+  server.close();
 }
 
 buildPdfs();
