@@ -1,0 +1,29 @@
+---
+interface Props {
+  items: { url: string; title: string }[];
+}
+
+const { items } = Astro.props;
+const pathname = Astro.url.pathname;
+
+const linkClass =
+  "m-0 self-center pb-1 leading-8 font-bold decoration-0 text-emerald-900 border-t-2 border-b-2 border-transparent transition-all duration-200 ease-in-out hover:text-emerald-500";
+const activeClass = "text-emerald-500 border-b-emerald-500";
+---
+
+<nav class="bg-stone-100 print:hidden">
+  <div class="w-full mx-auto px-2.5 flex flex-grow flex-shrink-0 max-w-screen-xl">
+    <ul class="m-0 p-0 list-none flex gap-x-6">
+      {items.map((item) => (
+        <li>
+          <a
+            href={item.url}
+            class:list={[linkClass, pathname === item.url && activeClass]}
+          >
+            {item.title}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</nav>
