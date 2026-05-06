@@ -1,8 +1,14 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-.gatsby-image-wrapper [data-main-image] {
-    opacity: 1 !important;
-    transition: none !important;
+@layer base {
+  html {
+    line-height: normal;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  html {
+    margin-right: calc(-100vw + 100%);
+    overflow-x: hidden;
+  }
 }

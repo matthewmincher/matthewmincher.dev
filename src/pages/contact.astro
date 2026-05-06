@@ -1,0 +1,12 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ContactForm from "../components/ContactForm";
+---
+
+<Layout pageTitle="Contact Me">
+  <div class="w-full mx-auto max-w-screen-xl px-2.5">
+    <h1 class="mt-16 text-center text-emerald-500 text-3xl md:text-4xl">Leave me a message and I'll get back to you</h1>
+
+    <ContactForm client:load />
+  </div>
+</Layout>
