@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+@layer base {
+  html {
+    line-height: normal;
+  }
+}
+
 @media screen and (min-width: 1024px) {
   html {
     margin-right: calc(-100vw + 100%);
