@@ -28,6 +28,7 @@ async function buildPdfs() {
 
   const browser = await puppeteer.launch({
     headless: true,
+    browser: "chrome-headless-shell",
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
 
