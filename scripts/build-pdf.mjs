@@ -27,10 +27,7 @@ const mimeTypes = {
 };
 
 const printStyles = `
-  .constrainedContent { padding: 0 40px; }
   .afterPageBreak { padding-top: 40px; }
-  .telephone { display: block; }
-  .download { display: none; }
 `;
 
 function startServer() {
@@ -88,6 +85,7 @@ async function buildPdfs() {
 
     const tab = await browser.newPage();
     await tab.goto(url, { waitUntil: "networkidle0" });
+    await tab.emulateMediaType("print");
     await tab.addStyleTag({ content: printStyles });
     await tab.pdf({
       path: outputPath,
