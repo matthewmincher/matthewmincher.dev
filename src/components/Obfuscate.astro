@@ -1,0 +1,15 @@
+---
+interface Props {
+  email?: string;
+  tel?: string;
+  class?: string;
+}
+
+const { email, tel, class: className } = Astro.props;
+
+const value = email || tel || "";
+const reversed = value.split("").reverse().join("");
+const href = email ? `mailto:${email}` : tel ? `tel:${tel}` : undefined;
+---
+
+<a href={href} class={className} style="unicode-bidi: bidi-override; direction: rtl;">{reversed}</a>
