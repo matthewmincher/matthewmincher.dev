@@ -3,6 +3,7 @@ const pathname = Astro.url.pathname;
 
 const isHome = pathname === "/";
 const isCv = pathname.startsWith("/cv");
+const isBlog = pathname.startsWith("/blog");
 const isContact = pathname.startsWith("/contact");
 
 const linkClass =
@@ -14,8 +15,8 @@ const contactClass =
 const contactActiveClass = "text-stone-100 bg-emerald-900";
 ---
 
-<nav class="bg-stone-100 print:hidden">
-  <div class="w-full mx-auto h-16 px-2.5 flex flex-grow flex-shrink-0 max-w-screen-xl">
+<nav class="bg-stone-100 border-b border-stone-200 print:hidden">
+  <div class="w-full mx-auto h-16 px-5 flex flex-grow flex-shrink-0 max-w-screen-xl">
     <ul class="m-0 p-0 list-none flex gap-x-6">
       <li class="flex flex-grow-0 flex-shrink flex-row">
         <a
@@ -31,6 +32,14 @@ const contactActiveClass = "text-stone-100 bg-emerald-900";
           class:list={[linkClass, isCv && activeClass]}
         >
           CV
+        </a>
+      </li>
+      <li class="flex flex-grow-0 flex-shrink flex-row">
+        <a
+          href="/blog/"
+          class:list={[linkClass, isBlog && activeClass]}
+        >
+          Blog
         </a>
       </li>
     </ul>

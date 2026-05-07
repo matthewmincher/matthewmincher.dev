@@ -79,7 +79,7 @@ export default function ContactForm() {
 
   return (
     <form
-      className="bg-stone-100 rounded-xl mt-10 mb-10 p-6"
+      className="bg-stone-100 rounded-2xl mt-10 mb-10 p-8 border border-stone-200"
       method="post"
       onSubmit={handleSubmit}
     >
@@ -91,7 +91,7 @@ export default function ContactForm() {
             </label>
           </div>
           <input
-            className="w-full h-10 text-xl box-border border border-stone-200 p-2 outline-emerald-500 mb-5"
+            className="w-full h-10 text-xl box-border border border-stone-200 rounded-lg p-2 outline-emerald-500 mb-5 transition-colors focus:border-emerald-500"
             id="name"
             type="text"
             name="name"
@@ -112,7 +112,7 @@ export default function ContactForm() {
             )}
           </div>
           <input
-            className="w-full h-10 text-xl box-border border border-stone-200 p-2 outline-emerald-500 mb-5"
+            className="w-full h-10 text-xl box-border border border-stone-200 rounded-lg p-2 outline-emerald-500 mb-5 transition-colors focus:border-emerald-500"
             id="email"
             type="email"
             name="email"
@@ -135,7 +135,7 @@ export default function ContactForm() {
         )}
       </div>
       <textarea
-        className="w-full text-xl box-border border border-stone-200 p-2 outline-emerald-500 mb-5"
+        className="w-full text-xl box-border border border-stone-200 rounded-lg p-2 outline-emerald-500 mb-5 transition-colors focus:border-emerald-500"
         id="message"
         name="message"
         rows={5}

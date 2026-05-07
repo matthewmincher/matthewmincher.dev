@@ -1,15 +1,33 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-display: 'Sora', system-ui, sans-serif;
+  --font-body: 'Outfit', system-ui, sans-serif;
+}
 
 @layer base {
   html {
     line-height: normal;
+    font-family: var(--font-body);
+    letter-spacing: -0.01em;
   }
 
+  ::selection {
+    background-color: oklch(69.6% 0.17 162.48 / 0.25);
+  }
 }
 
 @media screen and (min-width: 1024px) {
   html {
     margin-right: calc(-100vw + 100%);
     overflow-x: hidden;
+  }
+}
+
+@media print {
+  html {
+    font-family: system-ui, sans-serif;
+    letter-spacing: normal;
   }
 }
