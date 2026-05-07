@@ -7,6 +7,6 @@ export default defineConfig({
   site: "https://www.matthewmincher.dev",
   integrations: [react(), icon(), sitemap()],
   image: {
-    domains: ["pxscdn.com"],
+    domains: ["pxscdn.com", "bookwyrm-social.sfo3.digitaloceanspaces.com"],
   },
 });
