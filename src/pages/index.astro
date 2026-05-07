@@ -4,10 +4,12 @@ import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
 import contactData from "../data/aroundtheweb";
 import { getRecentPosts } from "../data/pixelfed";
+import { getCurrentlyReading } from "../data/bookwyrm";
 import meImage from "../images/me.jpeg";
 import mapImage from "../images/map.png";
 
 const recentPhotos = await getRecentPosts(4);
+const books = await getCurrentlyReading(4);
 ---
 
 <Layout pageTitle="Home">
@@ -92,6 +94,51 @@ const recentPhotos = await getRecentPosts(4);
               <p class="text-gray-400 text-sm mt-1">
                 {post.date.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}
               </p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-16 mb-10 px-5">
+    <div class="w-full mx-auto max-w-screen-xl">
+      <h2 class="font-display text-emerald-500 opacity-80 text-4xl mb-8 font-bold">Currently reading</h2>
+      <div class="grid grid-cols-4 gap-3 md:gap-5">
+        {books.map((book) => (
+          <a
+            href={book.bookUrl}
+            target="_blank"
+            rel="noreferrer"
+            class="group block"
+          >
+            <div class="relative aspect-[2/3] overflow-hidden rounded-xl bg-gray-100">
+              {book.coverUrl && (
+                <Image
+                  src={book.coverUrl}
+                  alt={book.title}
+                  width={400}
+                  height={600}
+                  class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              )}
+              <div class={`absolute top-2 right-2 md:top-3 md:right-3 text-white text-xs md:text-sm font-medium px-1.5 py-0.5 md:px-2.5 md:py-1 rounded-lg backdrop-blur-sm ${book.status === "reading" ? "bg-emerald-600/80" : "bg-black/60"}`}>
+                {book.status === "reading" ? "Reading" : "Finished"}
+              </div>
+            </div>
+            <div class="mt-2 md:mt-3">
+              <p class="text-gray-700 text-xs md:text-sm font-medium leading-snug line-clamp-2">{book.title}</p>
+              <p class="text-gray-400 text-xs md:text-sm mt-0.5 md:mt-1">{book.author}</p>
+              {book.rating && (
+                <div class="flex gap-0.5 mt-0.5 md:mt-1">
+                  {Array.from({ length: 5 }, (_, i) => (
+                    <Icon
+                      name="fa6-solid:star"
+                      class={`w-2.5 h-2.5 md:w-3.5 md:h-3.5 ${i < book.rating! ? "text-amber-400" : "text-gray-200"}`}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
           </a>
         ))}
