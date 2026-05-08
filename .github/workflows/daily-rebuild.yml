@@ -1,0 +1,13 @@
+name: Daily Site Rebuild
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+jobs:
+  trigger-rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Cloudflare deploy hook
+        run: curl -s -X POST "${{ secrets.CLOUDFLARE_DEPLOY_HOOK }}"
