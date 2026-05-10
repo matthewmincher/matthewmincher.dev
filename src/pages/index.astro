@@ -19,47 +19,8 @@ const books = await getCurrentlyReading(4);
   <h1 class="font-display text-emerald-500 text-center text-5xl md:text-6xl my-2 font-bold">Matthew Mincher</h1>
   <div class="text-center text-gray-500 tracking-wide text-lg font-light">Full Stack Developer.</div>
 
-  <div class="bg-emerald-950 mt-24 py-8 px-5">
-    <div class="w-full mx-auto max-w-screen-xl">
-      <div class="relative pt-[300px] md:pt-0">
-        <h2 class="font-display text-emerald-500 opacity-80 text-4xl mb-8 font-bold">Around the web</h2>
-
-        <div class="absolute -top-14 right-1/2 translate-x-1/2 md:-right-14 md:translate-x-0 md:-bottom-14 bg-white rounded-xl overflow-hidden border-1 border-stone-100">
-          <Image src={mapImage} width={488} height={310} quality={100} alt="Based in Chester, UK" />
-        </div>
-
-        <div class="mb-8 flex gap-x-10">
-          {contactData.professional.map((link) => (
-            <a
-              class="text-stone-100 hover:text-emerald-500"
-              title={link.label}
-              aria-label={link.label}
-              href={link.link}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <Icon name={link.icon} class="w-16 h-16" />
-            </a>
-          ))}
-        </div>
-        <div class="flex gap-x-10">
-          {contactData.personal.map((link) => (
-            <a
-              class="text-stone-100 hover:text-emerald-500"
-              title={link.label}
-              aria-label={link.label}
-              href={link.link}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <Icon name={link.icon} class="w-8 h-8" />
-            </a>
-          ))}
-        </div>
-
-        <link rel="me" href="https://mastodon.social/@matthewmincher" />
-      </div>
-    </div>
+  <div class="md:hidden mt-8 bg-emerald-950 overflow-hidden aspect-video">
+    <Image src={mapImage} width={488} height={310} quality={100} alt="Based in Chester, UK" class="w-full h-full object-cover" />
   </div>
 
   <div class="mt-16 mb-10 px-5">
@@ -142,6 +103,49 @@ const books = await getCurrentlyReading(4);
             </div>
           </a>
         ))}
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-emerald-950 mt-16 mb-14 py-8 px-5">
+    <div class="w-full mx-auto max-w-screen-xl">
+      <div class="relative md:pt-0">
+        <h2 class="font-display text-emerald-500 opacity-80 text-4xl mb-8 font-bold">Around the web</h2>
+
+        <div class="hidden md:block md:absolute md:right-0 md:top-0 md:max-w-xs lg:max-w-none lg:-right-14 lg:top-auto lg:-bottom-14 bg-white rounded-xl overflow-hidden border-1 border-stone-100">
+          <Image src={mapImage} width={488} height={310} quality={100} alt="Based in Chester, UK" />
+        </div>
+
+        <div class="mb-8 flex gap-x-10">
+          {contactData.professional.map((link) => (
+            <a
+              class="text-stone-100 hover:text-emerald-500"
+              title={link.label}
+              aria-label={link.label}
+              href={link.link}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Icon name={link.icon} class="w-16 h-16" />
+            </a>
+          ))}
+        </div>
+        <div class="flex gap-x-10">
+          {contactData.personal.map((link) => (
+            <a
+              class="text-stone-100 hover:text-emerald-500"
+              title={link.label}
+              aria-label={link.label}
+              href={link.link}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Icon name={link.icon} class="w-8 h-8" />
+            </a>
+          ))}
+        </div>
+
+        <link rel="me" href="https://mastodon.social/@matthewmincher" />
       </div>
     </div>
   </div>
