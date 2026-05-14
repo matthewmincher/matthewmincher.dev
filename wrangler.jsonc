@@ -1,7 +1,5 @@
 {
   "name": "matthewmincherdev",
   "compatibility_date": "2026-05-06",
-  "assets": {
-    "directory": "./dist"
-  }
+  "pages_build_output_dir": "./dist"
 }
