@@ -36,6 +36,8 @@ export default function RecentListens({ initialTracks }: Props) {
   const [, setTick] = useState(0);
 
   useEffect(() => {
+    let interval: ReturnType<typeof setInterval> | null = null;
+
     const poll = async () => {
       try {
         const res = await fetch("/api/lastfm");
@@ -46,9 +48,24 @@ export default function RecentListens({ initialTracks }: Props) {
       } catch {}
     };
 
-    poll();
-    const interval = setInterval(poll, 3 * 60 * 1000);
-    return () => clearInterval(interval);
+    const startPolling = () => {
+      poll();
+      interval = setInterval(poll, 3 * 60 * 1000);
+    };
+
+    const events = ["scroll", "mousemove", "click", "keydown", "touchstart"];
+    const onInteraction = () => {
+      events.forEach((e) => window.removeEventListener(e, onInteraction));
+      startPolling();
+    };
+    events.forEach((e) =>
+      window.addEventListener(e, onInteraction, { once: true, passive: true }),
+    );
+
+    return () => {
+      events.forEach((e) => window.removeEventListener(e, onInteraction));
+      if (interval) clearInterval(interval);
+    };
   }, []);
 
   useEffect(() => {
