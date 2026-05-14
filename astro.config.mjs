@@ -9,4 +9,9 @@ export default defineConfig({
   image: {
     domains: ["pxscdn.com", "bookwyrm-social.sfo3.digitaloceanspaces.com"],
   },
+  vite: {
+    optimizeDeps: {
+      include: ["react-dom/client"],
+    },
+  },
 });
