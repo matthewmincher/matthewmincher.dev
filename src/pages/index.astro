@@ -5,11 +5,14 @@ import { Icon } from "astro-icon/components";
 import contactData from "../data/aroundtheweb";
 import { getRecentPosts } from "../data/pixelfed";
 import { getCurrentlyReading } from "../data/bookwyrm";
+import { getRecentTracks } from "../data/lastfm";
+import RecentListens from "../components/RecentListens";
 import meImage from "../images/me.jpeg";
 import mapImage from "../images/map.png";
 
 const recentPhotos = await getRecentPosts(4);
 const books = await getCurrentlyReading(4);
+const recentTracks = await getRecentTracks(10);
 ---
 
 <Layout pageTitle="Home">
@@ -106,6 +109,15 @@ const books = await getCurrentlyReading(4);
       </div>
     </div>
   </div>
+
+  {recentTracks.length > 0 && (
+    <div class="mt-16 mb-10 px-5">
+      <div class="w-full mx-auto max-w-screen-xl">
+        <h2 class="font-display text-emerald-500 opacity-80 text-4xl mb-8 font-bold">Recent listens</h2>
+        <RecentListens client:load initialTracks={recentTracks} />
+      </div>
+    </div>
+  )}
 
   <div class="bg-emerald-950 mt-16 py-8 lg:pb-22 px-5">
     <div class="w-full mx-auto max-w-screen-xl">
