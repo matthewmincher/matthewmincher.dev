@@ -4,30 +4,20 @@ interface Env {
   LASTFM_API_KEY: string;
 }
 
-interface PagesContext {
-  request: Request;
-  env: Env;
-  waitUntil(promise: Promise<unknown>): void;
-}
-
 const LASTFM_USER = "matthewmincher";
 const LASTFM_API_BASE = "https://ws.audioscrobbler.com/2.0/";
 const CACHE_TTL_SECONDS = 120;
 
-export async function onRequestGet(
-  context: PagesContext,
-): Promise<Response> {
+async function handleLastfm(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
   const cache = caches.default;
-  const cacheKey = new Request(new URL(context.request.url).toString());
+  const cacheKey = new Request(new URL(request.url).toString());
 
   const cached = await cache.match(cacheKey);
   if (cached) return cached;
 
-  const apiKey = context.env.LASTFM_API_KEY;
+  const apiKey = env.LASTFM_API_KEY;
   if (!apiKey) {
-    return new Response(JSON.stringify({ tracks: [] }), {
-      headers: { "Content-Type": "application/json" },
-    });
+    return Response.json({ tracks: [] });
   }
 
   const url = `${LASTFM_API_BASE}?method=user.getrecenttracks&user=${LASTFM_USER}&api_key=${apiKey}&format=json&limit=10`;
@@ -35,9 +25,7 @@ export async function onRequestGet(
   try {
     const res = await fetch(url);
     if (!res.ok) {
-      return new Response(JSON.stringify({ tracks: [] }), {
-        headers: { "Content-Type": "application/json" },
-      });
+      return Response.json({ tracks: [] });
     }
 
     const data: any = await res.json();
@@ -71,12 +59,22 @@ export async function onRequestGet(
       },
     });
 
-    context.waitUntil(cache.put(cacheKey, response.clone()));
+    ctx.waitUntil(cache.put(cacheKey, response.clone()));
 
     return response;
   } catch {
-    return new Response(JSON.stringify({ tracks: [] }), {
-      headers: { "Content-Type": "application/json" },
-    });
+    return Response.json({ tracks: [] });
   }
 }
+
+export default {
+  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+    const { pathname } = new URL(request.url);
+
+    if (pathname === "/api/lastfm" && request.method === "GET") {
+      return handleLastfm(request, env, ctx);
+    }
+
+    return new Response("Not Found", { status: 404 });
+  },
+} satisfies ExportedHandler<Env>;

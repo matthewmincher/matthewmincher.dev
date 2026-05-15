@@ -1,5 +1,8 @@
 {
   "name": "matthewmincherdev",
   "compatibility_date": "2026-05-06",
-  "pages_build_output_dir": "./dist"
+  "main": "src/worker.ts",
+  "assets": {
+    "directory": "./dist"
+  }
 }
