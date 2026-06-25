@@ -13,6 +13,8 @@
   "dependencies": {
     "@astrojs/react": "^4.0.0",
     "@astrojs/sitemap": "^3.7.2",
+    "@iconify-json/meteocons": "^1.2.4",
+    "@iconify/react": "^6.0.2",
     "@tailwindcss/postcss": "^4.0.0",
     "@tailwindcss/typography": "^0.5.19",
     "astro": "^6.2.0",

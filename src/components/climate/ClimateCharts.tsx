@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
+import { Icon } from "@iconify/react";
 import {
   ResponsiveContainer,
   LineChart,
@@ -83,84 +84,22 @@ interface ForecastData {
 }
 
 const CONDITION_CONFIG: Record<string, { label: string; icon: string }> = {
-  sunny: {
-    label: "Sunny",
-    icon: "M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364-1.414 1.414M7.05 16.95l-1.414 1.414m12.728 0-1.414-1.414M7.05 7.05 5.636 5.636M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z",
-  },
-  "clear-night": {
-    label: "Clear",
-    icon: "M21.752 15.002A9.718 9.718 0 0 1 18 15.75 9.75 9.75 0 0 1 8.25 6c0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25 9.75 9.75 0 0 0 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z",
-  },
-  partlycloudy: {
-    label: "Partly Cloudy",
-    icon: "M14 5a3 3 0 0 0-2.093.855M12 3v1m-4.95.464.707.707M4 9h1m14.95-3.536-.707.707M20 9h1M6.343 6.343l-.707-.707M8 12a4 4 0 0 0 3.5 2 4.5 4.5 0 0 1 0 9H7a5 5 0 0 1-.5-9.975",
-  },
-  cloudy: {
-    label: "Cloudy",
-    icon: "M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848A5.25 5.25 0 0 0 6.75 12H6a4.5 4.5 0 0 0-3.75 3Z",
-  },
-  fog: {
-    label: "Fog",
-    icon: "M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848A5.25 5.25 0 0 0 6.75 12H6a4.5 4.5 0 0 0-3.75 3ZM4 20h16M6 22h12",
-  },
-  rainy: {
-    label: "Rainy",
-    icon: "M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848A5.25 5.25 0 0 0 6.75 12H6a4.5 4.5 0 0 0-3.75 3ZM8 19v2m4-2v2m4-2v2",
-  },
-  pouring: {
-    label: "Heavy Rain",
-    icon: "M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848A5.25 5.25 0 0 0 6.75 12H6a4.5 4.5 0 0 0-3.75 3ZM7 19v3m5-3v3m5-3v3",
-  },
-  snowy: {
-    label: "Snowy",
-    icon: "M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848A5.25 5.25 0 0 0 6.75 12H6a4.5 4.5 0 0 0-3.75 3ZM8 20h.01M12 20h.01M16 20h.01",
-  },
-  "snowy-rainy": {
-    label: "Sleet",
-    icon: "M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848A5.25 5.25 0 0 0 6.75 12H6a4.5 4.5 0 0 0-3.75 3ZM8 19v2m12 -2v2m-4-1h.01",
-  },
-  lightning: {
-    label: "Thunderstorm",
-    icon: "M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848A5.25 5.25 0 0 0 6.75 12H6a4.5 4.5 0 0 0-3.75 3ZM13 16l-2 4h3l-2 4",
-  },
-  "lightning-rainy": {
-    label: "Thunderstorm",
-    icon: "M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848A5.25 5.25 0 0 0 6.75 12H6a4.5 4.5 0 0 0-3.75 3ZM13 16l-2 4h3l-2 4",
-  },
-  hail: {
-    label: "Hail",
-    icon: "M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848A5.25 5.25 0 0 0 6.75 12H6a4.5 4.5 0 0 0-3.75 3ZM8 20.5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1Zm4 0a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1Zm4 0a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1Z",
-  },
-  windy: {
-    label: "Windy",
-    icon: "M3 8h9a3 3 0 1 0-3-3M3 12h14a3 3 0 1 1-3 3M3 16h6a3 3 0 1 1-3 3",
-  },
-  "windy-variant": {
-    label: "Windy",
-    icon: "M3 8h9a3 3 0 1 0-3-3M3 12h14a3 3 0 1 1-3 3M3 16h6a3 3 0 1 1-3 3",
-  },
-  exceptional: {
-    label: "Exceptional",
-    icon: "M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.008v.008H12v-.008Z",
-  },
+  sunny: { label: "Sunny", icon: "meteocons:clear-day" },
+  "clear-night": { label: "Clear", icon: "meteocons:clear-night" },
+  partlycloudy: { label: "Partly Cloudy", icon: "meteocons:partly-cloudy-day" },
+  cloudy: { label: "Cloudy", icon: "meteocons:overcast" },
+  fog: { label: "Fog", icon: "meteocons:fog" },
+  rainy: { label: "Rainy", icon: "meteocons:rain" },
+  pouring: { label: "Heavy Rain", icon: "meteocons:overcast-rain" },
+  snowy: { label: "Snowy", icon: "meteocons:snow" },
+  "snowy-rainy": { label: "Sleet", icon: "meteocons:sleet" },
+  lightning: { label: "Thunderstorm", icon: "meteocons:thunderstorms" },
+  "lightning-rainy": { label: "Thunderstorm", icon: "meteocons:thunderstorms-rain" },
+  hail: { label: "Hail", icon: "meteocons:hail" },
+  windy: { label: "Windy", icon: "meteocons:wind" },
+  "windy-variant": { label: "Windy", icon: "meteocons:wind" },
+  exceptional: { label: "Exceptional", icon: "meteocons:extreme" },
 };
-
-function WeatherIcon({ condition }: { condition: string | null }) {
-  const config = condition ? CONDITION_CONFIG[condition] : null;
-  if (!config) {
-    return (
-      <svg className="w-8 h-8 text-gray-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
-        <path d="M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848A5.25 5.25 0 0 0 6.75 12H6a4.5 4.5 0 0 0-3.75 3Z" />
-      </svg>
-    );
-  }
-
-  return (
-    <svg className="w-8 h-8 text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
-      <path d={config.icon} />
-    </svg>
-  );
-}
 
 interface ChartDataPoint {
   time: number;
@@ -403,7 +342,10 @@ function ForecastCard({ forecast }: { forecast: ForecastData | null }) {
 
   return (
     <div className="bg-stone-100 border border-stone-200 rounded-xl p-4 flex items-center gap-4">
-      <WeatherIcon condition={condition} />
+      <Icon
+        icon={config?.icon ?? "meteocons:cloudy"}
+        className="w-10 h-10 shrink-0"
+      />
       <div className="flex items-center gap-6 flex-wrap">
         <div>
           <span className="text-sm text-gray-500">Outside</span>
