@@ -434,7 +434,9 @@ export default function ClimateCharts() {
       })
       .then((json) => {
         setData(json);
-        setLatestData(json.current);
+        if (latestData.length === 0) {
+          setLatestData(json.current);
+        }
         setInitialLoad(false);
         setFetching(false);
       })
@@ -481,11 +483,12 @@ export default function ClimateCharts() {
             <button
               key={r}
               onClick={() => setRange(r)}
+              disabled={fetching}
               className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
                 range === r
                   ? "bg-emerald-600 text-white"
                   : "text-gray-600 hover:text-gray-900"
-              }`}
+              } ${fetching ? "opacity-50 cursor-not-allowed" : ""}`}
             >
               {RANGE_LABELS[r]}
             </button>
@@ -493,11 +496,12 @@ export default function ClimateCharts() {
         </div>
 
         {range !== "30d" && (
-          <label className="flex items-center gap-2 text-sm text-gray-600 cursor-pointer select-none">
+          <label className={`flex items-center gap-2 text-sm text-gray-600 select-none ${fetching ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}>
             <input
               type="checkbox"
               checked={compare}
               onChange={(e) => setCompare(e.target.checked)}
+              disabled={fetching}
               className="accent-emerald-600"
             />
             Compare to previous period
