@@ -187,15 +187,18 @@ async function handleClimate(
   env: Env,
   ctx: ExecutionContext,
 ): Promise<Response> {
-  const cache = caches.default;
-  const cacheKey = new Request(new URL(request.url).toString());
-
-  const cached = await cache.match(cacheKey);
-  if (cached) return cached;
-
   const url = new URL(request.url);
   const range = url.searchParams.get("range") || "24h";
   const compare = url.searchParams.get("compare") === "true";
+
+  const cache = caches.default;
+  const normalizedUrl = new URL(url.pathname, url.origin);
+  normalizedUrl.searchParams.set("range", range);
+  if (compare) normalizedUrl.searchParams.set("compare", "true");
+  const cacheKey = new Request(normalizedUrl.toString());
+
+  const cached = await cache.match(cacheKey);
+  if (cached) return cached;
 
   const config = RANGE_CONFIG[range];
   if (!config) {
@@ -244,8 +247,9 @@ async function handleForecast(
   env: Env,
   ctx: ExecutionContext,
 ): Promise<Response> {
+  const url = new URL(request.url);
   const cache = caches.default;
-  const cacheKey = new Request(new URL(request.url).toString());
+  const cacheKey = new Request(new URL(url.pathname, url.origin).toString());
 
   const cached = await cache.match(cacheKey);
   if (cached) return cached;
@@ -283,8 +287,9 @@ async function handleLastfm(
   env: Env,
   ctx: ExecutionContext,
 ): Promise<Response> {
+  const url = new URL(request.url);
   const cache = caches.default;
-  const cacheKey = new Request(new URL(request.url).toString());
+  const cacheKey = new Request(new URL(url.pathname, url.origin).toString());
 
   const cached = await cache.match(cacheKey);
   if (cached) return cached;
