@@ -37,7 +37,8 @@ function buildFluxQuery(range: string, start: string, stop?: string): string {
   let query = `from(bucket: "${INFLUXDB_BUCKET}")
   |> range(start: ${start}${stopClause})
   |> filter(fn: (r) => r._field == "value")
-  |> filter(fn: (r) => r.device_class_str == "temperature" or r.device_class_str == "humidity")`;
+  |> filter(fn: (r) => r._measurement == "°C" or r._measurement == "%")
+  |> filter(fn: (r) => r.domain == "sensor")`;
 
   if (config.aggregate) {
     query += `\n  |> aggregateWindow(every: ${config.aggregate}, fn: mean, createEmpty: false)`;
@@ -72,7 +73,9 @@ function parseFluxCSV(csv: string): ClimateDataPoint[] {
     const time = row["_time"];
     const value = parseFloat(row["_value"]);
     const entityId = row["entity_id"];
-    const deviceClass = row["device_class_str"];
+    const measurement = row["_measurement"];
+    const deviceClass =
+      measurement === "°C" ? "temperature" : measurement === "%" ? "humidity" : null;
 
     if (time && !isNaN(value) && entityId && deviceClass) {
       points.push({ time, entityId, deviceClass, value });
