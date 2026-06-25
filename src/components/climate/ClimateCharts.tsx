@@ -348,41 +348,43 @@ function ForecastCard({ forecast }: { forecast: ForecastData | null }) {
           className="w-14 h-14"
         />
       </div>
-      <div className="flex items-baseline gap-x-6 gap-y-1 flex-wrap min-w-0">
-        <div>
+      <div className="min-w-0">
+        <div className="flex items-center gap-2">
           <span className="text-xs text-gray-400">Outside</span>
-          <p className="text-sm font-medium text-gray-700">
+          <span className="text-sm font-medium text-gray-700">
             {conditionLabel ?? "—"}
-          </p>
+          </span>
         </div>
-        <div>
-          <span className="text-xs text-gray-400">Temp</span>
-          <p className="text-lg font-bold text-gray-900">
-            {temp !== null ? `${temp}°C` : "—"}
-          </p>
-        </div>
-        <div>
-          <span className="text-xs text-gray-400">Humidity</span>
-          <p className="text-lg font-bold text-gray-900">
-            {humidity !== null ? `${humidity}%` : "—"}
-          </p>
-        </div>
-        <div>
-          <span className="text-xs text-gray-400">Wind</span>
-          <p className="text-lg font-bold text-gray-900">
-            {wind !== null ? `${wind} km/h` : "—"}
-          </p>
-        </div>
-        <div>
-          <span className="text-xs text-gray-400">UV</span>
-          <p className="text-lg font-bold text-gray-900 flex items-center gap-1.5">
-            {uv !== null ? (
-              <>
-                <span className="w-2.5 h-2.5 rounded-full inline-block" style={{ backgroundColor: uvColor(uv) }} />
-                {uv}
-              </>
-            ) : "—"}
-          </p>
+        <div className="flex items-baseline gap-4 sm:gap-6 mt-1">
+          <div>
+            <span className="text-xs text-gray-400">Temp</span>
+            <p className="text-lg font-bold text-gray-900">
+              {temp !== null ? `${temp}°C` : "—"}
+            </p>
+          </div>
+          <div>
+            <span className="text-xs text-gray-400">Humidity</span>
+            <p className="text-lg font-bold text-gray-900">
+              {humidity !== null ? `${humidity}%` : "—"}
+            </p>
+          </div>
+          <div>
+            <span className="text-xs text-gray-400">Wind</span>
+            <p className="text-lg font-bold text-gray-900">
+              {wind !== null ? `${wind} km/h` : "—"}
+            </p>
+          </div>
+          <div>
+            <span className="text-xs text-gray-400">UV</span>
+            <p className="text-lg font-bold text-gray-900 flex items-center gap-1.5">
+              {uv !== null ? (
+                <>
+                  <span className="w-2.5 h-2.5 rounded-full inline-block" style={{ backgroundColor: uvColor(uv) }} />
+                  {uv}
+                </>
+              ) : "—"}
+            </p>
+          </div>
         </div>
       </div>
     </div>
