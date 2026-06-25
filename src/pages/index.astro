@@ -15,7 +15,7 @@ const books = await getCurrentlyReading(4);
 const recentTracks = await getRecentTracks(10);
 ---
 
-<Layout pageTitle="Home">
+<Layout pageTitle="Home" footerOverlap>
   <div class="w-[120px] h-[120px] bg-gray-400 mt-16 mx-auto overflow-hidden rounded-3xl ring-4 ring-emerald-500/20 ring-offset-4 ring-offset-white">
     <Image src={meImage} width={120} height={120} quality={100} alt="Matthew Mincher" />
   </div>

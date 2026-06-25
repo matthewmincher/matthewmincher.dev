@@ -299,10 +299,10 @@ async function handleLastfm(
     return Response.json({ tracks: [] });
   }
 
-  const url = `${LASTFM_API_BASE}?method=user.getrecenttracks&user=${LASTFM_USER}&api_key=${apiKey}&format=json&limit=10`;
+  const apiUrl = `${LASTFM_API_BASE}?method=user.getrecenttracks&user=${LASTFM_USER}&api_key=${apiKey}&format=json&limit=10`;
 
   try {
-    const res = await fetch(url);
+    const res = await fetch(apiUrl);
     if (!res.ok) {
       return Response.json({ tracks: [] });
     }
