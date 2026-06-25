@@ -281,6 +281,8 @@ function StatCard({ label, temperature, humidity, color }: StatCardProps) {
   );
 }
 
+const ALL_ROOMS = FLOORS.flatMap((f) => f.rooms);
+
 export default function ClimateCharts() {
   const [range, setRange] = useState<Range>("24h");
   const [compare, setCompare] = useState(false);
@@ -288,8 +290,21 @@ export default function ClimateCharts() {
     current: ClimateDataPoint[];
     previous: ClimateDataPoint[] | null;
   }>({ current: [], previous: null });
+  const [latestData, setLatestData] = useState<ClimateDataPoint[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/climate?range=1h")
+      .then((res) => {
+        if (!res.ok) throw new Error();
+        return res.json();
+      })
+      .then((json) => {
+        setLatestData(json.current);
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     setLoading(true);
@@ -317,8 +332,30 @@ export default function ClimateCharts() {
 
   const showCompare = compare && range !== "30d";
 
+  const statCards = useMemo(
+    () =>
+      ALL_ROOMS.map((room) => ({
+        room,
+        temperature: getLatestReading(latestData, room.tempEntityId),
+        humidity: getLatestReading(latestData, room.humidityEntityId),
+      })),
+    [latestData],
+  );
+
   return (
     <div>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+        {statCards.map(({ room, temperature, humidity }) => (
+          <StatCard
+            key={room.id}
+            label={room.label}
+            temperature={temperature}
+            humidity={humidity}
+            color={room.color}
+          />
+        ))}
+      </div>
+
       <div className="flex flex-wrap items-center gap-3 mb-8">
         <div className="flex bg-stone-100 border border-stone-200 rounded-lg p-1">
           {RANGES.map((r) => (
@@ -362,7 +399,7 @@ export default function ClimateCharts() {
       )}
 
       {!loading && !error && (
-        <ClimateContent
+        <ChartContent
           data={data}
           range={range}
           compare={showCompare}
@@ -372,7 +409,7 @@ export default function ClimateCharts() {
   );
 }
 
-function ClimateContent({
+function ChartContent({
   data,
   range,
   compare,
@@ -381,32 +418,8 @@ function ClimateContent({
   range: Range;
   compare: boolean;
 }) {
-  const allRooms = FLOORS.flatMap((f) => f.rooms);
-
-  const statCards = useMemo(
-    () =>
-      allRooms.map((room) => ({
-        room,
-        temperature: getLatestReading(data.current, room.tempEntityId),
-        humidity: getLatestReading(data.current, room.humidityEntityId),
-      })),
-    [data.current],
-  );
-
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
-        {statCards.map(({ room, temperature, humidity }) => (
-          <StatCard
-            key={room.id}
-            label={room.label}
-            temperature={temperature}
-            humidity={humidity}
-            color={room.color}
-          />
-        ))}
-      </div>
-
       {FLOORS.map((floor) => (
         <div key={floor.label} className="mb-10">
           <h3 className="font-display text-lg font-bold text-gray-700 mb-4">
