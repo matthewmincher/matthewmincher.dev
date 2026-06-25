@@ -264,7 +264,7 @@ async function handleForecast(
     const response = new Response(body, {
       headers: {
         "Content-Type": "application/json",
-        "Cache-Control": "public, s-maxage=600",
+        "Cache-Control": "public, s-maxage=3600",
       },
     });
 
