@@ -356,28 +356,32 @@ function ForecastCard({ forecast }: { forecast: ForecastData | null }) {
             {conditionLabel ?? "—"}
           </p>
         </div>
-        <div className="flex items-baseline gap-4 sm:gap-6">
+        <div className="flex items-baseline gap-3 sm:gap-6 min-w-0">
           <div>
             <span className="text-xs text-gray-400">Temp</span>
-            <p className="text-lg font-bold text-gray-900">
+            <p className="text-base sm:text-lg font-bold text-gray-900">
               {temp !== null ? `${temp}°C` : "—"}
             </p>
           </div>
           <div>
             <span className="text-xs text-gray-400">Humidity</span>
-            <p className="text-lg font-bold text-gray-900">
+            <p className="text-base sm:text-lg font-bold text-gray-900">
               {humidity !== null ? `${humidity}%` : "—"}
             </p>
           </div>
           <div>
             <span className="text-xs text-gray-400">Wind</span>
-            <p className="text-lg font-bold text-gray-900 whitespace-nowrap">
-              {wind !== null ? `${wind} km/h` : "—"}
+            <p className="text-base sm:text-lg font-bold text-gray-900 whitespace-nowrap">
+              {wind !== null ? (
+                <>
+                  {wind} <span className="text-xs sm:text-sm font-medium text-gray-500">km/h</span>
+                </>
+              ) : "—"}
             </p>
           </div>
           <div>
             <span className="text-xs text-gray-400">UV</span>
-            <p className="text-lg font-bold text-gray-900 flex items-center gap-1.5">
+            <p className="text-base sm:text-lg font-bold text-gray-900 flex items-center gap-1.5">
               {uv !== null ? (
                 <>
                   {uv}
