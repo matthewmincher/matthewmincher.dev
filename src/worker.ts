@@ -58,7 +58,7 @@ function buildFluxQuery(range: string, start: string, stop?: string): string {
 
 function buildForecastQuery(): string {
   return `from(bucket: "${INFLUXDB_BUCKET}")
-  |> range(start: -2h)
+  |> range(start: -24h)
   |> filter(fn: (r) => r.entity_id == "forecast_home")
   |> filter(fn: (r) => r.domain == "weather")
   |> filter(fn: (r) => r._field == "temperature" or r._field == "humidity" or r._field == "wind_speed" or r._field == "uv_index" or r._field == "state")
@@ -211,15 +211,8 @@ async function handleClimate(
 
   try {
     const currentQuery = buildFluxQuery(range, config.fluxRange);
-    const forecastQuery = buildForecastQuery();
-
-    const [currentCSV, forecastCSV] = await Promise.all([
-      queryInfluxDB(env, currentQuery),
-      queryInfluxDB(env, forecastQuery),
-    ]);
-
+    const currentCSV = await queryInfluxDB(env, currentQuery);
     const current = parseFluxCSV(currentCSV);
-    const forecast = parseForecastCSV(forecastCSV);
 
     let previous: ClimateDataPoint[] | null = null;
     if (compare && config.compareRange && config.compareStop) {
@@ -228,7 +221,7 @@ async function handleClimate(
       previous = parseFluxCSV(previousCSV);
     }
 
-    const body = JSON.stringify({ current, previous, forecast });
+    const body = JSON.stringify({ current, previous });
     const response = new Response(body, {
       headers: {
         "Content-Type": "application/json",
@@ -241,6 +234,45 @@ async function handleClimate(
   } catch (e) {
     const message = e instanceof Error ? e.message : "Unknown error";
     return Response.json({ error: "Failed to fetch climate data", detail: message }, { status: 502 });
+  }
+}
+
+async function handleForecast(
+  request: Request,
+  env: Env,
+  ctx: ExecutionContext,
+): Promise<Response> {
+  const cache = caches.default;
+  const cacheKey = new Request(new URL(request.url).toString());
+
+  const cached = await cache.match(cacheKey);
+  if (cached) return cached;
+
+  if (!env.INFLUXDB_TOKEN || !env.INFLUXDB_ORG) {
+    return Response.json(
+      { error: "InfluxDB not configured" },
+      { status: 503 },
+    );
+  }
+
+  try {
+    const query = buildForecastQuery();
+    const csv = await queryInfluxDB(env, query);
+    const forecast = parseForecastCSV(csv);
+
+    const body = JSON.stringify(forecast);
+    const response = new Response(body, {
+      headers: {
+        "Content-Type": "application/json",
+        "Cache-Control": "public, s-maxage=600",
+      },
+    });
+
+    ctx.waitUntil(cache.put(cacheKey, response.clone()));
+    return response;
+  } catch (e) {
+    const message = e instanceof Error ? e.message : "Unknown error";
+    return Response.json({ error: "Failed to fetch forecast", detail: message }, { status: 502 });
   }
 }
 
@@ -320,6 +352,10 @@ export default {
 
     if (pathname === "/api/climate" && request.method === "GET") {
       return handleClimate(request, env, ctx);
+    }
+
+    if (pathname === "/api/forecast" && request.method === "GET") {
+      return handleForecast(request, env, ctx);
     }
 
     return new Response("Not Found", { status: 404 });

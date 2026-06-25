@@ -408,6 +408,13 @@ export default function ClimateCharts() {
   const [error, setError] = useState(false);
 
   useEffect(() => {
+    fetch("/api/forecast")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json) => setForecast(json ?? null))
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
     setFetching(true);
     setError(false);
 
@@ -424,7 +431,6 @@ export default function ClimateCharts() {
       .then((json) => {
         setData(json);
         setLatestData(json.current);
-        setForecast(json.forecast ?? null);
         setInitialLoad(false);
         setFetching(false);
       })
