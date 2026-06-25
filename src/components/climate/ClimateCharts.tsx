@@ -227,6 +227,7 @@ function RoomChart({ data, label, unit, color, range, compare }: RoomChartProps)
             dot={false}
             name="Current"
             connectNulls
+            isAnimationActive={false}
           />
           {compare && (
             <Line
