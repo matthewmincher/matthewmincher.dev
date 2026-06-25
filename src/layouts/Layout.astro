@@ -5,9 +5,10 @@ import "../styles/global.css";
 
 interface Props {
   pageTitle: string;
+  footerOverlap?: boolean;
 }
 
-const { pageTitle } = Astro.props;
+const { pageTitle, footerOverlap = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -29,7 +30,7 @@ const { pageTitle } = Astro.props;
       <div class="flex-grow overflow-hidden">
         <slot />
       </div>
-      <Footer />
+      <Footer overlap={footerOverlap} />
     </main>
   </body>
 </html>
