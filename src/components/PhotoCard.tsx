@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useCallback, useRef, useState } from "react";
 
 interface Props {
   images: string[];
@@ -9,10 +9,10 @@ interface Props {
 
 export default function PhotoCard({ images, title, date, link }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const touchStartX = useRef(0);
-  const touchDeltaX = useRef(0);
+  const startX = useRef(0);
+  const deltaX = useRef(0);
+  const dragging = useRef(false);
   const swiped = useRef(false);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const hasMultiple = images.length > 1;
 
@@ -23,29 +23,54 @@ export default function PhotoCard({ images, title, date, link }: Props) {
     [images.length],
   );
 
+  const commitSwipe = () => {
+    const threshold = 50;
+    if (Math.abs(deltaX.current) > threshold) {
+      swiped.current = true;
+      goTo(currentIndex + (deltaX.current < 0 ? 1 : -1));
+    }
+  };
+
   const handleTouchStart = (e: React.TouchEvent) => {
     if (!hasMultiple) return;
-    touchStartX.current = e.touches[0].clientX;
-    touchDeltaX.current = 0;
+    startX.current = e.touches[0].clientX;
+    deltaX.current = 0;
     swiped.current = false;
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!hasMultiple) return;
-    touchDeltaX.current = e.touches[0].clientX - touchStartX.current;
+    deltaX.current = e.touches[0].clientX - startX.current;
   };
 
   const handleTouchEnd = () => {
     if (!hasMultiple) return;
-    const threshold = 50;
-    if (Math.abs(touchDeltaX.current) > threshold) {
-      swiped.current = true;
-      if (touchDeltaX.current < 0) {
-        goTo(currentIndex + 1);
-      } else {
-        goTo(currentIndex - 1);
-      }
-    }
+    commitSwipe();
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!hasMultiple) return;
+    dragging.current = true;
+    startX.current = e.clientX;
+    deltaX.current = 0;
+    swiped.current = false;
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!dragging.current) return;
+    deltaX.current = e.clientX - startX.current;
+  };
+
+  const handleMouseUp = () => {
+    if (!dragging.current) return;
+    dragging.current = false;
+    commitSwipe();
+  };
+
+  const handleMouseLeave = () => {
+    if (!dragging.current) return;
+    dragging.current = false;
+    commitSwipe();
   };
 
   const handleClick = (e: React.MouseEvent) => {
@@ -64,11 +89,14 @@ export default function PhotoCard({ images, title, date, link }: Props) {
       onClick={handleClick}
     >
       <div
-        ref={containerRef}
-        className="relative aspect-square overflow-hidden rounded-xl bg-gray-100"
+        className="relative aspect-square overflow-hidden rounded-xl bg-gray-100 select-none"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseLeave}
       >
         <div
           className="flex h-full transition-transform duration-300 ease-out"
