@@ -291,7 +291,8 @@ export default function ClimateCharts() {
     previous: ClimateDataPoint[] | null;
   }>({ current: [], previous: null });
   const [latestData, setLatestData] = useState<ClimateDataPoint[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [initialLoad, setInitialLoad] = useState(true);
+  const [fetching, setFetching] = useState(false);
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -307,7 +308,7 @@ export default function ClimateCharts() {
   }, []);
 
   useEffect(() => {
-    setLoading(true);
+    setFetching(true);
     setError(false);
 
     const params = new URLSearchParams({ range });
@@ -322,11 +323,13 @@ export default function ClimateCharts() {
       })
       .then((json) => {
         setData(json);
-        setLoading(false);
+        setInitialLoad(false);
+        setFetching(false);
       })
       .catch(() => {
         setError(true);
-        setLoading(false);
+        setInitialLoad(false);
+        setFetching(false);
       });
   }, [range, compare]);
 
@@ -386,24 +389,29 @@ export default function ClimateCharts() {
         )}
       </div>
 
-      {loading && (
+      {initialLoad ? (
         <div className="flex items-center justify-center py-20">
           <div className="w-6 h-6 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
         </div>
-      )}
-
-      {error && (
+      ) : error ? (
         <div className="text-center py-20 text-gray-500">
           Failed to load climate data. Please try again later.
         </div>
-      )}
-
-      {!loading && !error && (
-        <ChartContent
-          data={data}
-          range={range}
-          compare={showCompare}
-        />
+      ) : (
+        <div className="relative">
+          {fetching && (
+            <div className="absolute top-0 right-0 z-10">
+              <div className="w-4 h-4 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+            </div>
+          )}
+          <div className={fetching ? "opacity-60 transition-opacity" : "transition-opacity"}>
+            <ChartContent
+              data={data}
+              range={range}
+              compare={showCompare}
+            />
+          </div>
+        </div>
       )}
     </div>
   );
