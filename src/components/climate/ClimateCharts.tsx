@@ -82,23 +82,85 @@ interface ForecastData {
   time: string | null;
 }
 
-const CONDITION_LABELS: Record<string, string> = {
-  "clear-night": "Clear",
-  cloudy: "Cloudy",
-  exceptional: "Exceptional",
-  fog: "Fog",
-  hail: "Hail",
-  lightning: "Thunderstorm",
-  "lightning-rainy": "Thunderstorm",
-  partlycloudy: "Partly Cloudy",
-  pouring: "Heavy Rain",
-  rainy: "Rainy",
-  snowy: "Snowy",
-  "snowy-rainy": "Sleet",
-  sunny: "Sunny",
-  windy: "Windy",
-  "windy-variant": "Windy",
+const CONDITION_CONFIG: Record<string, { label: string; icon: string }> = {
+  sunny: {
+    label: "Sunny",
+    icon: "M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364-1.414 1.414M7.05 16.95l-1.414 1.414m12.728 0-1.414-1.414M7.05 7.05 5.636 5.636M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z",
+  },
+  "clear-night": {
+    label: "Clear",
+    icon: "M21.752 15.002A9.718 9.718 0 0 1 18 15.75 9.75 9.75 0 0 1 8.25 6c0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25 9.75 9.75 0 0 0 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z",
+  },
+  partlycloudy: {
+    label: "Partly Cloudy",
+    icon: "M14 5a3 3 0 0 0-2.093.855M12 3v1m-4.95.464.707.707M4 9h1m14.95-3.536-.707.707M20 9h1M6.343 6.343l-.707-.707M8 12a4 4 0 0 0 3.5 2 4.5 4.5 0 0 1 0 9H7a5 5 0 0 1-.5-9.975",
+  },
+  cloudy: {
+    label: "Cloudy",
+    icon: "M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848A5.25 5.25 0 0 0 6.75 12H6a4.5 4.5 0 0 0-3.75 3Z",
+  },
+  fog: {
+    label: "Fog",
+    icon: "M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848A5.25 5.25 0 0 0 6.75 12H6a4.5 4.5 0 0 0-3.75 3ZM4 20h16M6 22h12",
+  },
+  rainy: {
+    label: "Rainy",
+    icon: "M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848A5.25 5.25 0 0 0 6.75 12H6a4.5 4.5 0 0 0-3.75 3ZM8 19v2m4-2v2m4-2v2",
+  },
+  pouring: {
+    label: "Heavy Rain",
+    icon: "M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848A5.25 5.25 0 0 0 6.75 12H6a4.5 4.5 0 0 0-3.75 3ZM7 19v3m5-3v3m5-3v3",
+  },
+  snowy: {
+    label: "Snowy",
+    icon: "M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848A5.25 5.25 0 0 0 6.75 12H6a4.5 4.5 0 0 0-3.75 3ZM8 20h.01M12 20h.01M16 20h.01",
+  },
+  "snowy-rainy": {
+    label: "Sleet",
+    icon: "M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848A5.25 5.25 0 0 0 6.75 12H6a4.5 4.5 0 0 0-3.75 3ZM8 19v2m12 -2v2m-4-1h.01",
+  },
+  lightning: {
+    label: "Thunderstorm",
+    icon: "M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848A5.25 5.25 0 0 0 6.75 12H6a4.5 4.5 0 0 0-3.75 3ZM13 16l-2 4h3l-2 4",
+  },
+  "lightning-rainy": {
+    label: "Thunderstorm",
+    icon: "M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848A5.25 5.25 0 0 0 6.75 12H6a4.5 4.5 0 0 0-3.75 3ZM13 16l-2 4h3l-2 4",
+  },
+  hail: {
+    label: "Hail",
+    icon: "M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848A5.25 5.25 0 0 0 6.75 12H6a4.5 4.5 0 0 0-3.75 3ZM8 20.5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1Zm4 0a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1Zm4 0a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1Z",
+  },
+  windy: {
+    label: "Windy",
+    icon: "M3 8h9a3 3 0 1 0-3-3M3 12h14a3 3 0 1 1-3 3M3 16h6a3 3 0 1 1-3 3",
+  },
+  "windy-variant": {
+    label: "Windy",
+    icon: "M3 8h9a3 3 0 1 0-3-3M3 12h14a3 3 0 1 1-3 3M3 16h6a3 3 0 1 1-3 3",
+  },
+  exceptional: {
+    label: "Exceptional",
+    icon: "M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.008v.008H12v-.008Z",
+  },
 };
+
+function WeatherIcon({ condition }: { condition: string | null }) {
+  const config = condition ? CONDITION_CONFIG[condition] : null;
+  if (!config) {
+    return (
+      <svg className="w-8 h-8 text-gray-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+        <path d="M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848A5.25 5.25 0 0 0 6.75 12H6a4.5 4.5 0 0 0-3.75 3Z" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg className="w-8 h-8 text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+      <path d={config.icon} />
+    </svg>
+  );
+}
 
 interface ChartDataPoint {
   time: number;
@@ -310,61 +372,62 @@ function StatCard({ label, temperature, humidity, color }: StatCardProps) {
   );
 }
 
-function ForecastCard({ forecast }: { forecast: ForecastData }) {
-  const conditionLabel = forecast.condition
-    ? CONDITION_LABELS[forecast.condition] ?? forecast.condition
-    : null;
+function ForecastCard({ forecast }: { forecast: ForecastData | null }) {
+  const condition = forecast?.condition ?? null;
+  const config = condition ? CONDITION_CONFIG[condition] : null;
+  const conditionLabel = config?.label ?? condition;
+
   const temp =
-    forecast.temperature !== null
+    forecast?.temperature !== null && forecast?.temperature !== undefined
       ? Math.round(forecast.temperature * 10) / 10
       : null;
   const humidity =
-    forecast.humidity !== null
+    forecast?.humidity !== null && forecast?.humidity !== undefined
       ? Math.round(forecast.humidity)
       : null;
   const wind =
-    forecast.windSpeed !== null
+    forecast?.windSpeed !== null && forecast?.windSpeed !== undefined
       ? Math.round(forecast.windSpeed * 10) / 10
       : null;
   const uv =
-    forecast.uvIndex !== null
+    forecast?.uvIndex !== null && forecast?.uvIndex !== undefined
       ? Math.round(forecast.uvIndex * 10) / 10
       : null;
 
   return (
-    <div className="bg-stone-100 border border-stone-200 rounded-xl p-4">
-      <div className="flex items-center gap-2 mb-2">
-        <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
-        <span className="text-sm font-medium text-gray-700">Outside</span>
-        {conditionLabel && (
-          <span className="text-xs text-gray-400 ml-auto">{conditionLabel}</span>
-        )}
-      </div>
-      <div className="flex flex-wrap gap-x-4 gap-y-1">
+    <div className="bg-stone-100 border border-stone-200 rounded-xl p-4 flex items-center gap-4">
+      <WeatherIcon condition={condition} />
+      <div className="flex items-center gap-6 flex-wrap">
         <div>
-          <span className="text-2xl font-bold text-gray-900">
-            {temp !== null ? `${temp}°` : "—"}
-          </span>
-          <span className="text-xs text-gray-400 ml-1">C</span>
+          <span className="text-sm text-gray-500">Outside</span>
+          <p className="text-sm font-medium text-gray-700">
+            {conditionLabel ?? "—"}
+          </p>
         </div>
         <div>
-          <span className="text-2xl font-bold text-gray-900">
+          <span className="text-xs text-gray-400">Temp</span>
+          <p className="text-lg font-bold text-gray-900">
+            {temp !== null ? `${temp}°C` : "—"}
+          </p>
+        </div>
+        <div>
+          <span className="text-xs text-gray-400">Humidity</span>
+          <p className="text-lg font-bold text-gray-900">
             {humidity !== null ? `${humidity}%` : "—"}
-          </span>
-          <span className="text-xs text-gray-400 ml-1">RH</span>
+          </p>
         </div>
-        {wind !== null && (
-          <div>
-            <span className="text-2xl font-bold text-gray-900">{wind}</span>
-            <span className="text-xs text-gray-400 ml-1">km/h</span>
-          </div>
-        )}
-        {uv !== null && (
-          <div>
-            <span className="text-2xl font-bold text-gray-900">{uv}</span>
-            <span className="text-xs text-gray-400 ml-1">UV</span>
-          </div>
-        )}
+        <div>
+          <span className="text-xs text-gray-400">Wind</span>
+          <p className="text-lg font-bold text-gray-900">
+            {wind !== null ? `${wind} km/h` : "—"}
+          </p>
+        </div>
+        <div>
+          <span className="text-xs text-gray-400">UV</span>
+          <p className="text-lg font-bold text-gray-900">
+            {uv !== null ? `${uv}` : "—"}
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -427,7 +490,11 @@ export default function ClimateCharts() {
 
   return (
     <div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="mb-4">
+        <ForecastCard forecast={forecast} />
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
         {statCards.map(({ room, temperature, humidity }) => (
           <StatCard
             key={room.id}
@@ -437,7 +504,6 @@ export default function ClimateCharts() {
             color={room.color}
           />
         ))}
-        {forecast && <ForecastCard forecast={forecast} />}
       </div>
 
       <div className="flex flex-wrap items-center gap-3 mb-8">
