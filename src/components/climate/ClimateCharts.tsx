@@ -374,10 +374,9 @@ function StatCard({ label, temperature, humidity, color }: StatCardProps) {
 
 function uvColor(index: number): string {
   if (index < 3) return "#22c55e";
-  if (index < 6) return "#eab308";
-  if (index < 8) return "#f97316";
-  if (index < 11) return "#ef4444";
-  return "#7c3aed";
+  if (index < 5) return "#eab308";
+  if (index < 7) return "#f97316";
+  return "#ef4444";
 }
 
 function ForecastCard({ forecast }: { forecast: ForecastData | null }) {
