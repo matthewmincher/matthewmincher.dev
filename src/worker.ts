@@ -99,7 +99,8 @@ async function queryInfluxDB(env: Env, query: string): Promise<string> {
   });
 
   if (!res.ok) {
-    throw new Error(`InfluxDB query failed: ${res.status}`);
+    const body = await res.text();
+    throw new Error(`InfluxDB query failed (${res.status}): ${body.slice(0, 200)}`);
   }
 
   return res.text();
@@ -126,7 +127,10 @@ async function handleClimate(
   }
 
   if (!env.INFLUXDB_TOKEN || !env.INFLUXDB_ORG) {
-    return Response.json({ current: [], previous: null });
+    return Response.json(
+      { error: "InfluxDB not configured", detail: `token=${!!env.INFLUXDB_TOKEN}, org=${!!env.INFLUXDB_ORG}` },
+      { status: 503 },
+    );
   }
 
   try {
@@ -151,8 +155,9 @@ async function handleClimate(
 
     ctx.waitUntil(cache.put(cacheKey, response.clone()));
     return response;
-  } catch {
-    return Response.json({ current: [], previous: null });
+  } catch (e) {
+    const message = e instanceof Error ? e.message : "Unknown error";
+    return Response.json({ error: "Failed to fetch climate data", detail: message }, { status: 502 });
   }
 }
 
