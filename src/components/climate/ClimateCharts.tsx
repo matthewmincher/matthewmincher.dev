@@ -297,18 +297,6 @@ export default function ClimateCharts() {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    fetch("/api/climate?range=24h")
-      .then((res) => {
-        if (!res.ok) throw new Error();
-        return res.json();
-      })
-      .then((json) => {
-        setLatestData(json.current);
-      })
-      .catch(() => {});
-  }, []);
-
-  useEffect(() => {
     setFetching(true);
     setError(false);
 
@@ -324,6 +312,7 @@ export default function ClimateCharts() {
       })
       .then((json) => {
         setData(json);
+        setLatestData(json.current);
         setInitialLoad(false);
         setFetching(false);
       })
