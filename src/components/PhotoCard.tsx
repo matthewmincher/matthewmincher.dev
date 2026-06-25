@@ -1,5 +1,5 @@
 import useEmblaCarousel from "embla-carousel-react";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
   images: string[];
@@ -26,23 +26,20 @@ export default function PhotoCard({ images, title, date, link }: Props) {
     };
   }, [emblaApi]);
 
-  const handleCarouselClick = useCallback(() => {
-    if (!hasMultiple || !emblaApi || emblaApi.clickAllowed()) {
-      window.open(link, "_blank", "noreferrer");
-    }
-  }, [hasMultiple, emblaApi, link]);
-
   return (
     <div className="group block">
-      <div
-        className="relative aspect-square overflow-hidden rounded-xl bg-gray-100 cursor-pointer"
-        onDragStart={(e) => e.preventDefault()}
-        onClick={handleCarouselClick}
-      >
+      <div className="relative aspect-square overflow-hidden rounded-xl bg-gray-100">
         <div ref={emblaRef} className="h-full overflow-hidden">
           <div className="flex h-full">
             {images.map((src, i) => (
-              <div key={src} className="min-w-0 shrink-0 basis-full h-full">
+              <a
+                key={src}
+                href={link}
+                target="_blank"
+                rel="noreferrer"
+                className="min-w-0 shrink-0 basis-full h-full"
+                draggable={false}
+              >
                 <img
                   src={src}
                   alt={title || "Photo"}
@@ -50,7 +47,7 @@ export default function PhotoCard({ images, title, date, link }: Props) {
                   className="w-full h-full object-cover select-none"
                   draggable={false}
                 />
-              </div>
+              </a>
             ))}
           </div>
         </div>
