@@ -372,6 +372,14 @@ function StatCard({ label, temperature, humidity, color }: StatCardProps) {
   );
 }
 
+function uvColor(index: number): string {
+  if (index < 3) return "#22c55e";
+  if (index < 6) return "#eab308";
+  if (index < 8) return "#f97316";
+  if (index < 11) return "#ef4444";
+  return "#7c3aed";
+}
+
 function ForecastCard({ forecast }: { forecast: ForecastData | null }) {
   const condition = forecast?.condition ?? null;
   const config = condition ? CONDITION_CONFIG[condition] : null;
@@ -424,8 +432,13 @@ function ForecastCard({ forecast }: { forecast: ForecastData | null }) {
         </div>
         <div>
           <span className="text-xs text-gray-400">UV</span>
-          <p className="text-lg font-bold text-gray-900">
-            {uv !== null ? `${uv}` : "—"}
+          <p className="text-lg font-bold text-gray-900 flex items-center gap-1.5">
+            {uv !== null ? (
+              <>
+                <span className="w-2.5 h-2.5 rounded-full inline-block" style={{ backgroundColor: uvColor(uv) }} />
+                {uv}
+              </>
+            ) : "—"}
           </p>
         </div>
       </div>
