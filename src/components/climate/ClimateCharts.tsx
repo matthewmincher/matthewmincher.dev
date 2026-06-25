@@ -84,21 +84,21 @@ interface ForecastData {
 }
 
 const CONDITION_CONFIG: Record<string, { label: string; icon: string }> = {
-  sunny: { label: "Sunny", icon: "meteocons:clear-day" },
-  "clear-night": { label: "Clear", icon: "meteocons:clear-night" },
-  partlycloudy: { label: "Partly Cloudy", icon: "meteocons:partly-cloudy-day" },
-  cloudy: { label: "Cloudy", icon: "meteocons:overcast" },
-  fog: { label: "Fog", icon: "meteocons:fog" },
-  rainy: { label: "Rainy", icon: "meteocons:rain" },
-  pouring: { label: "Heavy Rain", icon: "meteocons:overcast-rain" },
-  snowy: { label: "Snowy", icon: "meteocons:snow" },
-  "snowy-rainy": { label: "Sleet", icon: "meteocons:sleet" },
-  lightning: { label: "Thunderstorm", icon: "meteocons:thunderstorms" },
-  "lightning-rainy": { label: "Thunderstorm", icon: "meteocons:thunderstorms-rain" },
-  hail: { label: "Hail", icon: "meteocons:hail" },
-  windy: { label: "Windy", icon: "meteocons:wind" },
-  "windy-variant": { label: "Windy", icon: "meteocons:wind" },
-  exceptional: { label: "Exceptional", icon: "meteocons:extreme" },
+  sunny: { label: "Sunny", icon: "meteocons:clear-day-fill" },
+  "clear-night": { label: "Clear", icon: "meteocons:clear-night-fill" },
+  partlycloudy: { label: "Partly Cloudy", icon: "meteocons:partly-cloudy-day-fill" },
+  cloudy: { label: "Cloudy", icon: "meteocons:overcast-fill" },
+  fog: { label: "Fog", icon: "meteocons:fog-fill" },
+  rainy: { label: "Rainy", icon: "meteocons:rain-fill" },
+  pouring: { label: "Heavy Rain", icon: "meteocons:overcast-rain-fill" },
+  snowy: { label: "Snowy", icon: "meteocons:snow-fill" },
+  "snowy-rainy": { label: "Sleet", icon: "meteocons:sleet-fill" },
+  lightning: { label: "Thunderstorm", icon: "meteocons:thunderstorms-fill" },
+  "lightning-rainy": { label: "Thunderstorm", icon: "meteocons:thunderstorms-fill" },
+  hail: { label: "Hail", icon: "meteocons:hail-fill" },
+  windy: { label: "Windy", icon: "meteocons:wind-fill" },
+  "windy-variant": { label: "Windy", icon: "meteocons:wind-fill" },
+  exceptional: { label: "Exceptional", icon: "meteocons:extreme-fill" },
 };
 
 interface ChartDataPoint {
@@ -343,35 +343,35 @@ function ForecastCard({ forecast }: { forecast: ForecastData | null }) {
   return (
     <div className="bg-stone-100 border border-stone-200 rounded-xl p-4 flex items-center gap-4">
       <Icon
-        icon={config?.icon ?? "meteocons:cloudy"}
-        className="w-10 h-10 shrink-0"
+        icon={config?.icon ?? "meteocons:cloudy-fill"}
+        className="w-12 h-12 shrink-0"
       />
-      <div className="flex items-center gap-6 flex-wrap">
-        <div>
-          <span className="text-sm text-gray-500">Outside</span>
+      <div className="flex items-baseline gap-6 min-w-0">
+        <div className="shrink-0">
+          <span className="text-xs text-gray-400">Outside</span>
           <p className="text-sm font-medium text-gray-700">
             {conditionLabel ?? "—"}
           </p>
         </div>
-        <div>
+        <div className="shrink-0">
           <span className="text-xs text-gray-400">Temp</span>
           <p className="text-lg font-bold text-gray-900">
             {temp !== null ? `${temp}°C` : "—"}
           </p>
         </div>
-        <div>
+        <div className="shrink-0">
           <span className="text-xs text-gray-400">Humidity</span>
           <p className="text-lg font-bold text-gray-900">
             {humidity !== null ? `${humidity}%` : "—"}
           </p>
         </div>
-        <div>
+        <div className="shrink-0">
           <span className="text-xs text-gray-400">Wind</span>
           <p className="text-lg font-bold text-gray-900">
             {wind !== null ? `${wind} km/h` : "—"}
           </p>
         </div>
-        <div>
+        <div className="shrink-0">
           <span className="text-xs text-gray-400">UV</span>
           <p className="text-lg font-bold text-gray-900 flex items-center gap-1.5">
             {uv !== null ? (
