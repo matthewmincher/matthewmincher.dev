@@ -349,14 +349,14 @@ function ForecastCard({ forecast }: { forecast: ForecastData | null }) {
           style={{ filter: "saturate(1.6)" }}
         />
       </div>
-      <div className="min-w-0">
+      <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-6 min-w-0">
         <div>
           <span className="text-xs text-gray-400">Outside</span>
           <p className="text-lg font-bold text-gray-900">
             {conditionLabel ?? "—"}
           </p>
         </div>
-        <div className="flex items-baseline gap-4 sm:gap-6 mt-1">
+        <div className="flex items-baseline gap-4 sm:gap-6">
           <div>
             <span className="text-xs text-gray-400">Temp</span>
             <p className="text-lg font-bold text-gray-900">
