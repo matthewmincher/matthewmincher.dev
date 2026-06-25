@@ -20,7 +20,7 @@ const RANGE_CONFIG: Record<
   "1h": { fluxRange: "-1h", cacheTTL: 300, compareRange: "-2h", compareStop: "-1h" },
   "24h": { fluxRange: "-24h", cacheTTL: 600, compareRange: "-48h", compareStop: "-24h" },
   "7d": { fluxRange: "-7d", aggregate: "30m", cacheTTL: 1800, compareRange: "-14d", compareStop: "-7d" },
-  "30d": { fluxRange: "-30d", aggregate: "1h", cacheTTL: 3600 },
+  "30d": { fluxRange: "-30d", aggregate: "1h", cacheTTL: 3600, compareRange: "-60d", compareStop: "-30d" },
 };
 
 interface ClimateDataPoint {
@@ -211,15 +211,17 @@ async function handleClimate(
 
   try {
     const currentQuery = buildFluxQuery(range, config.fluxRange);
-    const currentCSV = await queryInfluxDB(env, currentQuery);
-    const current = parseFluxCSV(currentCSV);
+    const previousQuery = compare && config.compareRange && config.compareStop
+      ? buildFluxQuery(range, config.compareRange, config.compareStop)
+      : null;
 
-    let previous: ClimateDataPoint[] | null = null;
-    if (compare && config.compareRange && config.compareStop) {
-      const previousQuery = buildFluxQuery(range, config.compareRange, config.compareStop);
-      const previousCSV = await queryInfluxDB(env, previousQuery);
-      previous = parseFluxCSV(previousCSV);
-    }
+    const [currentCSV, previousCSV] = await Promise.all([
+      queryInfluxDB(env, currentQuery),
+      previousQuery ? queryInfluxDB(env, previousQuery) : Promise.resolve(null),
+    ]);
+
+    const current = parseFluxCSV(currentCSV);
+    const previous = previousCSV ? parseFluxCSV(previousCSV) : null;
 
     const body = JSON.stringify({ current, previous });
     const response = new Response(body, {
