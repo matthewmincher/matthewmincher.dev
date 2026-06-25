@@ -401,15 +401,16 @@ const ALL_ROOMS = FLOORS.flatMap((f) => f.rooms);
 export default function ClimateCharts() {
   const [range, setRange] = useState<Range>("24h");
   const [compare, setCompare] = useState(false);
-  const [data, setData] = useState<{
-    current: ClimateDataPoint[];
-    previous: ClimateDataPoint[] | null;
-  }>({ current: [], previous: null });
+  const [currentData, setCurrentData] = useState<ClimateDataPoint[]>([]);
+  const [previousData, setPreviousData] = useState<ClimateDataPoint[] | null>(null);
   const [latestData, setLatestData] = useState<ClimateDataPoint[]>([]);
   const [forecast, setForecast] = useState<ForecastData | null>(null);
   const [initialLoad, setInitialLoad] = useState(true);
-  const [fetching, setFetching] = useState(false);
+  const [fetchingCurrent, setFetchingCurrent] = useState(false);
+  const [fetchingPrevious, setFetchingPrevious] = useState(false);
   const [error, setError] = useState(false);
+
+  const fetching = fetchingCurrent || fetchingPrevious;
 
   useEffect(() => {
     fetch("/api/forecast")
@@ -419,35 +420,54 @@ export default function ClimateCharts() {
   }, []);
 
   useEffect(() => {
-    setFetching(true);
+    setFetchingCurrent(true);
     setError(false);
 
-    const params = new URLSearchParams({ range });
-    if (compare && range !== "30d") {
-      params.set("compare", "true");
-    }
-
-    fetch(`/api/climate?${params}`)
+    fetch(`/api/climate?range=${range}`)
       .then((res) => {
         if (!res.ok) throw new Error();
         return res.json();
       })
       .then((json) => {
-        setData(json);
+        setCurrentData(json.current);
         if (latestData.length === 0) {
           setLatestData(json.current);
         }
         setInitialLoad(false);
-        setFetching(false);
+        setFetchingCurrent(false);
       })
       .catch(() => {
         setError(true);
         setInitialLoad(false);
-        setFetching(false);
+        setFetchingCurrent(false);
+      });
+  }, [range]);
+
+  useEffect(() => {
+    if (!compare || range === "30d") {
+      setPreviousData(null);
+      return;
+    }
+
+    setFetchingPrevious(true);
+
+    fetch(`/api/climate?range=${range}&compare=true`)
+      .then((res) => {
+        if (!res.ok) throw new Error();
+        return res.json();
+      })
+      .then((json) => {
+        setPreviousData(json.previous);
+        setFetchingPrevious(false);
+      })
+      .catch(() => {
+        setPreviousData(null);
+        setFetchingPrevious(false);
       });
   }, [range, compare]);
 
   const showCompare = compare && range !== "30d";
+  const data = { current: currentData, previous: previousData };
 
   const statCards = useMemo(
     () =>
