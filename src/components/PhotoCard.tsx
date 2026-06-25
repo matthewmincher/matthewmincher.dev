@@ -1,5 +1,5 @@
 import useEmblaCarousel from "embla-carousel-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 interface Props {
   images: string[];
@@ -11,7 +11,6 @@ interface Props {
 export default function PhotoCard({ images, title, date, link }: Props) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const hasMultiple = images.length > 1;
-  const clicked = useRef(false);
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
     active: hasMultiple,
@@ -27,36 +26,20 @@ export default function PhotoCard({ images, title, date, link }: Props) {
     };
   }, [emblaApi]);
 
-  const handlePointerDown = useCallback(() => {
-    clicked.current = true;
-  }, []);
-
-  const handlePointerMove = useCallback(() => {
-    clicked.current = false;
-  }, []);
-
-  const handleClick = useCallback(
-    (e: React.MouseEvent) => {
-      if (!clicked.current && hasMultiple) {
-        e.preventDefault();
-      }
-      clicked.current = false;
-    },
-    [hasMultiple],
-  );
+  const handleCarouselClick = useCallback(() => {
+    if (!hasMultiple || !emblaApi || emblaApi.clickAllowed()) {
+      window.open(link, "_blank", "noreferrer");
+    }
+  }, [hasMultiple, emblaApi, link]);
 
   return (
-    <a
-      href={link}
-      target="_blank"
-      rel="noreferrer"
-      className="group block"
-      onClick={handleClick}
-      onPointerDown={handlePointerDown}
-      onPointerMove={handlePointerMove}
-    >
-      <div className="relative aspect-square overflow-hidden rounded-xl bg-gray-100">
-        <div ref={emblaRef} className="h-full">
+    <div className="group block">
+      <div
+        className="relative aspect-square overflow-hidden rounded-xl bg-gray-100 cursor-pointer"
+        onDragStart={(e) => e.preventDefault()}
+        onClick={handleCarouselClick}
+      >
+        <div ref={emblaRef} className="h-full overflow-hidden">
           <div className="flex h-full">
             {images.map((src, i) => (
               <div key={src} className="min-w-0 shrink-0 basis-full h-full">
@@ -64,9 +47,8 @@ export default function PhotoCard({ images, title, date, link }: Props) {
                   src={src}
                   alt={title || "Photo"}
                   loading={i === 0 ? "eager" : "lazy"}
-                  className="w-full h-full object-cover pointer-events-none select-none"
+                  className="w-full h-full object-cover select-none"
                   draggable={false}
-                  style={{ WebkitUserDrag: "none", WebkitTouchCallout: "none" } as React.CSSProperties}
                 />
               </div>
             ))}
@@ -88,14 +70,14 @@ export default function PhotoCard({ images, title, date, link }: Props) {
           </div>
         )}
       </div>
-      <div className="mt-3">
+      <a href={link} target="_blank" rel="noreferrer" className="block mt-3">
         {title && (
           <p className="text-gray-700 text-sm leading-snug line-clamp-2">
             {title}
           </p>
         )}
         <p className="text-gray-400 text-sm mt-1">{date}</p>
-      </div>
-    </a>
+      </a>
+    </div>
   );
 }
