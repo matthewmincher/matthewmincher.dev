@@ -224,7 +224,8 @@ function RoomChart({ data, label, unit, color, range, compare }: RoomChartProps)
             dataKey="value"
             stroke={color}
             strokeWidth={2}
-            dot={false}
+            dot={{ r: 2, fill: color, strokeWidth: 0 }}
+            activeDot={{ r: 4, strokeWidth: 0 }}
             name="Current"
             connectNulls
             isAnimationActive={false}
