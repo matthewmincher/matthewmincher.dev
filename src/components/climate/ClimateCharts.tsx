@@ -73,6 +73,33 @@ const FLOORS: FloorConfig[] = [
   },
 ];
 
+interface ForecastData {
+  temperature: number | null;
+  humidity: number | null;
+  windSpeed: number | null;
+  uvIndex: number | null;
+  condition: string | null;
+  time: string | null;
+}
+
+const CONDITION_LABELS: Record<string, string> = {
+  "clear-night": "Clear",
+  cloudy: "Cloudy",
+  exceptional: "Exceptional",
+  fog: "Fog",
+  hail: "Hail",
+  lightning: "Thunderstorm",
+  "lightning-rainy": "Thunderstorm",
+  partlycloudy: "Partly Cloudy",
+  pouring: "Heavy Rain",
+  rainy: "Rainy",
+  snowy: "Snowy",
+  "snowy-rainy": "Sleet",
+  sunny: "Sunny",
+  windy: "Windy",
+  "windy-variant": "Windy",
+};
+
 interface ChartDataPoint {
   time: number;
   value: number | null;
@@ -283,6 +310,66 @@ function StatCard({ label, temperature, humidity, color }: StatCardProps) {
   );
 }
 
+function ForecastCard({ forecast }: { forecast: ForecastData }) {
+  const conditionLabel = forecast.condition
+    ? CONDITION_LABELS[forecast.condition] ?? forecast.condition
+    : null;
+  const temp =
+    forecast.temperature !== null
+      ? Math.round(forecast.temperature * 10) / 10
+      : null;
+  const humidity =
+    forecast.humidity !== null
+      ? Math.round(forecast.humidity)
+      : null;
+  const wind =
+    forecast.windSpeed !== null
+      ? Math.round(forecast.windSpeed * 10) / 10
+      : null;
+  const uv =
+    forecast.uvIndex !== null
+      ? Math.round(forecast.uvIndex * 10) / 10
+      : null;
+
+  return (
+    <div className="bg-stone-100 border border-stone-200 rounded-xl p-4">
+      <div className="flex items-center gap-2 mb-2">
+        <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
+        <span className="text-sm font-medium text-gray-700">Outside</span>
+        {conditionLabel && (
+          <span className="text-xs text-gray-400 ml-auto">{conditionLabel}</span>
+        )}
+      </div>
+      <div className="flex flex-wrap gap-x-4 gap-y-1">
+        <div>
+          <span className="text-2xl font-bold text-gray-900">
+            {temp !== null ? `${temp}°` : "—"}
+          </span>
+          <span className="text-xs text-gray-400 ml-1">C</span>
+        </div>
+        <div>
+          <span className="text-2xl font-bold text-gray-900">
+            {humidity !== null ? `${humidity}%` : "—"}
+          </span>
+          <span className="text-xs text-gray-400 ml-1">RH</span>
+        </div>
+        {wind !== null && (
+          <div>
+            <span className="text-2xl font-bold text-gray-900">{wind}</span>
+            <span className="text-xs text-gray-400 ml-1">km/h</span>
+          </div>
+        )}
+        {uv !== null && (
+          <div>
+            <span className="text-2xl font-bold text-gray-900">{uv}</span>
+            <span className="text-xs text-gray-400 ml-1">UV</span>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 const ALL_ROOMS = FLOORS.flatMap((f) => f.rooms);
 
 export default function ClimateCharts() {
@@ -293,6 +380,7 @@ export default function ClimateCharts() {
     previous: ClimateDataPoint[] | null;
   }>({ current: [], previous: null });
   const [latestData, setLatestData] = useState<ClimateDataPoint[]>([]);
+  const [forecast, setForecast] = useState<ForecastData | null>(null);
   const [initialLoad, setInitialLoad] = useState(true);
   const [fetching, setFetching] = useState(false);
   const [error, setError] = useState(false);
@@ -314,6 +402,7 @@ export default function ClimateCharts() {
       .then((json) => {
         setData(json);
         setLatestData(json.current);
+        setForecast(json.forecast ?? null);
         setInitialLoad(false);
         setFetching(false);
       })
@@ -338,7 +427,7 @@ export default function ClimateCharts() {
 
   return (
     <div>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {statCards.map(({ room, temperature, humidity }) => (
           <StatCard
             key={room.id}
@@ -348,6 +437,7 @@ export default function ClimateCharts() {
             color={room.color}
           />
         ))}
+        {forecast && <ForecastCard forecast={forecast} />}
       </div>
 
       <div className="flex flex-wrap items-center gap-3 mb-8">

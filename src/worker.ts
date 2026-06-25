@@ -30,6 +30,15 @@ interface ClimateDataPoint {
   value: number;
 }
 
+interface ForecastData {
+  temperature: number | null;
+  humidity: number | null;
+  windSpeed: number | null;
+  uvIndex: number | null;
+  condition: string | null;
+  time: string | null;
+}
+
 function buildFluxQuery(range: string, start: string, stop?: string): string {
   const config = RANGE_CONFIG[range];
   const stopClause = stop ? `, stop: ${stop}` : "";
@@ -45,6 +54,73 @@ function buildFluxQuery(range: string, start: string, stop?: string): string {
   }
 
   return query;
+}
+
+function buildForecastQuery(): string {
+  return `from(bucket: "${INFLUXDB_BUCKET}")
+  |> range(start: -2h)
+  |> filter(fn: (r) => r.entity_id == "forecast_home")
+  |> filter(fn: (r) => r.domain == "weather")
+  |> filter(fn: (r) => r._field == "temperature" or r._field == "humidity" or r._field == "wind_speed" or r._field == "uv_index" or r._field == "state")
+  |> last()`;
+}
+
+function parseForecastCSV(csv: string): ForecastData {
+  const lines = csv.split("\n");
+  const forecast: ForecastData = {
+    temperature: null,
+    humidity: null,
+    windSpeed: null,
+    uvIndex: null,
+    condition: null,
+    time: null,
+  };
+  let headers: string[] = [];
+
+  for (const line of lines) {
+    if (line.startsWith("#") || line.trim() === "") {
+      if (line.trim() === "") headers = [];
+      continue;
+    }
+
+    const values = line.split(",");
+
+    if (headers.length === 0) {
+      headers = values.map((h) => h.trim());
+      continue;
+    }
+
+    const row: Record<string, string> = {};
+    headers.forEach((h, i) => {
+      row[h] = values[i]?.trim() ?? "";
+    });
+
+    const field = row["_field"];
+    const value = row["_value"];
+    const time = row["_time"];
+
+    if (time) forecast.time = time;
+
+    switch (field) {
+      case "temperature":
+        forecast.temperature = parseFloat(value);
+        break;
+      case "humidity":
+        forecast.humidity = parseFloat(value);
+        break;
+      case "wind_speed":
+        forecast.windSpeed = parseFloat(value);
+        break;
+      case "uv_index":
+        forecast.uvIndex = parseFloat(value);
+        break;
+      case "state":
+        forecast.condition = value;
+        break;
+    }
+  }
+
+  return forecast;
 }
 
 function parseFluxCSV(csv: string): ClimateDataPoint[] {
@@ -135,8 +211,15 @@ async function handleClimate(
 
   try {
     const currentQuery = buildFluxQuery(range, config.fluxRange);
-    const currentCSV = await queryInfluxDB(env, currentQuery);
+    const forecastQuery = buildForecastQuery();
+
+    const [currentCSV, forecastCSV] = await Promise.all([
+      queryInfluxDB(env, currentQuery),
+      queryInfluxDB(env, forecastQuery),
+    ]);
+
     const current = parseFluxCSV(currentCSV);
+    const forecast = parseForecastCSV(forecastCSV);
 
     let previous: ClimateDataPoint[] | null = null;
     if (compare && config.compareRange && config.compareStop) {
@@ -145,7 +228,7 @@ async function handleClimate(
       previous = parseFluxCSV(previousCSV);
     }
 
-    const body = JSON.stringify({ current, previous });
+    const body = JSON.stringify({ current, previous, forecast });
     const response = new Response(body, {
       headers: {
         "Content-Type": "application/json",
