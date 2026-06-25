@@ -341,37 +341,39 @@ function ForecastCard({ forecast }: { forecast: ForecastData | null }) {
       : null;
 
   return (
-    <div className="bg-stone-100 border border-stone-200 rounded-xl p-4 flex items-center gap-4 overflow-hidden">
-      <Icon
-        icon={config?.icon ?? "meteocons:cloudy-fill"}
-        className="w-14 h-14 shrink-0"
-      />
-      <div className="flex items-baseline gap-4 sm:gap-6 min-w-0">
-        <div className="shrink-0">
+    <div className="bg-stone-100 border border-stone-200 rounded-xl p-4 flex items-center gap-4">
+      <div className="w-14 h-14 shrink-0">
+        <Icon
+          icon={config?.icon ?? "meteocons:cloudy-fill"}
+          className="w-14 h-14"
+        />
+      </div>
+      <div className="flex items-baseline gap-x-6 gap-y-1 flex-wrap min-w-0">
+        <div>
           <span className="text-xs text-gray-400">Outside</span>
           <p className="text-sm font-medium text-gray-700">
             {conditionLabel ?? "—"}
           </p>
         </div>
-        <div className="shrink-0">
+        <div>
           <span className="text-xs text-gray-400">Temp</span>
           <p className="text-lg font-bold text-gray-900">
             {temp !== null ? `${temp}°C` : "—"}
           </p>
         </div>
-        <div className="shrink-0">
+        <div>
           <span className="text-xs text-gray-400">Humidity</span>
           <p className="text-lg font-bold text-gray-900">
             {humidity !== null ? `${humidity}%` : "—"}
           </p>
         </div>
-        <div className="shrink-0">
+        <div>
           <span className="text-xs text-gray-400">Wind</span>
           <p className="text-lg font-bold text-gray-900">
             {wind !== null ? `${wind} km/h` : "—"}
           </p>
         </div>
-        <div className="shrink-0">
+        <div>
           <span className="text-xs text-gray-400">UV</span>
           <p className="text-lg font-bold text-gray-900 flex items-center gap-1.5">
             {uv !== null ? (
