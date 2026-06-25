@@ -4,6 +4,7 @@ const pathname = Astro.url.pathname;
 const isHome = pathname === "/";
 const isCv = pathname.startsWith("/cv");
 const isBlog = pathname.startsWith("/blog");
+const isProjects = pathname.startsWith("/projects");
 const isContact = pathname.startsWith("/contact");
 
 const linkClass =
@@ -40,6 +41,14 @@ const contactActiveClass = "text-stone-100 bg-emerald-900";
           class:list={[linkClass, isBlog && activeClass]}
         >
           Blog
+        </a>
+      </li>
+      <li class="flex flex-grow-0 flex-shrink flex-row">
+        <a
+          href="/projects/"
+          class:list={[linkClass, isProjects && activeClass]}
+        >
+          Projects
         </a>
       </li>
     </ul>
