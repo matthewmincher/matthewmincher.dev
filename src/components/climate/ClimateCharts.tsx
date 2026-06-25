@@ -488,7 +488,7 @@ export default function ClimateCharts() {
                 range === r
                   ? "bg-emerald-600 text-white"
                   : "text-gray-600 hover:text-gray-900"
-              } ${fetching ? "opacity-50 cursor-not-allowed" : ""}`}
+              } ${fetching ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
             >
               {RANGE_LABELS[r]}
             </button>
