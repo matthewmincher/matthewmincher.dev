@@ -349,11 +349,11 @@ function ForecastCard({ forecast }: { forecast: ForecastData | null }) {
         />
       </div>
       <div className="min-w-0">
-        <div className="flex items-center gap-2">
+        <div>
           <span className="text-xs text-gray-400">Outside</span>
-          <span className="text-sm font-medium text-gray-700">
+          <p className="text-lg font-bold text-gray-900">
             {conditionLabel ?? "—"}
-          </span>
+          </p>
         </div>
         <div className="flex items-baseline gap-4 sm:gap-6 mt-1">
           <div>
