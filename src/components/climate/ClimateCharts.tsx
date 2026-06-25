@@ -380,8 +380,8 @@ function ForecastCard({ forecast }: { forecast: ForecastData | null }) {
             <p className="text-lg font-bold text-gray-900 flex items-center gap-1.5">
               {uv !== null ? (
                 <>
-                  <span className="w-2.5 h-2.5 rounded-full inline-block" style={{ backgroundColor: uvColor(uv) }} />
                   {uv}
+                  <span className="w-2.5 h-2.5 rounded-full inline-block" style={{ backgroundColor: uvColor(uv) }} />
                 </>
               ) : "—"}
             </p>
