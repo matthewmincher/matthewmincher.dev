@@ -423,7 +423,7 @@ export default function ClimateCharts() {
     setError(false);
 
     const params = new URLSearchParams({ range });
-    if (compare && range !== "30d") {
+    if (compare) {
       params.set("compare", "true");
     }
 
@@ -446,8 +446,6 @@ export default function ClimateCharts() {
         setFetching(false);
       });
   }, [range, compare]);
-
-  const showCompare = compare && range !== "30d";
 
   const statCards = useMemo(
     () =>
@@ -495,18 +493,16 @@ export default function ClimateCharts() {
           ))}
         </div>
 
-        {range !== "30d" && (
-          <label className={`flex items-center gap-2 text-sm text-gray-600 select-none ${fetching ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}>
-            <input
-              type="checkbox"
-              checked={compare}
-              onChange={(e) => setCompare(e.target.checked)}
-              disabled={fetching}
-              className="accent-emerald-600"
-            />
-            Compare to previous period
-          </label>
-        )}
+        <label className={`flex items-center gap-2 text-sm text-gray-600 select-none ${fetching ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}>
+          <input
+            type="checkbox"
+            checked={compare}
+            onChange={(e) => setCompare(e.target.checked)}
+            disabled={fetching}
+            className="accent-emerald-600"
+          />
+          Compare to previous period
+        </label>
       </div>
 
       {initialLoad ? (
@@ -528,7 +524,7 @@ export default function ClimateCharts() {
             <ChartContent
               data={data}
               range={range}
-              compare={showCompare}
+              compare={compare}
             />
           </div>
         </div>
