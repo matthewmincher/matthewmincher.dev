@@ -371,7 +371,7 @@ function ForecastCard({ forecast }: { forecast: ForecastData | null }) {
           </div>
           <div>
             <span className="text-xs text-gray-400">Wind</span>
-            <p className="text-lg font-bold text-gray-900">
+            <p className="text-lg font-bold text-gray-900 whitespace-nowrap">
               {wind !== null ? `${wind} km/h` : "—"}
             </p>
           </div>
