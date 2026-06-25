@@ -342,10 +342,11 @@ function ForecastCard({ forecast }: { forecast: ForecastData | null }) {
 
   return (
     <div className="bg-stone-100 border border-stone-200 rounded-xl p-4 flex items-center gap-4">
-      <div className="w-14 h-14 shrink-0">
+      <div className="w-14 h-14 shrink-0 rounded-full bg-white flex items-center justify-center shadow-sm">
         <Icon
           icon={config?.icon ?? "meteocons:cloudy-fill"}
-          className="w-14 h-14"
+          className="w-10 h-10"
+          style={{ filter: "saturate(1.6)" }}
         />
       </div>
       <div className="min-w-0">
