@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
+import { Icon } from "@iconify/react";
 import {
   ResponsiveContainer,
   LineChart,
@@ -72,6 +73,33 @@ const FLOORS: FloorConfig[] = [
     ],
   },
 ];
+
+interface ForecastData {
+  temperature: number | null;
+  humidity: number | null;
+  windSpeed: number | null;
+  uvIndex: number | null;
+  condition: string | null;
+  time: string | null;
+}
+
+const CONDITION_CONFIG: Record<string, { label: string; icon: string }> = {
+  sunny: { label: "Sunny", icon: "meteocons:clear-day-fill" },
+  "clear-night": { label: "Clear", icon: "meteocons:clear-night-fill" },
+  partlycloudy: { label: "Partly Cloudy", icon: "meteocons:partly-cloudy-day-fill" },
+  cloudy: { label: "Cloudy", icon: "meteocons:overcast-fill" },
+  fog: { label: "Fog", icon: "meteocons:fog-fill" },
+  rainy: { label: "Rainy", icon: "meteocons:rain-fill" },
+  pouring: { label: "Heavy Rain", icon: "meteocons:overcast-rain-fill" },
+  snowy: { label: "Snowy", icon: "meteocons:snow-fill" },
+  "snowy-rainy": { label: "Sleet", icon: "meteocons:sleet-fill" },
+  lightning: { label: "Thunderstorm", icon: "meteocons:thunderstorms-fill" },
+  "lightning-rainy": { label: "Thunderstorm", icon: "meteocons:thunderstorms-fill" },
+  hail: { label: "Hail", icon: "meteocons:hail-fill" },
+  windy: { label: "Windy", icon: "meteocons:wind-fill" },
+  "windy-variant": { label: "Windy", icon: "meteocons:wind-fill" },
+  exceptional: { label: "Exceptional", icon: "meteocons:extreme-fill" },
+};
 
 interface ChartDataPoint {
   time: number;
@@ -283,6 +311,87 @@ function StatCard({ label, temperature, humidity, color }: StatCardProps) {
   );
 }
 
+function uvColor(index: number): string {
+  if (index < 3) return "#22c55e";
+  if (index < 5) return "#eab308";
+  if (index < 7) return "#f97316";
+  return "#ef4444";
+}
+
+function ForecastCard({ forecast }: { forecast: ForecastData | null }) {
+  const condition = forecast?.condition ?? null;
+  const config = condition ? CONDITION_CONFIG[condition] : null;
+  const conditionLabel = config?.label ?? condition;
+
+  const temp =
+    forecast?.temperature !== null && forecast?.temperature !== undefined
+      ? Math.round(forecast.temperature * 10) / 10
+      : null;
+  const humidity =
+    forecast?.humidity !== null && forecast?.humidity !== undefined
+      ? Math.round(forecast.humidity)
+      : null;
+  const wind =
+    forecast?.windSpeed !== null && forecast?.windSpeed !== undefined
+      ? Math.round(forecast.windSpeed * 10) / 10
+      : null;
+  const uv =
+    forecast?.uvIndex !== null && forecast?.uvIndex !== undefined
+      ? Math.round(forecast.uvIndex * 10) / 10
+      : null;
+
+  return (
+    <div className="bg-stone-100 border border-stone-200 rounded-xl p-4 flex items-center gap-4">
+      <div className="w-14 h-14 shrink-0 rounded-full bg-white flex items-center justify-center shadow-sm">
+        <Icon
+          icon={config?.icon ?? "meteocons:cloudy-fill"}
+          className="w-10 h-10"
+          style={{ filter: "saturate(1.6)" }}
+        />
+      </div>
+      <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-6 min-w-0">
+        <div>
+          <span className="text-xs text-gray-400">Outside</span>
+          <p className="text-lg font-bold text-gray-900">
+            {conditionLabel ?? "—"}
+          </p>
+        </div>
+        <div className="flex items-baseline gap-4 sm:gap-6">
+          <div>
+            <span className="text-xs text-gray-400">Temp</span>
+            <p className="text-lg font-bold text-gray-900">
+              {temp !== null ? `${temp}°C` : "—"}
+            </p>
+          </div>
+          <div>
+            <span className="text-xs text-gray-400">Humidity</span>
+            <p className="text-lg font-bold text-gray-900">
+              {humidity !== null ? `${humidity}%` : "—"}
+            </p>
+          </div>
+          <div>
+            <span className="text-xs text-gray-400">Wind</span>
+            <p className="text-lg font-bold text-gray-900">
+              {wind !== null ? `${wind} km/h` : "—"}
+            </p>
+          </div>
+          <div>
+            <span className="text-xs text-gray-400">UV</span>
+            <p className="text-lg font-bold text-gray-900 flex items-center gap-1.5">
+              {uv !== null ? (
+                <>
+                  {uv}
+                  <span className="w-2.5 h-2.5 rounded-full inline-block" style={{ backgroundColor: uvColor(uv) }} />
+                </>
+              ) : "—"}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const ALL_ROOMS = FLOORS.flatMap((f) => f.rooms);
 
 export default function ClimateCharts() {
@@ -293,9 +402,17 @@ export default function ClimateCharts() {
     previous: ClimateDataPoint[] | null;
   }>({ current: [], previous: null });
   const [latestData, setLatestData] = useState<ClimateDataPoint[]>([]);
+  const [forecast, setForecast] = useState<ForecastData | null>(null);
   const [initialLoad, setInitialLoad] = useState(true);
   const [fetching, setFetching] = useState(false);
   const [error, setError] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/forecast")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json) => setForecast(json ?? null))
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     setFetching(true);
@@ -338,6 +455,10 @@ export default function ClimateCharts() {
 
   return (
     <div>
+      <div className="mb-4">
+        <ForecastCard forecast={forecast} />
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
         {statCards.map(({ room, temperature, humidity }) => (
           <StatCard

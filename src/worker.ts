@@ -30,6 +30,15 @@ interface ClimateDataPoint {
   value: number;
 }
 
+interface ForecastData {
+  temperature: number | null;
+  humidity: number | null;
+  windSpeed: number | null;
+  uvIndex: number | null;
+  condition: string | null;
+  time: string | null;
+}
+
 function buildFluxQuery(range: string, start: string, stop?: string): string {
   const config = RANGE_CONFIG[range];
   const stopClause = stop ? `, stop: ${stop}` : "";
@@ -45,6 +54,73 @@ function buildFluxQuery(range: string, start: string, stop?: string): string {
   }
 
   return query;
+}
+
+function buildForecastQuery(): string {
+  return `from(bucket: "${INFLUXDB_BUCKET}")
+  |> range(start: -24h)
+  |> filter(fn: (r) => r.entity_id == "forecast_home")
+  |> filter(fn: (r) => r.domain == "weather")
+  |> filter(fn: (r) => r._field == "temperature" or r._field == "humidity" or r._field == "wind_speed" or r._field == "uv_index" or r._field == "state")
+  |> last()`;
+}
+
+function parseForecastCSV(csv: string): ForecastData {
+  const lines = csv.split("\n");
+  const forecast: ForecastData = {
+    temperature: null,
+    humidity: null,
+    windSpeed: null,
+    uvIndex: null,
+    condition: null,
+    time: null,
+  };
+  let headers: string[] = [];
+
+  for (const line of lines) {
+    if (line.startsWith("#") || line.trim() === "") {
+      if (line.trim() === "") headers = [];
+      continue;
+    }
+
+    const values = line.split(",");
+
+    if (headers.length === 0) {
+      headers = values.map((h) => h.trim());
+      continue;
+    }
+
+    const row: Record<string, string> = {};
+    headers.forEach((h, i) => {
+      row[h] = values[i]?.trim() ?? "";
+    });
+
+    const field = row["_field"];
+    const value = row["_value"];
+    const time = row["_time"];
+
+    if (time) forecast.time = time;
+
+    switch (field) {
+      case "temperature":
+        forecast.temperature = parseFloat(value);
+        break;
+      case "humidity":
+        forecast.humidity = parseFloat(value);
+        break;
+      case "wind_speed":
+        forecast.windSpeed = parseFloat(value);
+        break;
+      case "uv_index":
+        forecast.uvIndex = parseFloat(value);
+        break;
+      case "state":
+        forecast.condition = value;
+        break;
+    }
+  }
+
+  return forecast;
 }
 
 function parseFluxCSV(csv: string): ClimateDataPoint[] {
@@ -161,6 +237,45 @@ async function handleClimate(
   }
 }
 
+async function handleForecast(
+  request: Request,
+  env: Env,
+  ctx: ExecutionContext,
+): Promise<Response> {
+  const cache = caches.default;
+  const cacheKey = new Request(new URL(request.url).toString());
+
+  const cached = await cache.match(cacheKey);
+  if (cached) return cached;
+
+  if (!env.INFLUXDB_TOKEN || !env.INFLUXDB_ORG) {
+    return Response.json(
+      { error: "InfluxDB not configured" },
+      { status: 503 },
+    );
+  }
+
+  try {
+    const query = buildForecastQuery();
+    const csv = await queryInfluxDB(env, query);
+    const forecast = parseForecastCSV(csv);
+
+    const body = JSON.stringify(forecast);
+    const response = new Response(body, {
+      headers: {
+        "Content-Type": "application/json",
+        "Cache-Control": "public, s-maxage=600",
+      },
+    });
+
+    ctx.waitUntil(cache.put(cacheKey, response.clone()));
+    return response;
+  } catch (e) {
+    const message = e instanceof Error ? e.message : "Unknown error";
+    return Response.json({ error: "Failed to fetch forecast", detail: message }, { status: 502 });
+  }
+}
+
 async function handleLastfm(
   request: Request,
   env: Env,
@@ -237,6 +352,10 @@ export default {
 
     if (pathname === "/api/climate" && request.method === "GET") {
       return handleClimate(request, env, ctx);
+    }
+
+    if (pathname === "/api/forecast" && request.method === "GET") {
+      return handleForecast(request, env, ctx);
     }
 
     return new Response("Not Found", { status: 404 });
