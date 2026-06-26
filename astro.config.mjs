@@ -13,5 +13,13 @@ export default defineConfig({
     optimizeDeps: {
       include: ["react-dom/client"],
     },
+    server: {
+      proxy: {
+        "/api": {
+          target: "https://www.matthewmincher.dev",
+          changeOrigin: true,
+        },
+      },
+    },
   },
 });
