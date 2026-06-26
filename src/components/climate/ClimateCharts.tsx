@@ -200,7 +200,7 @@ function getLatestReading(
 }
 
 const RANGE_MS: Record<Range, number> = {
-  "1h": 3600_000,
+  "1h": 86400_000,
   "24h": 86400_000,
   "7d": 604800_000,
   "30d": 2592000_000,
