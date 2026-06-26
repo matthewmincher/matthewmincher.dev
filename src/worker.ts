@@ -230,7 +230,7 @@ async function handleClimate(
     const response = new Response(body, {
       headers: {
         "Content-Type": "application/json",
-        "Cache-Control": `public, s-maxage=${config.cacheTTL}`,
+        "Cache-Control": `public, max-age=0, s-maxage=${config.cacheTTL}`,
       },
     });
 
@@ -270,7 +270,7 @@ async function handleForecast(
     const response = new Response(body, {
       headers: {
         "Content-Type": "application/json",
-        "Cache-Control": "public, s-maxage=3600",
+        "Cache-Control": "public, max-age=0, s-maxage=3600",
       },
     });
 
@@ -334,7 +334,7 @@ async function handleLastfm(
     const response = new Response(JSON.stringify({ tracks }), {
       headers: {
         "Content-Type": "application/json",
-        "Cache-Control": `public, s-maxage=${CACHE_TTL_SECONDS}`,
+        "Cache-Control": `public, max-age=0, s-maxage=${CACHE_TTL_SECONDS}`,
       },
     });
 
