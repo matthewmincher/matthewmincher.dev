@@ -107,6 +107,22 @@ interface ChartDataPoint {
   prevValue: number | null;
 }
 
+function findClosestTime(
+  timeMap: Map<number, ChartDataPoint>,
+  target: number,
+): number | null {
+  let closest: number | null = null;
+  let minDiff = Infinity;
+  for (const t of timeMap.keys()) {
+    const diff = Math.abs(t - target);
+    if (diff < minDiff) {
+      minDiff = diff;
+      closest = t;
+    }
+  }
+  return minDiff <= 600_000 ? closest : null;
+}
+
 function buildChartData(
   current: ClimateDataPoint[],
   previous: ClimateDataPoint[] | null,
@@ -129,32 +145,21 @@ function buildChartData(
     for (const point of prevFiltered) {
       const originalTime = new Date(point.time).getTime();
       const shiftedTime = originalTime + rangeMs;
-      const closest = findClosestTime(timeMap, shiftedTime);
-      if (closest !== null) {
-        const entry = timeMap.get(closest)!;
-        entry.prevValue = point.value;
+
+      const match = findClosestTime(timeMap, shiftedTime);
+      if (match !== null) {
+        timeMap.get(match)!.prevValue = point.value;
+      } else {
+        timeMap.set(shiftedTime, {
+          time: shiftedTime,
+          value: null,
+          prevValue: point.value,
+        });
       }
     }
   }
 
   return Array.from(timeMap.values()).sort((a, b) => a.time - b.time);
-}
-
-function findClosestTime(
-  timeMap: Map<number, ChartDataPoint>,
-  target: number,
-): number | null {
-  let closest: number | null = null;
-  let minDiff = Infinity;
-  for (const t of timeMap.keys()) {
-    const diff = Math.abs(t - target);
-    if (diff < minDiff) {
-      minDiff = diff;
-      closest = t;
-    }
-  }
-  if (closest !== null && minDiff < 600_000) return closest;
-  return null;
 }
 
 function formatTime(timestamp: number, range: Range): string {
