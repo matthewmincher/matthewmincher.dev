@@ -124,12 +124,7 @@ function buildChartData(
 
   if (previous) {
     const prevFiltered = previous.filter((p) => p.entityId === entityId);
-    const rangeMs = {
-      "1h": 3600_000,
-      "24h": 86400_000,
-      "7d": 604800_000,
-      "30d": 2592000_000,
-    }[range];
+    const rangeMs = RANGE_MS[range];
 
     for (const point of prevFiltered) {
       const originalTime = new Date(point.time).getTime();
@@ -199,6 +194,86 @@ function getLatestReading(
   return Math.round(latest.value * 10) / 10;
 }
 
+const RANGE_MS: Record<Range, number> = {
+  "1h": 3600_000,
+  "24h": 86400_000,
+  "7d": 604800_000,
+  "30d": 2592000_000,
+};
+
+function ChartTooltip({
+  active,
+  payload,
+  label,
+  unit,
+  range,
+  compare,
+  color,
+}: {
+  active?: boolean;
+  payload?: Array<{ dataKey: string; value: number | null }>;
+  label?: number;
+  unit: string;
+  range: Range;
+  compare: boolean;
+  color: string;
+}) {
+  if (!active || !payload?.length || label == null) return null;
+
+  const currentValue = payload.find((p) => p.dataKey === "value")?.value;
+  const prevValue = payload.find((p) => p.dataKey === "prevValue")?.value;
+  const hasPrev = compare && prevValue != null;
+
+  return (
+    <div
+      style={{
+        backgroundColor: "#fafaf9",
+        border: "1px solid #e7e5e4",
+        borderRadius: "8px",
+        fontSize: "13px",
+        padding: "8px 12px",
+      }}
+    >
+      <div>
+        {hasPrev && (
+          <div style={{ fontSize: "11px", color: "#78716c", marginBottom: "2px" }}>
+            Current
+          </div>
+        )}
+        <div style={{ color: "#44403c", fontWeight: 500, marginBottom: hasPrev ? "8px" : 0 }}>
+          <span style={{ color: "#78716c", fontWeight: 400 }}>
+            {formatTooltipTime(label)}
+          </span>
+          {currentValue != null && (
+            <>
+              {" "}
+              <span style={{ color, fontWeight: 600 }}>
+                {Math.round(currentValue * 10) / 10}{unit}
+              </span>
+            </>
+          )}
+        </div>
+      </div>
+      {hasPrev && (
+        <div>
+          <div style={{ fontSize: "11px", color: "#78716c", marginBottom: "2px" }}>
+            Previous
+          </div>
+          <div>
+            <span style={{ color: "#78716c" }}>
+              {formatTooltipTime(label - RANGE_MS[range])}
+            </span>
+            {" "}
+            <span style={{ color, fontWeight: 600, opacity: 0.6 }}>
+              {Math.round(prevValue! * 10) / 10}{unit}
+            </span>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 interface RoomChartProps {
   data: ChartDataPoint[];
   label: string;
@@ -237,16 +312,9 @@ function RoomChart({ data, label, unit, color, range, compare }: RoomChartProps)
             width={50}
           />
           <Tooltip
-            labelFormatter={formatTooltipTime}
-            formatter={(value: number) => [
-              `${Math.round(value * 10) / 10}${unit}`,
-            ]}
-            contentStyle={{
-              backgroundColor: "#fafaf9",
-              border: "1px solid #e7e5e4",
-              borderRadius: "8px",
-              fontSize: "13px",
-            }}
+            content={
+              <ChartTooltip unit={unit} range={range} compare={compare} color={color} />
+            }
           />
           <Line
             dataKey="value"
@@ -264,8 +332,9 @@ function RoomChart({ data, label, unit, color, range, compare }: RoomChartProps)
               stroke={color}
               strokeWidth={1.5}
               strokeDasharray="5 5"
-              strokeOpacity={0.4}
-              dot={false}
+              strokeOpacity={0.5}
+              dot={{ r: 2.5, fill: color, strokeWidth: 0, fillOpacity: 0.5 }}
+              activeDot={{ r: 4, strokeWidth: 0 }}
               name="Previous"
               connectNulls
             />
@@ -468,6 +537,9 @@ export default function ClimateCharts() {
 
   const data = { current: currentData, previous: previousData };
 
+  const previousDataEmpty =
+    compare && !fetchingPrevious && (!previousData || previousData.length === 0);
+
   const statCards = useMemo(
     () =>
       ALL_ROOMS.map((room) => ({
@@ -525,6 +597,12 @@ export default function ClimateCharts() {
           Compare to previous period
         </label>
       </div>
+
+      {previousDataEmpty && (
+        <div className="mb-6 text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-4 py-2.5">
+          No historical data available for the previous period. Comparison data will appear as more data is collected.
+        </div>
+      )}
 
       {initialLoad ? (
         <div className="flex items-center justify-center py-20">
