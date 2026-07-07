@@ -17,8 +17,8 @@ const RANGE_CONFIG: Record<
   string,
   { fluxRange: string; aggregate?: string; cacheTTL: number; compareRange?: string; compareStop?: string }
 > = {
-  "1h": { fluxRange: "-1h", cacheTTL: 300, compareRange: "-25h", compareStop: "-24h" },
-  "24h": { fluxRange: "-24h", cacheTTL: 600, compareRange: "-48h", compareStop: "-24h" },
+  "1h": { fluxRange: "-1h", aggregate: "5m", cacheTTL: 300, compareRange: "-25h", compareStop: "-24h" },
+  "24h": { fluxRange: "-24h", aggregate: "10m", cacheTTL: 600, compareRange: "-48h", compareStop: "-24h" },
   "7d": { fluxRange: "-7d", aggregate: "30m", cacheTTL: 1800, compareRange: "-14d", compareStop: "-7d" },
   "30d": { fluxRange: "-30d", aggregate: "1h", cacheTTL: 3600, compareRange: "-60d", compareStop: "-30d" },
 };
