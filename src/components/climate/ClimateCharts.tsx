@@ -32,6 +32,7 @@ interface RoomConfig {
   label: string;
   tempEntityId: string;
   humidityEntityId: string;
+  co2EntityId?: string;
   color: string;
 }
 
@@ -49,6 +50,7 @@ const FLOORS: FloorConfig[] = [
         label: "Study",
         tempEntityId: "study_temperature",
         humidityEntityId: "study_humidity",
+        co2EntityId: "alpstuga_air_quality_monitor_carbon_dioxide",
         color: "#059669",
       },
       {
@@ -206,6 +208,16 @@ const RANGE_MS: Record<Range, number> = {
   "30d": 2592000_000,
 };
 
+// Actual width of each range's x-axis (distinct from RANGE_MS, whose "1h"
+// value is the 24h compare offset). Used to give every chart an identical
+// x-axis domain so series with less history read as visibly shorter.
+const RANGE_SPAN_MS: Record<Range, number> = {
+  "1h": 3600_000,
+  "24h": 86400_000,
+  "7d": 604800_000,
+  "30d": 2592000_000,
+};
+
 function ChartTooltip({
   active,
   payload,
@@ -286,9 +298,10 @@ interface RoomChartProps {
   color: string;
   range: Range;
   compare: boolean;
+  domain: [number, number];
 }
 
-function RoomChart({ data, label, unit, color, range, compare }: RoomChartProps) {
+function RoomChart({ data, label, unit, color, range, compare, domain }: RoomChartProps) {
   if (data.length === 0) {
     return (
       <div className="h-48 flex items-center justify-center text-gray-400 text-sm">
@@ -301,10 +314,13 @@ function RoomChart({ data, label, unit, color, range, compare }: RoomChartProps)
     <div>
       <p className="text-sm text-gray-500 mb-2">{label}</p>
       <ResponsiveContainer width="100%" height={200}>
-        <LineChart data={data}>
+        <LineChart data={data} margin={{ top: 10, right: 4, bottom: 0, left: 0 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
           <XAxis
             dataKey="time"
+            type="number"
+            scale="time"
+            domain={domain}
             tickFormatter={(t) => formatTime(t, range)}
             stroke="#9ca3af"
             fontSize={11}
@@ -354,10 +370,11 @@ interface StatCardProps {
   label: string;
   temperature: number | null;
   humidity: number | null;
+  co2: number | null;
   color: string;
 }
 
-function StatCard({ label, temperature, humidity, color }: StatCardProps) {
+function StatCard({ label, temperature, humidity, co2, color }: StatCardProps) {
   return (
     <div className="bg-stone-100 border border-stone-200 rounded-xl p-4">
       <div className="flex items-center gap-2 mb-2">
@@ -380,6 +397,14 @@ function StatCard({ label, temperature, humidity, color }: StatCardProps) {
           </span>
           <span className="text-xs text-gray-400 ml-1">RH</span>
         </div>
+        {co2 !== null && (
+          <div>
+            <span className="text-2xl font-bold text-gray-900">
+              {Math.round(co2)}
+            </span>
+            <span className="text-xs text-gray-400 ml-1">ppm</span>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -551,6 +576,9 @@ export default function ClimateCharts() {
         room,
         temperature: getLatestReading(latestData, room.tempEntityId),
         humidity: getLatestReading(latestData, room.humidityEntityId),
+        co2: room.co2EntityId
+          ? getLatestReading(latestData, room.co2EntityId)
+          : null,
       })),
     [latestData],
   );
@@ -562,12 +590,13 @@ export default function ClimateCharts() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-        {statCards.map(({ room, temperature, humidity }) => (
+        {statCards.map(({ room, temperature, humidity, co2 }) => (
           <StatCard
             key={room.id}
             label={room.label}
             temperature={temperature}
             humidity={humidity}
+            co2={co2}
             color={room.color}
           />
         ))}
@@ -646,6 +675,21 @@ function ChartContent({
   range: Range;
   compare: boolean;
 }) {
+  // A single x-axis domain shared by every chart, so a series with less
+  // history (e.g. a newly added CO2 sensor) visibly occupies only part of
+  // the axis instead of stretching its sparse data across the full width.
+  const domain = useMemo<[number, number]>(() => {
+    let end = -Infinity;
+    for (const p of data.current) end = Math.max(end, new Date(p.time).getTime());
+    if (compare && data.previous) {
+      for (const p of data.previous) {
+        end = Math.max(end, new Date(p.time).getTime() + RANGE_MS[range]);
+      }
+    }
+    if (end === -Infinity) end = Date.now();
+    return [end - RANGE_SPAN_MS[range], end];
+  }, [data, range, compare]);
+
   return (
     <>
       {FLOORS.map((floor) => (
@@ -661,6 +705,7 @@ function ChartContent({
                 data={data}
                 range={range}
                 compare={compare}
+                domain={domain}
               />
             ))}
           </div>
@@ -675,11 +720,13 @@ function RoomCharts({
   data,
   range,
   compare,
+  domain,
 }: {
   room: RoomConfig;
   data: { current: ClimateDataPoint[]; previous: ClimateDataPoint[] | null };
   range: Range;
   compare: boolean;
+  domain: [number, number];
 }) {
   const tempData = useMemo(
     () =>
@@ -703,6 +750,19 @@ function RoomCharts({
     [data, room.humidityEntityId, range, compare],
   );
 
+  const co2Data = useMemo(
+    () =>
+      room.co2EntityId
+        ? buildChartData(
+            data.current,
+            compare ? data.previous : null,
+            room.co2EntityId,
+            range,
+          )
+        : null,
+    [data, room.co2EntityId, range, compare],
+  );
+
   return (
     <div className="bg-white border border-stone-200 rounded-xl p-5">
       <h4 className="font-display font-bold text-gray-800 mb-4 flex items-center gap-2">
@@ -720,6 +780,7 @@ function RoomCharts({
           color={room.color}
           range={range}
           compare={compare}
+          domain={domain}
         />
         <RoomChart
           data={humidityData}
@@ -728,7 +789,19 @@ function RoomCharts({
           color={room.color}
           range={range}
           compare={compare}
+          domain={domain}
         />
+        {co2Data && (
+          <RoomChart
+            data={co2Data}
+            label="CO₂"
+            unit=" ppm"
+            color={room.color}
+            range={range}
+            compare={compare}
+            domain={domain}
+          />
+        )}
       </div>
     </div>
   );
