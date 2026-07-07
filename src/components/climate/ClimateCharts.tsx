@@ -314,7 +314,7 @@ function RoomChart({ data, label, unit, color, range, compare, domain }: RoomCha
     <div>
       <p className="text-sm text-gray-500 mb-2">{label}</p>
       <ResponsiveContainer width="100%" height={200}>
-        <LineChart data={data}>
+        <LineChart data={data} margin={{ top: 10, right: 4, bottom: 0, left: 0 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
           <XAxis
             dataKey="time"
