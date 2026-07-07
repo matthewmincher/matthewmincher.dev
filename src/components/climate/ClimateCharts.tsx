@@ -208,6 +208,16 @@ const RANGE_MS: Record<Range, number> = {
   "30d": 2592000_000,
 };
 
+// Actual width of each range's x-axis (distinct from RANGE_MS, whose "1h"
+// value is the 24h compare offset). Used to give every chart an identical
+// x-axis domain so series with less history read as visibly shorter.
+const RANGE_SPAN_MS: Record<Range, number> = {
+  "1h": 3600_000,
+  "24h": 86400_000,
+  "7d": 604800_000,
+  "30d": 2592000_000,
+};
+
 function ChartTooltip({
   active,
   payload,
@@ -288,9 +298,10 @@ interface RoomChartProps {
   color: string;
   range: Range;
   compare: boolean;
+  domain: [number, number];
 }
 
-function RoomChart({ data, label, unit, color, range, compare }: RoomChartProps) {
+function RoomChart({ data, label, unit, color, range, compare, domain }: RoomChartProps) {
   if (data.length === 0) {
     return (
       <div className="h-48 flex items-center justify-center text-gray-400 text-sm">
@@ -307,6 +318,9 @@ function RoomChart({ data, label, unit, color, range, compare }: RoomChartProps)
           <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
           <XAxis
             dataKey="time"
+            type="number"
+            scale="time"
+            domain={domain}
             tickFormatter={(t) => formatTime(t, range)}
             stroke="#9ca3af"
             fontSize={11}
@@ -661,6 +675,21 @@ function ChartContent({
   range: Range;
   compare: boolean;
 }) {
+  // A single x-axis domain shared by every chart, so a series with less
+  // history (e.g. a newly added CO2 sensor) visibly occupies only part of
+  // the axis instead of stretching its sparse data across the full width.
+  const domain = useMemo<[number, number]>(() => {
+    let end = -Infinity;
+    for (const p of data.current) end = Math.max(end, new Date(p.time).getTime());
+    if (compare && data.previous) {
+      for (const p of data.previous) {
+        end = Math.max(end, new Date(p.time).getTime() + RANGE_MS[range]);
+      }
+    }
+    if (end === -Infinity) end = Date.now();
+    return [end - RANGE_SPAN_MS[range], end];
+  }, [data, range, compare]);
+
   return (
     <>
       {FLOORS.map((floor) => (
@@ -676,6 +705,7 @@ function ChartContent({
                 data={data}
                 range={range}
                 compare={compare}
+                domain={domain}
               />
             ))}
           </div>
@@ -690,11 +720,13 @@ function RoomCharts({
   data,
   range,
   compare,
+  domain,
 }: {
   room: RoomConfig;
   data: { current: ClimateDataPoint[]; previous: ClimateDataPoint[] | null };
   range: Range;
   compare: boolean;
+  domain: [number, number];
 }) {
   const tempData = useMemo(
     () =>
@@ -748,6 +780,7 @@ function RoomCharts({
           color={room.color}
           range={range}
           compare={compare}
+          domain={domain}
         />
         <RoomChart
           data={humidityData}
@@ -756,18 +789,18 @@ function RoomCharts({
           color={room.color}
           range={range}
           compare={compare}
+          domain={domain}
         />
         {co2Data && (
-          <div className="lg:col-span-2">
-            <RoomChart
-              data={co2Data}
-              label="CO₂"
-              unit=" ppm"
-              color={room.color}
-              range={range}
-              compare={compare}
-            />
-          </div>
+          <RoomChart
+            data={co2Data}
+            label="CO₂"
+            unit=" ppm"
+            color={room.color}
+            range={range}
+            compare={compare}
+            domain={domain}
+          />
         )}
       </div>
     </div>
