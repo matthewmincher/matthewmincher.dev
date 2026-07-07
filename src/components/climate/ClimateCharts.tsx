@@ -32,6 +32,7 @@ interface RoomConfig {
   label: string;
   tempEntityId: string;
   humidityEntityId: string;
+  co2EntityId?: string;
   color: string;
 }
 
@@ -49,6 +50,7 @@ const FLOORS: FloorConfig[] = [
         label: "Study",
         tempEntityId: "study_temperature",
         humidityEntityId: "study_humidity",
+        co2EntityId: "alpstuga_air_quality_monitor_carbon_dioxide",
         color: "#059669",
       },
       {
@@ -354,10 +356,11 @@ interface StatCardProps {
   label: string;
   temperature: number | null;
   humidity: number | null;
+  co2: number | null;
   color: string;
 }
 
-function StatCard({ label, temperature, humidity, color }: StatCardProps) {
+function StatCard({ label, temperature, humidity, co2, color }: StatCardProps) {
   return (
     <div className="bg-stone-100 border border-stone-200 rounded-xl p-4">
       <div className="flex items-center gap-2 mb-2">
@@ -380,6 +383,14 @@ function StatCard({ label, temperature, humidity, color }: StatCardProps) {
           </span>
           <span className="text-xs text-gray-400 ml-1">RH</span>
         </div>
+        {co2 !== null && (
+          <div>
+            <span className="text-2xl font-bold text-gray-900">
+              {Math.round(co2)}
+            </span>
+            <span className="text-xs text-gray-400 ml-1">ppm</span>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -551,6 +562,9 @@ export default function ClimateCharts() {
         room,
         temperature: getLatestReading(latestData, room.tempEntityId),
         humidity: getLatestReading(latestData, room.humidityEntityId),
+        co2: room.co2EntityId
+          ? getLatestReading(latestData, room.co2EntityId)
+          : null,
       })),
     [latestData],
   );
@@ -562,12 +576,13 @@ export default function ClimateCharts() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-        {statCards.map(({ room, temperature, humidity }) => (
+        {statCards.map(({ room, temperature, humidity, co2 }) => (
           <StatCard
             key={room.id}
             label={room.label}
             temperature={temperature}
             humidity={humidity}
+            co2={co2}
             color={room.color}
           />
         ))}
@@ -703,6 +718,19 @@ function RoomCharts({
     [data, room.humidityEntityId, range, compare],
   );
 
+  const co2Data = useMemo(
+    () =>
+      room.co2EntityId
+        ? buildChartData(
+            data.current,
+            compare ? data.previous : null,
+            room.co2EntityId,
+            range,
+          )
+        : null,
+    [data, room.co2EntityId, range, compare],
+  );
+
   return (
     <div className="bg-white border border-stone-200 rounded-xl p-5">
       <h4 className="font-display font-bold text-gray-800 mb-4 flex items-center gap-2">
@@ -729,6 +757,18 @@ function RoomCharts({
           range={range}
           compare={compare}
         />
+        {co2Data && (
+          <div className="lg:col-span-2">
+            <RoomChart
+              data={co2Data}
+              label="CO₂"
+              unit=" ppm"
+              color={room.color}
+              range={range}
+              compare={compare}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
