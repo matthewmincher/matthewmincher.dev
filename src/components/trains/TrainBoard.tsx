@@ -102,7 +102,7 @@ export default function TrainBoard() {
               ref={canvasRef}
               role="img"
               aria-label="Departure board showing the next trains. The same trains are listed below."
-              className="block w-0 h-0 [image-rendering:pixelated]"
+              className="block w-full h-full"
             />
           </div>
         </div>
