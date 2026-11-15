@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { createPainter } from "./display/paint.ts";
+import { createPainter } from "@matthewmincher/departure-board/paint";
 import {
   createFramebuffer,
   detailText,
@@ -7,8 +7,8 @@ import {
   renderBoard,
   statusText,
   upcoming,
-} from "./display/renderer.ts";
-import type { BoardData, Train } from "./display/types.ts";
+} from "@matthewmincher/departure-board/renderer";
+import type { BoardData, Train } from "@matthewmincher/departure-board/types";
 
 const POLL_MS = 30_000;
 const FRAME_MS = 1000 / 30;
