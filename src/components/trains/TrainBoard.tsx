@@ -74,8 +74,8 @@ export default function TrainBoard() {
     };
     raf = requestAnimationFrame(frame);
 
-    // Only resize when the width changes: resizing the canvas changes the
-    // container's height, which would otherwise re-trigger the observer.
+    // The container's size doesn't depend on the canvas (it's a fixed 4:1
+    // box), but only resize on real width changes anyway.
     let width = 0;
     const observer = new ResizeObserver(([entry]) => {
       const w = Math.round(entry.contentRect.width);
@@ -102,13 +102,21 @@ export default function TrainBoard() {
   return (
     <div>
       <div className="rounded-xl bg-linear-to-b from-zinc-800 to-zinc-900 p-3 sm:p-5 shadow-lg">
-        <div className="rounded bg-[#050302] p-2 sm:p-3 leading-0 shadow-[inset_0_2px_8px_rgba(0,0,0,0.9)]">
-          <canvas
-            ref={canvasRef}
-            role="img"
-            aria-label="Departure board showing the next trains. The same trains are listed below."
-            className="block mx-auto [image-rendering:pixelated]"
-          />
+        <div className="rounded bg-[#050302] p-2 sm:p-3 shadow-[inset_0_2px_8px_rgba(0,0,0,0.9)]">
+          {/*
+            The board is always 256×64, so this box reserves exactly that shape
+            before any JavaScript runs and the page doesn't jump on load. The
+            canvas starts at 0×0 (not the browser's default 300×150) until the
+            painter sizes it to fit inside.
+          */}
+          <div className="aspect-[4/1] flex items-center justify-center">
+            <canvas
+              ref={canvasRef}
+              role="img"
+              aria-label="Departure board showing the next trains. The same trains are listed below."
+              className="block w-0 h-0 [image-rendering:pixelated]"
+            />
+          </div>
         </div>
       </div>
 
@@ -171,9 +179,10 @@ function StatusLine({ board, error }: { board: BoardData | null; error: string |
 
   return (
     <p className={`mt-3 text-sm ${stale ? "text-amber-700" : "text-gray-500"}`}>
-      {stale ? "Couldn't refresh just now; showing the last update. " : ""}
-      {parts.map((part) => `${part} · `)}
+      {/* Credit first, so it doesn't shift when the update time appears. */}
       {credit}
+      {parts.map((part) => ` · ${part}`)}
+      {stale ? " · couldn't refresh just now, showing the last update" : ""}
     </p>
   );
 }
