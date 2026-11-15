@@ -4,6 +4,8 @@ interface Env {
   LASTFM_API_KEY: string;
   INFLUXDB_TOKEN: string;
   INFLUXDB_ORG: string;
+  /** Service binding to the trains-api Worker (github.com/matthewmincher/trains). */
+  TRAINS: Fetcher;
 }
 
 const LASTFM_USER = "matthewmincher";
@@ -369,6 +371,12 @@ export default {
 
     if (pathname === "/api/forecast" && request.method === "GET") {
       return handleForecast(request, env, ctx);
+    }
+
+    // Served by the trains-api Worker, which holds the Realtime Trains token
+    // and does its own caching.
+    if (pathname === "/api/trains" && request.method === "GET") {
+      return env.TRAINS.fetch(request);
     }
 
     return new Response("Not Found", { status: 404 });
