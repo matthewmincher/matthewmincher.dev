@@ -5,7 +5,5 @@
   "assets": {
     "directory": "./dist"
   },
-  // "Website" is an entrypoint only reachable over this binding, so the
-  // trains API needs no key from us and isn't an open public feed.
   "services": [{ "binding": "TRAINS", "service": "trains-api", "entrypoint": "Website" }]
 }

@@ -17,7 +17,7 @@ on:
 
 permissions:
   contents: read
-  packages: read # @matthewmincher/departure-board from GitHub Packages
+  packages: read
 
 jobs:
   generate-pdfs:

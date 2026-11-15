@@ -4,7 +4,6 @@ interface Env {
   LASTFM_API_KEY: string;
   INFLUXDB_TOKEN: string;
   INFLUXDB_ORG: string;
-  /** Service binding to the trains-api Worker (github.com/matthewmincher/trains). */
   TRAINS: Fetcher;
 }
 
@@ -373,8 +372,6 @@ export default {
       return handleForecast(request, env, ctx);
     }
 
-    // Served by the trains-api Worker, which holds the Realtime Trains token
-    // and does its own caching.
     if (pathname === "/api/trains" && request.method === "GET") {
       return env.TRAINS.fetch(request);
     }
