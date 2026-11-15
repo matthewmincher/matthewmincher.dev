@@ -4,6 +4,7 @@ interface Env {
   LASTFM_API_KEY: string;
   INFLUXDB_TOKEN: string;
   INFLUXDB_ORG: string;
+  TRAINS: Fetcher;
 }
 
 const LASTFM_USER = "matthewmincher";
@@ -369,6 +370,10 @@ export default {
 
     if (pathname === "/api/forecast" && request.method === "GET") {
       return handleForecast(request, env, ctx);
+    }
+
+    if (pathname === "/api/trains" && request.method === "GET") {
+      return env.TRAINS.fetch(request);
     }
 
     return new Response("Not Found", { status: 404 });

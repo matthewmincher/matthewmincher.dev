@@ -4,5 +4,6 @@
   "main": "src/worker.ts",
   "assets": {
     "directory": "./dist"
-  }
+  },
+  "services": [{ "binding": "TRAINS", "service": "trains-api", "entrypoint": "Website" }]
 }
